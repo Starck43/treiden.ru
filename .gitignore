@@ -39,8 +39,6 @@ yarn.lock
 
 # Next
 .next
-build
-package-lock.json
 
 # Django #
 asgi.py
