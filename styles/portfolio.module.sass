@@ -1,0 +1,67 @@
+@import vars
+@import mixins
+
+.content
+	position: relative
+	margin: 2vw auto
+	max-width: 900px
+
+.description
+	text-align: center
+
+.media
+	position: relative
+	max-width: 450px
+	margin: auto
+
+.row
+	margin: 0 0 6vh
+
+.h2
+	text-align: center
+	margin: 1em 0 .75em
+
+.column
+	padding: 0
+	cursor: pointer
+
+
+.overlay
+	display: flex
+	flex-direction: column
+	justify-content: flex-start
+	color: white
+	background-color: transparentize(#000, 0.8)
+
+.play
+	position: absolute
+	bottom: 1rem
+	right: 1rem
+	width: 3rem
+	height: 3rem
+	font-size: 3rem
+	&::before
+		color: white
+		opacity: 0.7
+
+.title
+	text-transform: uppercase
+
+.excerpt
+	font-size: 0.8em
+
+.filter
+	display: flex
+	width: 100%
+	margin-bottom: 1rem
+	background-color: $brand-color
+	text-transform: uppercase
+
+.category
+	flex: auto
+	padding: 0.75em
+	text-align: center
+
+.filterLink
+	&:hover
+		text-decoration: underline

@@ -1,0 +1,187 @@
+
+@import mixins
+@import vars
+@import controls
+@import nav
+@import search
+@import fonts
+@import "vendors/youtube-embed.css"
+
+html
+	font-size: $base-font-size
+
+body
+	--bs-font-sans-serif: #{$font-family-text, $default-fonts}
+a
+	text-decoration: none
+	color: $brand-color
+	transition: all 150ms ease
+	user-select: none
+	cursor: pointer
+	&:hover
+		color: transparentize($brand-color, 0.3)
+	&.white
+		color: #fff
+		&:hover
+			color: #fff
+
+h1, h2, h3, a, header, button
+	font-family: #{$font-family-header, $default-fonts}
+	font-weight: 500
+
+h1
+	color: $brand-color
+	font-size: calc(1.5rem + 2vw)
+
+header
+	position: relative
+	display: flex
+	align-items: center
+	flex: 100%
+	margin-bottom: 1em
+	+media-breakpoint-up(md)
+		.check-mark
+			position: absolute
+			right: 100%
+			top: 50%
+			transform: translateY(-50%)
+
+.post-title
+	text-transform: uppercase
+	+media-breakpoint-up(lg)
+		font-size: calc(1rem + 0.5vw)
+
+p
+	line-height: 1.5
+	img
+		max-width: 100%
+		height: auto !important
+
+ol, ul
+	list-style: none
+
+main
+	overflow: hidden auto
+
+section
+	position: relative
+	&:not(.header-section)
+		margin-top: 6vh
+	&:first-child
+		//padding-top: $nav-h
+		+media-breakpoint-down(sm)
+			//padding-top: $nav-h-sm
+
+	.container
+		+push--auto
+
+	&.header-section
+		padding-top: 0
+		@media (orientation: landscape)
+			height: calc(100vh - #{$nav-h})
+			.carousel .slide>div
+				height: 100%
+				>div
+					padding-top: 0 !important
+
+		.thumbs-wrapper
+			+media-breakpoint-down(md)
+				font-size: 0.9rem
+			+media-breakpoint-down(sm)
+				display: none
+		.arrows
+			+media-breakpoint-down(sm)
+				display: none
+
+.container
+	margin-bottom: 6vh
+	--bs-gutter-x: 2vw
+	+media-breakpoint-down(lg)
+		--bs-gutter-x: 1vw
+	+media-breakpoint-down(md)
+		--bs-gutter-x: 4vw
+		max-width: 100%
+	+media-breakpoint-down(sm)
+		--bs-gutter-x: 1.5rem
+	+media-breakpoint-up(xxl)
+		max-width: 1200px
+
+.awards-slider
+	+media-breakpoint-up(md)
+		margin: 1em -3em 0
+		.carousel-slider .slide
+			padding: 0 3em
+
+	.carousel .control-dots
+		margin-bottom: 0em
+		padding: 0
+
+
+.carousel
+	.control-dots li.dot
+		width: 20px
+		height: 3px
+		margin: 0 8px
+		border-radius: 3px
+
+
+.lightbox-container
+	background-color: $overlay-bg
+	z-index: 999999
+	.modal-dialog
+		height: 100vh
+		margin: auto
+	.modal-content
+		max-width: 100%
+		height: 100%
+		background-color: transparent
+		border-radius: none
+		border: none
+		color: #fff
+	.modal-header, .modal-footer
+		padding: 1em 0
+		border: none
+		justify-content: space-between
+	.btn-close
+		position: fixed
+		right: 0
+		top: 0
+		padding: 1rem
+
+.contacts-container
+	.socials
+		margin-top: 1rem
+
+.extra-posts
+	.post-link
+		+media-breakpoint-down(sm)
+			font-size: 0.9rem
+
+	.social-icon
+		margin-right: 0.5rem
+		font-size: 2rem
+
+
+.social-icon
+	display: inline-flex
+
+.social-link
+	margin: 0 .25rem
+
+.nav-link
+	display: flex
+	align-items: center
+	padding: 0
+
+.phone-link
+	@media screen and (max-width: 385px)
+		margin-left: auto
+
+.icon
+	margin-right: 0.5rem
+
+
+.centered
+	display: flex
+	align-items: center
+	justify-content: center

@@ -14,6 +14,7 @@
 
 # production
 /build
+prod.env
 
 # misc
 .DS_Store
@@ -24,7 +25,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+yarn.lock
+
 # local env files
+.env
 .env.local
 .env.development.local
 .env.test.local
@@ -32,3 +36,48 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# Next
+.next
+build
+package-lock.json
+
+# Django #
+asgi.py
+wsgi.py
+
+# static
+resources/
+static/
+**/media/*
+!**/media/no-image.jpg
+!**/media/no-image.png
+!**/media/no-person.png
+
+assets/
+settings.bak
+
+__pycache__/
+*.log
+*.pot
+*.pyc
+migrations/
+
+# Database #
+*.sqlite3
+
+# Sublime #
+*.sublime-workspace
+*.sublime-project
+sftp-config.json
+package-lock.json
+datadamp.json
+
+# npm
+.sublime-gulp.cache
+
+# Environment
+.venv
+venv/
+
+cache/

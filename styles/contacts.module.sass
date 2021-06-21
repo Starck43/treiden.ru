@@ -1,0 +1,47 @@
+@import vars
+@import mixins
+
+
+.section
+	width: 100%
+	display: flex
+	align-items: center
+	justify-content: center
+	padding: 1.5em
+	background-color: $brand-color
+
+.leftBlock
+	color: #fff
+	+media-breakpoint-down(md)
+		display: none
+
+.leftBlock, .rightBlock
+	flex: 1 1 30%
+	height: 100%
+
+.centerBlock
+	flex: auto
+	min-width: 40%
+	margin: 0 1em
+	text-align: center
+	font-family: #{$font-family-header, $default-fonts}
+
+.rightBlock
+	position: relative
+	min-height: 200px
+	background-position: center
+	background-size: cover
+	mix-blend-mode: luminosity
+	filter: invert(86%)
+	overflow: hidden
+	+media-breakpoint-down(sm)
+		display: none
+
+.social
+	margin: 0 0.25rem
+	width: 30px
+	height: 30px
+	padding: 5px
+	border: 2px solid #fff
+	border-radius: 50%
+

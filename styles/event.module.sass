@@ -1,0 +1,58 @@
+@import vars
+@import mixins
+
+.container
+	display: flex
+	flex-direction: column
+	margin-top: 2vw
+	margin-bottom: 2vw
+	+push--auto
+	+media-breakpoint-up(md)
+		flex-wrap: wrap
+		flex-direction: row
+
+.slider
+	flex: 100%
+
+.title2
+	width: 100%
+	margin: 4vh auto
+	text-align: center
+	text-transform: uppercase
+
+.cover
+	position: relative
+	flex: 1
+	max-width: 450px
+	margin-bottom: 2em
+	+media-breakpoint-up(md)
+		flex: 1 1 40%
+
+
+.content
+	display: flex
+	flex-direction: column
+	flex: 1
+	margin-bottom: 2em
+	+media-breakpoint-up(md)
+		flex: 1 1 46%
+		margin-left: 4%
+
+.button
+	align-self: baseline
+	margin-bottom: 2rem
+
+.navigation
+	display: flex
+	justify-content: space-between
+	align-items: center
+	width: 100%
+	margin-top: 6vh
+
+
+.prev
+	display: flex
+	margin-right: auto
+
+.next
+	margin-left: auto

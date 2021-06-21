@@ -1,0 +1,89 @@
+
+@import mixins
+@import vars
+
+button
+	user-select: none
+	border: $border_w $brand-color solid
+	padding: 0.5em 1em
+	text-transform: uppercase
+	font-size: 0.8rem
+	color: black
+	background-color: transparent
+	transition: .2s all ease
+	&:hover
+		background-color: #fff
+
+.nav-arrow
+	font-size: 1.5em
+	color: #000
+	&.right
+		margin-left: 0.5rem
+	&.left
+		margin-right: 0.5rem
+
+.arrow
+	position: relative
+	display: flex
+	top: 0
+	width: 20px
+	height: 20px
+	z-index: 2
+	transition: opacity 300ms ease
+	opacity: 0.7
+	cursor: pointer
+	&:hover
+		opacity: 1
+
+	&::after
+		content: ''
+		background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="9 2 8 14" fill="none" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path fill="none" d="M15 15l-4-6 4-6"/></svg>') center no-repeat
+		background-size: 100%
+		width: 100%
+		height: 100%
+
+	&.invert
+		&::after
+			filter: invert(100%)
+
+	&.top
+		&::after
+			transform: rotate(90deg)
+
+	&.right
+		&::after
+			transform: rotate(180deg)
+
+.svg-icon
+	align-items: center
+	width: calc(0.9rem + 1.5vw)
+	height: calc(0.9rem + 1.5vw)
+	fill: $brand-color
+	stroke: $brand-color
+	&.white
+		fill: white
+		stroke: white
+
+
+
+.scroll-to-top
+	position: fixed
+	display: block
+	visibility: hidden
+	width: 30px
+	height: 30px
+	bottom: 1.5em
+	right: 1.5em
+	padding: 0
+	background-color: transparentize(#fff, 0.2)
+	border-color: transparentize($brand-color, 0.5)
+	color: white
+	transition: all 300ms ease-in-out
+	z-index: 99999
+	cursor: pointer
+	&:hover
+		border-color: $brand-color
+
+	&.show
+		visibility: visible
+

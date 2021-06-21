@@ -1,0 +1,35 @@
+@import vars
+@import mixins
+
+.arrow
+	position: absolute
+	width: 4em
+	height: 100%
+	padding: 1em
+	z-index: 2
+	&:hover
+		background-color: transparentize($brand-color, 0.7)
+		&::after
+			opacity: 1
+
+
+.arrowLeft
+	left: 0
+
+.arrowRight
+	right: 0
+
+.sliderBg
+	&:after
+		content: ''
+		display: table
+		+push--absolute
+		background-color: transparentize($brand-color,0.6)
+
+.icon
+	width: 20px
+	height: 20px
+	+media-breakpoint-down(md)
+		width: 16px
+		height: 16px
+

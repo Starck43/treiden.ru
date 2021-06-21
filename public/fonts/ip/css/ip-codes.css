@@ -1,0 +1,21 @@
+
+.icon-phone:before { content: '\e800'; } /* '' */
+.icon-mobile:before { content: '\e801'; } /* '' */
+.icon-mail:before { content: '\e802'; } /* '' */
+.icon-envelope:before { content: '\e803'; } /* '' */
+.icon-location:before { content: '\e804'; } /* '' */
+.icon-instagram:before { content: '\e805'; } /* '' */
+.icon-facebook:before { content: '\e806'; } /* '' */
+.icon-vkontakte:before { content: '\e807'; } /* '' */
+.icon-telegram:before { content: '\e808'; } /* '' */
+.icon-telegram-blank:before { content: '\e809'; } /* '' */
+.icon-youtube:before { content: '\e80a'; } /* '' */
+.icon-youtube-play:before { content: '\e80b'; } /* '' */
+.icon-whatsapp:before { content: '\e80c'; } /* '' */
+.icon-play-circled:before { content: '\e80d'; } /* '' */
+.icon-play:before { content: '\e80e'; } /* '' */
+.icon-search:before { content: '\e80f'; } /* '' */
+.icon-left-arrow:before { content: '\e810'; } /* '' */
+.icon-right-arrow:before { content: '\e811'; } /* '' */
+.icon-up-arrow:before { content: '\e812'; } /* '' */
+.icon-spin:before { content: '\e813'; } /* '' */

@@ -1,0 +1,45 @@
+@import vars
+@import mixins
+
+.section
+	position: relative
+	min-width: 100%
+	z-index: 0
+
+.title
+	position: absolute
+	left: 50%
+	top: 50%
+	width: 100%
+	transform: translate(-50%, -50%)
+	font-weight: bold
+	color: white
+	font-size: 2.2em
+	text-transform: uppercase
+	text-align: center
+	z-index: 1
+	+media-breakpoint-down(xl)
+		font-size: 2em
+	+media-breakpoint-down(lg)
+		font-size: 1.8em
+	+media-breakpoint-down(md)
+		font-size: 1.6em
+	+media-breakpoint-down(sm)
+		font-size: 1.4em
+
+.subtitle
+	font-weight: normal
+	font-size: 0.6em
+
+.post
+	position: absolute
+	display: flex
+	justify-content: flex-end
+	width: 100%
+	padding: 4vh
+	color: #fff
+	z-index: 1
+	+media-breakpoint-down(sm)
+		justify-content: center
+		padding: 1rem
+
