@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components/macro'
-import PropTypes from 'prop-types'
 import { useRouter } from "next/router"
 import Link from 'next/link'
 
@@ -45,9 +44,6 @@ const SearchList = () => {
 )}
 
 
-SearchList.propTypes = {
-	posts: PropTypes.array
-}
 
 export default SearchList
 

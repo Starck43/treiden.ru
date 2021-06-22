@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/macro'
 
-import {Info} from '~/components/contacts'
+import { Info } from '~/components/contacts'
 
 import { Icon } from '~/components/UI'
 import Anchor from '~/components/UI/Anchor'

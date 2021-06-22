@@ -31,7 +31,7 @@ const Header = ({posts}) => {
 				<div>{header.title}</div>
 				<div className={style.subtitle}>{header.subtitle}</div>
 			</Title>
-			<Slider sliders={data} className={style.slider} {...sliderProps} />
+			<Slider sliders={data} className={style.slider} groupKey={'activities'} {...sliderProps} />
 		</HeaderSection>
 	)
 }

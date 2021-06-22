@@ -70,19 +70,22 @@ button
 	position: fixed
 	display: block
 	visibility: hidden
-	width: 30px
-	height: 30px
-	bottom: 1.5em
-	right: 1.5em
+	width: 35px
+	height: 35px
+	bottom: 1.5rem
+	right: 1.5rem
 	padding: 0
-	background-color: transparentize(#fff, 0.2)
-	border-color: transparentize($brand-color, 0.5)
+
+	border: 3px $brand-color solid
+	background-color: #fff
+	border-radius: 3px
 	color: white
 	transition: all 300ms ease-in-out
+	opacity: 0.5
 	z-index: 99999
 	cursor: pointer
 	&:hover
-		border-color: $brand-color
+		opacity: 1
 
 	&.show
 		visibility: visible

@@ -48,27 +48,10 @@ export const getLinkType = (url) => {
 
 export const scrollToRef = (ref, offset=0) => window.scrollTo(offset, ref.current.offsetTop)
 
-/*
-export const isChristmasDay = () => {
-	const today = new Date()
-	const month = today.getMonth() + 1
-	const isDecember = month == 12
-	const day = today.getDate()
-	const isChristMasTime = 20 <= day && day <= 30
-	return isDecember && isChristMasTime
-}
 
-export const isNewYearComing = () => {
-	const today = new Date()
-	const day = today.getDate()
-	const isFirstTwoWeek = 1 <= day && day <= 16
-	const month = today.getMonth() + 1
-	const isJanuary = month == 1
-	const isLastDayOfDec = day == 31
-	const isDec = month == 12
-	return (isLastDayOfDec && isDec) || (isJanuary && isFirstTwoWeek)
+/*export const toAbsoluteUrl = (content, baseUrl) => {
+	return replace(content, baseUrl)
 }
 */
-
 
 

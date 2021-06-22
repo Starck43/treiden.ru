@@ -18,7 +18,7 @@ const Items = ({ customers }) => {
 
   return (
   customers.map(customer => (
-    <Fragment key={customer.id}>
+    <Fragment key={`customer-${customer.id}`}>
       <Customer className={`card col-6 col-md-3 ${style.article}`} onClick={toggleShow}>
         <Avatar className={style.avatar}>
           <Image

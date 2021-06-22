@@ -65,20 +65,23 @@ main
 
 section
 	position: relative
+	margin-bottom: 4vh
 	&:not(.header-section)
 		margin-top: 6vh
-	&:first-child
-		//padding-top: $nav-h
-		+media-breakpoint-down(sm)
-			//padding-top: $nav-h-sm
+	&:last-child
+		margin-bottom: 0
+
 
 	.container
 		+push--auto
 
 	&.header-section
 		padding-top: 0
-		@media (orientation: landscape)
+		@media (min-width: 576px) and (orientation: landscape)
 			height: calc(100vh - #{$nav-h})
+		@media (max-width: 575.98px) and (orientation: landscape)
+			height: calc(100vh - #{$nav-h-sm})
+		@media (orientation: landscape)
 			.carousel .slide>div
 				height: 100%
 				>div
@@ -87,10 +90,11 @@ section
 		.thumbs-wrapper
 			+media-breakpoint-down(md)
 				font-size: 0.9rem
-			+media-breakpoint-down(sm)
+			@media (max-width: 575.98px) and (orientation: portrait)
 				display: none
-		.arrows
-			+media-breakpoint-down(sm)
+
+		@media (max-width: 767.98px) and (orientation: landscape), (max-width: 575.98px) and (orientation: portrait)
+			.arrow
 				display: none
 
 .container

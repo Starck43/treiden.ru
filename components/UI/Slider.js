@@ -14,7 +14,7 @@ const remoteLoader = ({ src }) => {
 	return src
 }
 
-const Slider = ({sliders, className, ...sliderProps}) => {
+const Slider = ({sliders, className, groupKey='', ...sliderProps}) => {
 	const onClick = (e) => {
 		// Остановим все click события вверх по дереву
 		e.stopPropagation()
@@ -35,10 +35,10 @@ const Slider = ({sliders, className, ...sliderProps}) => {
 		}
 		renderThumbs={(children) => children.map((item, index) => {
 			let obj = sliders[index]
-			let link = getLinkType(obj.url)
+			let link = getLinkType(obj.url) //external or internal link
 			let url = link.type == 'link' ? obj.url : `/projects/${obj.slug}`
 			return (
-				<Fragment>
+				<Fragment key={index}>
 					<svg className={`${style.icon} check-mark svg-icon white mx-2`}><use xlinkHref="#check-mark-icon"></use></svg>
 					<Link key={obj.slug} shallow={true} href={url}><a onClick={onClick}>{obj.name}</a></Link>
 				</Fragment>
@@ -48,8 +48,8 @@ const Slider = ({sliders, className, ...sliderProps}) => {
 			sliders.length > 1 && <li className={`dot ${isSelected ? 'selected' : ''}`} onClick={onClickHandler} role="button" tabIndex="0" aria-label={label} value={index}></li>
 		}
 	>
-		{ sliders.map((obj, index) => (
-			<Fragment key={index}>
+		{ sliders.map((obj) => (
+			<Fragment key={`${groupKey}-${obj.id}`}>
 				<Image
 					className={style.image}
 					loader={remoteLoader}
@@ -90,7 +90,7 @@ const Container = styled(Carousel)`
 		.thumbs-wrapper {
 			position: absolute;
 			bottom: 0;
-			margin: 4vh;
+			margin: 2vw calc(1rem + 2vh);
 			z-index: 1;
 			ul {
 				display: flex;
@@ -100,6 +100,7 @@ const Container = styled(Carousel)`
 				transform: none !important;
 				li {
 					width: auto !important;
+					padding: 0;
 					border: none;
 					font-weight: bold;
 					text-transform: uppercase;

@@ -12,8 +12,7 @@ from .models import *
 
 class FixAbsolutePathSerializer(serializers.Field):
 	def to_representation(self, value):
-		print(self.context)
-		request = self.context['request']
+		request = self.context.get('request')
 		pattern = 'src=\"<URL>/media/'
 		url = addDomainToUrl(request, value, pattern)
 		return url
@@ -90,17 +89,10 @@ class PostSerializer(serializers.ModelSerializer):
 	# def to_representation(self, instance):
 	# 	return {'id': instance.pk, 'count': 'instance.post__count'}
 	#cover = FileFieldSerializer()
-	#cover = serializers.SerializerMethodField()
-	#description = FixAbsolutePathSerializer()
+	description = FixAbsolutePathSerializer()
 	class Meta:
 		model = Post
 		fields = ('id', 'slug', 'title', 'excerpt', 'description', 'extra_display_section', 'url', 'post_type')
-
-
-	# def get_cover(self, obj):
-	# 	request =  self.context['request']
-	# 	imageUrl = obj.cover.url
-	# 	return request.build_absolute_uri(imageUrl)
 
 
 class EventListSerializer(serializers.ModelSerializer):

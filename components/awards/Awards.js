@@ -13,41 +13,41 @@ import style from "~/styles/awards.module.sass"
 
 
 const Awards = () => {
-  var {data, error} = Fetch('awards')
-  if (error) return <FetchError error={error} />
-  if (!data) return <Loading/>
-  const n = 2
-  if (data) data = Array(Math.ceil(data.length / n)).fill().map(_ => data.splice(0, n))
+	var {data, error} = Fetch('awards')
+	if (error) return <FetchError error={error} />
+	if (!data) return <Loading/>
+	const n = 2
+	if (data) data = Array(Math.ceil(data.length / n)).fill().map(_ => data.splice(0, n))
 
-  return (
-  <Section>
-    <Anchor id='awards'/>
-    <Header>Награды</Header>
+	return (
+	<Section>
+		<Anchor id='awards'/>
+		<Header>Награды</Header>
 
-    <Slider className='awards-slider'
-      infiniteLoop={false}
-      showThumbs={false}
-      showStatus={false}
-      preventMovementUntilSwipeScrollTolerance={true}
-      labels={{leftArrow: 'Назад', rightArrow: 'Вперед', item: 'Слайд'}}
-      renderArrowPrev={(onClickHandler, hasPrev, label) =>
-        hasPrev && <div className={`arrow invert ${style.arrow} ${style.arrowLeft}`} onClick={onClickHandler} title={label}></div>
-      }
-      renderArrowNext={(onClickHandler, hasNext, label) =>
-        hasNext && <div className={`arrow invert right ${style.arrow} ${style.arrowRight}`} onClick={onClickHandler} title={label}></div>
-      }
-      renderIndicator={(onClickHandler, isSelected, index, label) =>
-        data.length > 1 && <li className={`dot ${isSelected ? 'selected' : ''}`} onClick={onClickHandler} role="button" tabIndex="0" aria-label={label} value={index}></li>
-      }
-     >
-      {data && data.map((row, i) => (
-        <div key={i} className="row">
-          <Items awards={row} />
-        </div>
-      ))}
-    </Slider>
+		<Slider className='awards-slider' groupKey={'awards'}
+			infiniteLoop={false}
+			showThumbs={false}
+			showStatus={false}
+			preventMovementUntilSwipeScrollTolerance={true}
+			labels={{leftArrow: 'Назад', rightArrow: 'Вперед', item: 'Слайд'}}
+			renderArrowPrev={(onClickHandler, hasPrev, label) =>
+				hasPrev && <div className={`arrow invert ${style.arrow} ${style.arrowLeft}`} onClick={onClickHandler} title={label}></div>
+			}
+			renderArrowNext={(onClickHandler, hasNext, label) =>
+				hasNext && <div className={`arrow invert right ${style.arrow} ${style.arrowRight}`} onClick={onClickHandler} title={label}></div>
+			}
+			renderIndicator={(onClickHandler, isSelected, index, label) =>
+				data.length > 1 && <li className={`dot ${isSelected ? 'selected' : ''}`} onClick={onClickHandler} role="button" tabIndex="0" aria-label={label} value={index}></li>
+			}
+		 >
+			{ data && data.map((row, index) => (
+				<div key={`awards-${index}`} className="row">
+					<Items awards={row} />
+				</div>
+			))}
+		</Slider>
 
-  </Section>
+	</Section>
 )}
 
 export default Awards

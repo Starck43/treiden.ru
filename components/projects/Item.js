@@ -33,7 +33,7 @@ const Item = (props) => {
 
   return (
   <Portfolio>
-    <Card onClick={openLightbox}>
+    <Card className={style.card} onClick={openLightbox}>
       <Image
         loader={remoteLoader}
         src={props.cover}
@@ -44,8 +44,8 @@ const Item = (props) => {
         quality={80}
       />
       <Card.ImgOverlay className={style.overlay}>
-        <Card.Title className={style.title}>{props.title}</Card.Title>
-        <Card.Text className={style.excerpt}>{props.excerpt}</Card.Text>
+        <header className={style.title}><h4>{props.title}</h4></header>
+        <p>{props.excerpt}</p>
       </Card.ImgOverlay>
       { props.url && <Icon name='play' className={`${style.play} centered`} /> }
     </Card>

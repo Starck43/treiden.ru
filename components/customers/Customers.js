@@ -25,7 +25,7 @@ const Customers = ({customers}) => {
 			Наши клиенты
 		</Header>
 
-		<Slider className={style.container}
+		<Slider className={style.container} groupKey={'customers'}
 			infiniteLoop={false}
 			showThumbs={false}
 			showStatus={false}
@@ -41,8 +41,8 @@ const Customers = ({customers}) => {
 				data.length > 1 && <li className={`dot ${isSelected ? 'selected' : ''}`} onClick={onClickHandler} role="button" tabIndex="0" aria-label={label} value={index}></li>
 			}
 		 >
-			{data.map((row, i) => (
-				<div key={i} className="row">
+			{data.map((row, index) => (
+				<div key={`row-${index}`} className="row">
 					<Items customers={row} />
 				</div>
 			))}

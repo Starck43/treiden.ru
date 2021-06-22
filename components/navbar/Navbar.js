@@ -31,7 +31,7 @@ const NavBar = (props) => {
 			<Navbar sticky="top" expand="lg" variant="light" collapseOnSelect>
 				<NavLogo href='/' logo={data.logo} pathname={router.pathname} />
 				<ContactBlock className='contacts centered'>
-					{props.contact.socials ? props.contact.socials.map((item) => (
+					{ props.contact.socials ? props.contact.socials.map((item) => (
 					<Link className='social-link' key={item.name} href={item.url}>
 						<Icon name={item.name.toLowerCase()} className='social-icon centered' />
 					</Link>
@@ -46,10 +46,17 @@ const NavBar = (props) => {
 				<Navbar.Toggle className='centered btn-light' aria-controls="responsive-navbar-nav" onClick={clickBurger}/>
 				<Navbar.Collapse id="responsive-navbar-nav" onClick={toggleShow}>
 					<Nav className="mr-auto">
-					<button type="button" className="btn-close btn-lg" aria-label="Закрыть" onClick={handleClose}></button>
-					{props.navitems && props.navitems.map((item, index) => (
-						<NavItem key={index} item={item} pathname={router.pathname} close={handleClose}/>
-					))}
+						<button type="button" className="btn-close btn-lg" aria-label="Закрыть" onClick={handleClose}></button>
+						{props.navitems && props.navitems.map((item, index) => (
+							<NavItem key={index} item={item} pathname={router.pathname} close={handleClose}/>
+						))}
+						<Socials className='socials d-lg-none'>
+							{props.contact.socials ? props.contact.socials.map((item) => (
+								<Link className='social-link' key={item.name} href={item.url}>
+									<Icon name={item.name.toLowerCase()} className='social-icon centered' />
+								</Link>
+							)) : null}
+						</Socials>
 					</Nav>
 				</Navbar.Collapse>
 			</Navbar>
@@ -60,6 +67,7 @@ const NavBar = (props) => {
 export default NavBar
 
 const Link = styled.a``
+const Socials = styled.div``
 const ContactBlock = styled.div`
 	white-space: nowrap;
 `

@@ -30,30 +30,17 @@ class MyDocument extends Document {
 					<meta name="google-site-verification" content=""/>
 					<meta name="robots" content="index,follow" />
 					<meta name="googlebot" content="index,follow" />
-					<meta name="theme-color" content="#ffffff" />
-					<link rel="icon" href="/favicon.ico" />
-					<link rel="apple-touch-icon" href="/icons/Icon-64.png" />
-					<link
-						rel="preload"
-						href="fonts/ip/font/ip.woff"
-						as="font"
-						crossOrigin=""
-					/>
-					<link
-						href="/icons/Icon-32.png"
-						rel="icon"
-						type="image/png"
-						sizes="32x32"
-					/>
-					<link
-						href="/icons/Icon-64.png"
-						rel="icon"
-						type="image/png"
-						sizes="64x64"
-					/>
 
-					<link rel="canonical" href="#" />
-					<link rel="manifest" href="/manifest.json" />
+					<meta name="msapplication-TileColor" content="#073f80"/>
+					<meta name="theme-color" content="#ffffff"/>
+
+					<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png"/>
+					<link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png"/>
+					<link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png"/>
+					<link rel="manifest" href="/favicons/site.webmanifest"/>
+					<link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#073F80FF"/>
+
+					<link rel="canonical" href={process.env.SERVER} />
 
 					{styles}
 
@@ -81,9 +68,9 @@ class MyDocument extends Document {
 				</Head>
 				<body>
 
-					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" style={{'display':'none'}}>
+					<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" style={{'display':'none'}}>
 						<symbol id="check-mark-icon" viewBox="0 0 46 20">
-							<path d="M1.35987 18.2266L22.75 1.27592L44.1401 18.2266L23.3875 11.2478C22.9739 11.1087 22.5261 11.1087 22.1125 11.2478L1.35987 18.2266Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+							<path d="M1.35987 18.2266L22.75 1.27592L44.1401 18.2266L23.3875 11.2478C22.9739 11.1087 22.5261 11.1087 22.1125 11.2478L1.35987 18.2266Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
 						</symbol>
 					</svg>
 
