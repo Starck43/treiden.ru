@@ -8,7 +8,6 @@ module.exports = {
 		SERVER: isProduction ? 'http://a0484102.xsph.ru' : 'http://localhost:9000',
 		API_SERVER: isProduction ? 'http://a0484102.xsph.ru/api/' : 'http://localhost:9000/api/',
 	},
-	//basePath: '/istarck.ru',
 	publicRuntimeConfig: {
 		logo: '/images/logo.png',
 		map: '/images/map.jpg',
