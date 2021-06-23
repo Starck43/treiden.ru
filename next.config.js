@@ -5,8 +5,8 @@ const isProduction = process.env.NODE_ENV === "production"
 
 module.exports = {
 	env: {
-		SERVER: isProduction ? '//a0484102.xsph.ru' : 'http://localhost:9000',
-		API_SERVER: isProduction ? '//a0484102.xsph.ru/api/' : 'http://localhost:9000/api/',
+		SERVER: isProduction ? 'http://a0484102.xsph.ru' : 'http://localhost:9000',
+		API_SERVER: isProduction ? 'http://a0484102.xsph.ru/api/' : 'http://localhost:9000/api/',
 	},
 	//basePath: '/istarck.ru',
 	publicRuntimeConfig: {
@@ -26,7 +26,7 @@ module.exports = {
 	//secondSecret: process.env.SECOND_SECRET, // Pass through env variables
 	},
 	images: {
-		domains: [isProduction ? '//a0484102.xsph.ru' : 'http://localhost:9000'],
+		domains: [isProduction ? 'http://a0484102.xsph.ru' : 'http://localhost:9000'],
 		deviceSizes: [320, 450, 640, 768, 1080, 1200, 1920],
 	},
 	sassOptions: {
