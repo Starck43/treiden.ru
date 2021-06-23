@@ -61,9 +61,14 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware', # debug_toolbar
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_URLS_REGEX = r'^/api/.*$'
+
+CORS_ALLOWED_ORIGINS = []
+
+CORS_ALLOW_METHODS = ['GET']
+
 
 INTERNAL_IPS = [
     'localhost',
