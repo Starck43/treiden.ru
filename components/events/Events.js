@@ -30,7 +30,7 @@ const Events = ({data}) => {
 		<Anchor id='events' />
 		<Header>События</Header>
 		<Row>
-		{ events &&
+		{ events.length > 0 &&
 			<Col className={style.column_1}>
 				<Item item={events[0]} />
 			</Col>
