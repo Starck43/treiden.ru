@@ -14,10 +14,10 @@ const AsyncAwards = dynamic(() => import('~/components/awards/Awards'))
 const AsyncContacts = dynamic(() => import('~/components/contacts/Contacts'))
 
 
-const HomePage = ({navitems, about, activities, events, customers, extraPosts, contacts, meta}) => {
+const HomePage = ({header, navitems, about, activities, events, customers, extraPosts, contacts, meta}) => {
 	return(
 	<Layout navitems={navitems} contacts={contacts} meta={meta[0]} >
-		<AsyncHeader posts={extraPosts}/>
+		<AsyncHeader sliders={header} posts={extraPosts}/>
 		<AsyncAbout data={about}/>
 		<AsyncActivities activities={activities}/>
 		<AsyncEvents data={events}/>
@@ -30,6 +30,7 @@ const HomePage = ({navitems, about, activities, events, customers, extraPosts, c
 export default HomePage
 
 export const getStaticProps = async () => {
+	const header = await fetch(process.env.API_SERVER + 'header')
 	const navitems = await fetch(process.env.API_SERVER + 'navitems')
 	const about = await fetch(process.env.API_SERVER + 'section/services')
 	const activities = await fetch(process.env.API_SERVER + 'activities')
@@ -41,6 +42,7 @@ export const getStaticProps = async () => {
 
 	return {
 		props: {
+			header : await header.json(),
 			navitems : await navitems.json(),
 			meta : await meta.json(),
 			about : await about.json(),

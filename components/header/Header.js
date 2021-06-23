@@ -9,10 +9,7 @@ import { getHostname } from '~/core/helpers/utils'
 
 import style from "~/styles/header.module.sass"
 
-const Header = ({posts}) => {
-	const {data, error} = Fetch('header')
-	if (error) return <FetchError error={error} />
-	if (!data) return <Loading/>
+const Header = ({posts, sliders}) => {
 
 	const sliderProps = {
 		autoFocus: true,
@@ -31,7 +28,7 @@ const Header = ({posts}) => {
 				<div>{header.title}</div>
 				<div className={style.subtitle}>{header.subtitle}</div>
 			</Title>
-			<Slider sliders={data} className={style.slider} groupKey={'activities'} {...sliderProps} />
+			<Slider sliders={sliders} className={style.slider} groupKey={'activities'} {...sliderProps} />
 		</HeaderSection>
 	)
 }
