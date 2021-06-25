@@ -25,7 +25,7 @@ def is_file_exist(obj):
 
 def is_image_file(obj):
 	filename, ext = path.splitext(obj.file.name)
-	return ext.lower() == '.jpg' or ext.lower() == '.png'
+	return ext.lower() == '.jpg' or ext.lower() == '.jpeg' or ext.lower() == '.png'
 
 
 class MediaFileStorage(FileSystemStorage):
@@ -68,7 +68,8 @@ def get_admin_thumb(obj):
 		return format_html('<img src="/media/no-image.jpg" width="100"/>')
 
 
-def resize_image(obj, thumbnail='thumbnail'):
+def resize_image(obj, thumbnail='thumbnail', *sizes):
+	print(obj)
 	if obj and is_image_file(obj) :
 		try:
 			file = obj.path
@@ -81,20 +82,12 @@ def resize_image(obj, thumbnail='thumbnail'):
 			dest = open(file, 'wb')
 			dest.write(result.read())
 			dest.close()
+
+			for size in sizes:
+				print(size)
 		except IOError:
 			return HttpResponse('Ошибка открытия файла %s!' % file)
 
-
-""" Return True if the request comes from a mobile device """
-def IsMobile(request):
-	import re
-
-	MOBILE_AGENT_RE=re.compile(r".*(iphone|mobile|androidtouch)",re.IGNORECASE)
-
-	if MOBILE_AGENT_RE.match(request.META['HTTP_USER_AGENT']):
-		return True
-	else:
-		return False
 
 def update_google_sitemap():
 	try:

@@ -124,8 +124,9 @@ class Category(models.Model):
 
 	def save(self, *args, **kwargs):
 		if self.original_file and self.original_file != self.file:
-			self.delete_storage_file()
-			resize_image(self.file)
+			#self.delete_storage_file()
+			resize_image(self.file, 'thumbnail', [320,576])
+		resize_image(self.file, 'thumbnail', [320,576])
 		super().save(*args, **kwargs)
 		self.original_file = self.file
 
