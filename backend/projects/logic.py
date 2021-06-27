@@ -7,6 +7,7 @@ from django.utils.html import format_html
 from django.core.files.storage import FileSystemStorage
 from os import path, remove
 
+from PIL import Image
 from imagekit import ImageSpec
 from imagekit.processors import ResizeToFit #, ResizeToFill
 from imagekit.cachefiles import ImageCacheFile
@@ -68,8 +69,19 @@ def get_admin_thumb(obj):
 		return format_html('<img src="/media/no-image.jpg" width="100"/>')
 
 
+def generate_thumbs(obj, sizes):
+	if obj and is_image_file(obj) :
+		file = obj.path
+		filename, ext = path.splitext(file)
+		with Image.open(file).copy() as im:
+			for size in sizes:
+				im.thumbnail(size)
+				thumb_filename = '%s_%sw' % (filename, size, ext)
+				im.save(thumb_filename)
+
+
 def resize_image(obj, thumbnail='thumbnail', *sizes):
-	print(obj)
+
 	if obj and is_image_file(obj) :
 		try:
 			file = obj.path
@@ -83,8 +95,9 @@ def resize_image(obj, thumbnail='thumbnail', *sizes):
 			dest.write(result.read())
 			dest.close()
 
-			for size in sizes:
-				print(size)
+			if sizes :
+				generate_thumbs(obj, sizes)
+			
 		except IOError:
 			return HttpResponse('Ошибка открытия файла %s!' % file)
 
