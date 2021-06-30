@@ -12,6 +12,10 @@ html
 
 body
 	--bs-font-sans-serif: #{$font-family-text, $default-fonts}
+	+media-breakpoint-up(md)
+		font-size: 1.1rem
+	+media-breakpoint-up(lg)
+		font-size: 1.2rem
 a
 	text-decoration: none
 	color: $brand-color
@@ -50,6 +54,9 @@ header
 	text-transform: uppercase
 	+media-breakpoint-up(lg)
 		font-size: calc(1rem + 0.5vw)
+
+img
+	color: transparent
 
 p
 	line-height: 1.5
