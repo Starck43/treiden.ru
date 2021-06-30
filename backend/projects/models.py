@@ -13,7 +13,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFit, ResizeToFill
 
-from .logic import MediaFileStorage, get_admin_thumb, resize_image, remove_file
+from .logic import MediaFileStorage, get_admin_thumb, resize_image, generate_thumbs, remove_file
 
 
 class SearchManager(models.Manager):
@@ -105,30 +105,30 @@ class Category(models.Model):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.original_file = self.file
+		self.original_cover = self.cover
 
 
-	def delete_storage_file(self):
-		try:
-			# is the object in the database yet?
-			obj = Category.objects.get(id=self.id)
-			if obj.file:
-				remove_file(obj.file)
-		except Category.DoesNotExist:
-			if os.path.exists(self.file.path):
-				remove_file(self.file)
-
-	# Удаление файла на диске
 	def delete(self, *args, **kwargs):
-		self.delete_storage_file()
+		# delete all related images and their thumbs
+		remove_file(self.file)
+		remove_file(self.cover)
 		super().delete(*args, **kwargs)
 
+
 	def save(self, *args, **kwargs):
-		if self.original_file and self.original_file != self.file:
-			#self.delete_storage_file()
-			resize_image(self.file, 'thumbnail', [320,576])
-		resize_image(self.file, 'thumbnail', [320,576])
+		if self.file != self.original_file:
+			if self.original_file:
+				remove_file(self.file)
+			resize_image(self.file, 'thumbnail')
+
 		super().save(*args, **kwargs)
+		if self.cover and self.cover != self.original_cover:
+			generate_thumbs(self.cover, [320, 450, 640, 768, 1080, 1200, 1920])
+
+		self.original_cover = self.cover
 		self.original_file = self.file
+
+
 
 class Post(models.Model):
 	CHOICES = (
@@ -181,6 +181,7 @@ class Post(models.Model):
 	thumb.short_description = 'Обложка'
 
 
+
 class Event(Post):
 	date = models.DateTimeField('Дата и время', help_text='Укажите дату и время проведения мероприятия')
 	location = models.CharField('Место проведения', max_length=250, blank=True, help_text='Укажите место проведения мероприятия')
@@ -194,6 +195,7 @@ class Event(Post):
 	def save(self, *args, **kwargs):
 		self.post_type = self._meta.model_name
 		super().save(*args, **kwargs)
+
 
 
 class Portfolio(Post):
@@ -211,6 +213,7 @@ class Portfolio(Post):
 		super().save(*args, **kwargs)
 
 
+
 class Media(models.Model):
 	post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True, blank=True, related_name='media', verbose_name = 'Запись', help_text='Укажите запись, к которой принадлежит медиафайл')
 	title = models.CharField('Заголовок', max_length=100, help_text='')
@@ -226,25 +229,18 @@ class Media(models.Model):
 	def __str__(self):
 		return self.title
 
-	def delete_storage_file(self):
-		try:
-			# is the object in the database yet?
-			obj = Media.objects.get(id=self.id)
-			if obj.file:
-				remove_file(obj.file)
-		except Media.DoesNotExist:
-			if os.path.exists(self.file.path):
-				remove_file(self.file)
 
 	# Удаление файла на диске
 	def delete(self, *args, **kwargs):
-		self.delete_storage_file()
+		remove_file(self.file)
 		super().delete(*args, **kwargs)
+
 
 	def save(self, *args, **kwargs):
 		self.delete_storage_file()
 		super().save(*args, **kwargs)
 		resize_image(self.file, 'full')
+
 
 	def filename(self):
 		return self.file.name.rsplit('/', 1)[-1]
@@ -253,6 +249,7 @@ class Media(models.Model):
 	def thumb(self):
 		return get_admin_thumb(self.file)
 	thumb.short_description = 'Фото'
+
 
 
 class Customer(models.Model):
@@ -277,12 +274,35 @@ class Customer(models.Model):
 		verbose_name = 'заказчик'
 		verbose_name_plural = 'Заказчики'
 
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.original_avatar = self.avatar
+
+
+	def delete(self, *args, **kwargs):
+		# delete all related images and their thumbs
+		remove_file(self.avatar)
+		super().delete(*args, **kwargs)
+
+
+	def save(self, *args, **kwargs):
+		if self.avatar != self.original_avatar:
+			if self.original_avatar:
+				remove_file(self.avatar)
+
+		super().save(*args, **kwargs)
+		if self.avatar and self.avatar != self.original_avatar:
+			generate_thumbs(self.avatar, [320, 450])
+
+		self.original_avatar = self.avatar
+
+
 	def __str__(self):
 		return self.title
 
 	def thumb(self):
 		return get_admin_thumb(self.avatar)
-
 	thumb.short_description = 'Аватар'
 
 

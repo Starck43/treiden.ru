@@ -13,11 +13,11 @@ from imagekit.processors import ResizeToFit #, ResizeToFill
 from imagekit.cachefiles import ImageCacheFile
 
 
+# Удаление файлов на диске
 def remove_file(obj):
-	""" param <path> could either be relative or absolute. """
-	#print(obj.path)
+	""" Remove the file from a disk. Param <path> could either be relative or absolute. """
 	if path.isfile(obj.path) or path.islink(obj.path):
-		remove(obj.path)  # remove the file
+		remove(obj.path)
 
 
 def is_file_exist(obj):
@@ -70,13 +70,19 @@ def get_admin_thumb(obj):
 
 
 def generate_thumbs(obj, sizes):
-	if obj and is_image_file(obj) :
+	if obj and is_file_exist(obj) and is_image_file(obj) :
 		file = obj.path
 		filename, ext = path.splitext(file)
-		with Image.open(file).copy() as im:
+		with Image.open(file) as image:
+			im_w, im_h = image.size
+			aspect_ratio = im_w / float(im_h)
+
 			for size in sizes:
-				im.thumbnail(size)
-				thumb_filename = '%s_%sw' % (filename, size, ext)
+				im = image.copy()
+				thumb_w = size
+				thumb_h = int(thumb_w / aspect_ratio)
+				im.thumbnail((thumb_w, thumb_h))
+				thumb_filename = '{0}_{1}w{2}'.format(filename, size, ext)
 				im.save(thumb_filename)
 
 
