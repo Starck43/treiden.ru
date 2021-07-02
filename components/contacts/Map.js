@@ -9,6 +9,4 @@ const Map = ({map}) => <Container className={style.rightBlock} id="map" image={m
 export default Map
 
 
-const Container = styled.div`
-  background-image: url(${props => props.image});
-`
+const Container = styled.div``

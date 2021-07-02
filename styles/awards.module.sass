@@ -7,11 +7,14 @@
 
 .arrow
 	position: absolute
-	width: 2em
+	width: 1.6rem
 	height: 100%
 	z-index: 2
 	background-color: #fff
 	opacity: 0.5
+	+media-breakpoint-up(lg)
+		width: 2rem
+
 	&:hover
 		background-color: transparentize(#fff, 0.3)
 		&::after
@@ -19,10 +22,12 @@
 
 
 .arrowLeft
-	left: calc(4em - 6vw)
-	background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)
+	left: 0
+	+media-breakpoint-up(md)
+		left: calc(4rem - 6vw)
 	+media-breakpoint-up(lg)
 		left: 0
+	background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)
 
 .arrowRight
 	right: calc(4em - 6vw)

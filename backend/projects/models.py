@@ -13,7 +13,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFit, ResizeToFill
 
-from .logic import MediaFileStorage, get_admin_thumb, resize_image, generate_thumbs, remove_file
+from .logic import MediaFileStorage, get_admin_thumb, resize_image, generate_thumbs, remove_images
 
 
 class SearchManager(models.Manager):
@@ -82,7 +82,7 @@ class Category(models.Model):
 		verbose_name='Обложка',
 		help_text='Фото раздела для баннера на главной странице. Размер 1920х1080')
 	file = ProcessedImageField(upload_to='uploads/',
-		processors=[ResizeToFill(450, 300)],
+		processors=[ResizeToFill(900, 600)],
 		format='JPEG',
 		options={'quality': 80},
 		storage=MediaFileStorage(),
@@ -98,9 +98,6 @@ class Category(models.Model):
 		verbose_name = 'категория'
 		verbose_name_plural = 'Категории'
 
-	def __str__(self):
-		return self.name
-
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
@@ -109,24 +106,29 @@ class Category(models.Model):
 
 
 	def delete(self, *args, **kwargs):
-		# delete all related images and their thumbs
-		remove_file(self.file)
-		remove_file(self.cover)
 		super().delete(*args, **kwargs)
+		remove_images(self.file)
+		remove_images(self.cover)
 
 
 	def save(self, *args, **kwargs):
-		if self.file != self.original_file:
-			if self.original_file:
-				remove_file(self.file)
-			resize_image(self.file, 'thumbnail')
+		if self.file and self.file != self.original_file:
+			resize_image(self.file)
+		if self.cover and self.cover != self.original_cover:
+			resize_image(self.cover)
 
 		super().save(*args, **kwargs)
+		if self.file and self.file != self.original_file:
+			generate_thumbs(self.file, [450, 900])
 		if self.cover and self.cover != self.original_cover:
 			generate_thumbs(self.cover, [320, 450, 640, 768, 1080, 1200, 1920])
 
 		self.original_cover = self.cover
 		self.original_file = self.file
+
+
+	def __str__(self):
+		return self.name
 
 
 
@@ -143,7 +145,7 @@ class Post(models.Model):
 	slug = models.SlugField('Ярлык', max_length=100, null=True, blank=True, unique=True, help_text='Название записи латинскими буквами')
 	cover = ProcessedImageField(
 		upload_to='cover/',
-		processors=[ResizeToFit(1200, 800, upscale=False)],
+		processors=[ResizeToFit(1200, 900, upscale=False)],
 		format='JPEG',
 		options={'quality': 80},
 		storage=MediaFileStorage(),
@@ -167,17 +169,34 @@ class Post(models.Model):
 		verbose_name = 'запись'
 		verbose_name_plural = 'Записи'
 
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.original_cover = self.cover
+
+
+	def delete(self, *args, **kwargs):
+		super().delete(*args, **kwargs)
+		remove_images(self.cover)
+
+
 	def save(self, *args, **kwargs):
 		if not self.slug:
 			self.slug = uuslug(self.title, instance=self)
+
+		if self.original_cover and self.cover != self.original_cover:
+			resize_image(self.cover, 'full')
+
 		super().save(*args, **kwargs)
+		generate_thumbs(self.cover, [320, 450, 640, 768, 1080, 1200])
+		self.original_cover = self.cover
+
 
 	def __str__(self):
 		return self.title
 
 	def thumb(self):
 		return get_admin_thumb(self.cover)
-
 	thumb.short_description = 'Обложка'
 
 
@@ -226,21 +245,30 @@ class Media(models.Model):
 		verbose_name = 'медиафайл'
 		verbose_name_plural = 'Медиафайлы'
 
-	def __str__(self):
-		return self.title
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.original_file = self.file
 
 
-	# Удаление файла на диске
 	def delete(self, *args, **kwargs):
-		remove_file(self.file)
 		super().delete(*args, **kwargs)
+		remove_images(self.file)
 
 
 	def save(self, *args, **kwargs):
-		self.delete_storage_file()
-		super().save(*args, **kwargs)
-		resize_image(self.file, 'full')
+		if self.file and self.file != self.original_file:
+			resize_image(self.file, 'full')
 
+		super().save(*args, **kwargs)
+		if self.file and self.file != self.original_file:
+			generate_thumbs(self.file, [320, 450, 640, 768, 1080, 1200])
+
+		self.original_file = self.file
+
+
+	def __str__(self):
+		return self.title
 
 	def filename(self):
 		return self.file.name.rsplit('/', 1)[-1]
@@ -257,7 +285,7 @@ class Customer(models.Model):
 	subtitle = models.CharField('Подзаголовок', max_length=255, blank=True, help_text='Здесь можно указать должность и ФИО заказчика')
 	avatar = ProcessedImageField(
 		upload_to='avatar/',
-		processors=[ResizeToFill(450, 450)],
+		processors=[ResizeToFill(900, 900)],
 		format='JPEG',
 		options={'quality': 80},
 		storage=MediaFileStorage(),
@@ -281,20 +309,16 @@ class Customer(models.Model):
 
 
 	def delete(self, *args, **kwargs):
-		# delete all related images and their thumbs
-		remove_file(self.avatar)
 		super().delete(*args, **kwargs)
+		remove_images(self.avatar)
 
 
 	def save(self, *args, **kwargs):
-		if self.avatar != self.original_avatar:
-			if self.original_avatar:
-				remove_file(self.avatar)
+		if self.avatar and self.avatar != self.original_avatar:
+			resize_image(self.avatar)
 
 		super().save(*args, **kwargs)
-		if self.avatar and self.avatar != self.original_avatar:
-			generate_thumbs(self.avatar, [320, 450])
-
+		generate_thumbs(self.avatar, [320, 450, 640, 900])
 		self.original_avatar = self.avatar
 
 
@@ -304,6 +328,7 @@ class Customer(models.Model):
 	def thumb(self):
 		return get_admin_thumb(self.avatar)
 	thumb.short_description = 'Аватар'
+
 
 
 class Award(models.Model):
@@ -328,8 +353,29 @@ class Award(models.Model):
 		verbose_name = 'награда'
 		verbose_name_plural = 'Награды'
 
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.original_file = self.file
+
+
+	def delete(self, *args, **kwargs):
+		super().delete(*args, **kwargs)
+		remove_images(self.file)
+
+
+	def save(self, *args, **kwargs):
+		if self.file and self.file != self.original_file:
+			resize_image(self.file, 'full')
+
+		super().save(*args, **kwargs)
+		generate_thumbs(self.file, [320, 450, 640])
+		self.original_file = self.file
+
+
 	def __str__(self):
 		return self.title
+
 
 	def thumb(self):
 		return get_admin_thumb(self.file)

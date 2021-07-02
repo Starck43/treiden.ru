@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState }  from 'react'
 import styled from 'styled-components/macro'
 import Image from 'next/image'
 import Link from 'next/link'
+import { createThumbUrl } from '~/core/helpers/utils'
 
 import { Modal, Button, Row, Col } from 'react-bootstrap'
 import LiteYouTubeEmbed from "react-lite-youtube-embed"
@@ -10,9 +11,12 @@ import { getYouTubeID } from '~/core/helpers/utils'
 import style from "~/styles/review.module.sass"
 
 
-const remoteLoader = ({ src }) => {
-	return src
+
+
+const remoteLoader = ({ src, width }) => {
+	return createThumbUrl(src, width)
 }
+
 
 const Review = (props) => {
 	const {show, handleClose, customer} = props
@@ -44,7 +48,7 @@ const Review = (props) => {
 							loader={remoteLoader}
 							src={customer.avatar}
 							alt={customer.title}
-							layout="responsive"
+							layout="intrinsic"
 							objectFit="contain"
 							width={450}
 							height={450}

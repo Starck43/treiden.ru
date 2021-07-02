@@ -7,7 +7,7 @@ import { Item } from '~/components/events'
 import { Section, Header } from '~/components/UI'
 import Anchor from '~/components/UI/Anchor'
 import Loading from '~/components/Loading'
-import {Fetch, FetchError } from '~/core/api'
+//import {Fetch, FetchError } from '~/core/api'
 
 import style from "~/styles/events.module.sass"
 

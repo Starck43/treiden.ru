@@ -2,13 +2,17 @@ import React, { Fragment, useState }  from 'react'
 import Image from 'next/image'
 import styled from 'styled-components/macro'
 
+import { createThumbUrl } from '~/core/helpers/utils'
 import { Modal } from 'react-bootstrap'
 
 import style from "~/styles/awards.module.sass"
 
-const remoteLoader = ({ src }) => {
-	return src
+
+
+const remoteLoader = ({ src, width }) => {
+	return createThumbUrl(src, width)
 }
+
 
 const Items = ({ awards, onClick }) => {
 
@@ -31,8 +35,7 @@ const Items = ({ awards, onClick }) => {
 				loader={remoteLoader}
 				src={award.file}
 				alt={award.title}
-				layout="responsive"
-				objectFit="contain"
+				layout="intrinsic"
 				width={320}
 				height={450}
 				quality={80}

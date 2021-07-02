@@ -3,16 +3,21 @@ import styled from 'styled-components/macro'
 import Link from 'next/link'
 import Image from 'next/image'
 
-import { getLinkType } from '~/core/helpers/utils'
+import { getLinkType, createThumbUrl } from '~/core/helpers/utils'
 
 import { Carousel } from 'react-responsive-carousel'
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import style from "~/styles/slider.module.sass"
 
 
-const remoteLoader = ({ src }) => {
+
+const remoteLoader = ({ src, width }) => {
+	let breakpoints = [320, 450, 640, 768, 1080, 1200]
+	if (breakpoints.indexOf(width) !== -1)
+		return createThumbUrl(src, width)
 	return src
 }
+
 
 const Slider = ({sliders, className, groupKey='', ...sliderProps}) => {
 	const onClick = (e) => {

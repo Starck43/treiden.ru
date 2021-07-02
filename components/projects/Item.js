@@ -3,6 +3,7 @@ import styled from 'styled-components/macro'
 import Image from 'next/image'
 
 import { Icon } from '~/components/UI'
+import { createThumbUrl } from '~/core/helpers/utils'
 
 import { Card } from 'react-bootstrap'
 import LightBox from 'fslightbox-react'
@@ -10,9 +11,12 @@ import LightBox from 'fslightbox-react'
 import style from "~/styles/portfolio.module.sass"
 
 
-const remoteLoader = ({ src }) => {
-  return src
+
+
+const remoteLoader = ({ src, width }) => {
+  return createThumbUrl(src, width)
 }
+
 
 const Item = (props) => {
   const [viewerIsOpen, setViewerIsOpen] = useState(false)
@@ -39,8 +43,8 @@ const Item = (props) => {
         src={props.cover}
         alt={props.title}
         layout="responsive"
-        width={450}
-        height={450}
+        width={320}
+        height={320}
         quality={80}
       />
       <Card.ImgOverlay className={style.overlay}>

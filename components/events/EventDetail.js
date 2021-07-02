@@ -5,19 +5,26 @@ import Link from 'next/link'
 import { Container } from 'react-bootstrap'
 
 import { Section, Header, Slider, Icon } from '~/components/UI'
+import { getYouTubeID, createThumbUrl } from '~/core/helpers/utils'
 
-import { getYouTubeID } from '~/core/helpers/utils'
 import LiteYouTubeEmbed from "react-lite-youtube-embed"
 
 import style from "~/styles/event.module.sass"
+
+
+
+const remoteLoader = ({ src, width }) => {
+	let breakpoints = [320, 450]
+	if (breakpoints.indexOf(width) !== -1)
+		return createThumbUrl(src, width)
+	return src
+}
 
 
 const HtmlContent = ({ className, content }) => (
 	<div className={className} dangerouslySetInnerHTML={{ __html: content }}></div>
 )
 
-
-const remoteLoader = ({ src }) => {return src}
 
 const EventDetail = ({ event }) => {
 	const date = event.date //new Date(event.date).toLocaleDateString()
@@ -40,10 +47,10 @@ const EventDetail = ({ event }) => {
 				loader={remoteLoader}
 				src={event.cover}
 				alt={event.title}
-				layout="intrinsic"
+				layout="responsive"
+				width={320}
+				height={180}
 				objectFit="cover"
-				width={640}
-				height={360}
 				quality={80}
 			/>
 			{ event.url && (
@@ -75,7 +82,7 @@ const EventDetail = ({ event }) => {
 			</EventDate>
 		</Content>
 
-		{ event.media && (
+		{ event.media.length > 0 && (
 		<>
 			<h2 className={style.title2}>Фотоотчет с мероприятия</h2>
 			<Slider sliders={event.media || []} className={style.slider} showThumbs={false} showTitle={true}/>

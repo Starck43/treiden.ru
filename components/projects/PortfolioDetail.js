@@ -3,18 +3,26 @@ import styled from 'styled-components/macro'
 import Link from 'next/link'
 import Image from 'next/image'
 
+import { getLinkType, createThumbUrl } from '~/core/helpers/utils'
 import { Section, Header, Icon, Anchor } from '~/components/UI'
 import { List, Filter } from '~/components/projects'
-import { getLinkType } from '~/core/helpers/utils'
 
 import LiteYouTubeEmbed from "react-lite-youtube-embed"
 
 import style from "~/styles/portfolio.module.sass"
 
 
-const remoteLoader = ({ src }) => {
-	return src
+
+const remoteLoader = ({ src, width }) => {
+  switch (width) {
+    case 320, 450:
+      return createThumbUrl(src, width)
+      break
+    default:
+      return src
+  }
 }
+
 
 const PortfolioDetail = ({category, projects}) => {
 	let link = getLinkType(category.url)
@@ -24,19 +32,18 @@ const PortfolioDetail = ({category, projects}) => {
 		<Header>{category.name}</Header>
 		<Content className={style.content}>
 			{ category.file &&
-			<Image className={style.media}
+			<Image className={style.flexImage}
 				loader={remoteLoader}
 				src={category.file}
 				alt={category.name}
-				layout="responsive"
-				objectFit="contain"
+				layout="intrinsic"
 				width={450}
 				height={300}
 				quality={80}
 			/>
 			}
 
-			<div className={style.description} dangerouslySetInnerHTML={{ __html: category.description }} />
+			<div className={ `${category.file ? style.flexDescription : style.description}` } dangerouslySetInnerHTML={{ __html: category.description }} />
 
 			{ link.type == 'youtube' && (
 			<Cover className={style.media}>
@@ -68,6 +75,20 @@ const PortfolioDetail = ({category, projects}) => {
 
 export default PortfolioDetail
 
-const Content = styled.div``
+const Content = styled.div`
+	>div:first-child:not(:last-child){
+		flex: 1 1 40%;
+		max-width: 40% !important;
+		margin-right: 4vw !important;
+		margin-bottom: 4vw !important;
+		@media screen and (max-width:767.98px) {
+			flex: 100%;
+			max-width: 100%;
+			margin: 0 auto 4vw !important;
+		}
+	}
+
+`
+
 const Cover = styled.div``
 const YouTube = styled(LiteYouTubeEmbed)``

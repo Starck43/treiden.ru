@@ -16,6 +16,8 @@ const Activities = ({activities}) => (
 		<Anchor id='activities' />
 		<Image
 			src={publicRuntimeConfig.bgImage}
+			priority={true}
+			loading="eager"
 			layout="fill"
 			objectFit="cover"
 			quality={80}
@@ -33,7 +35,6 @@ export default Activities
 
 
 const Container = styled.div``
-
 const Section = styled.section``
 
 

@@ -154,6 +154,7 @@ class CustomerAdmin(admin.ModelAdmin):
 class AwardAdmin(admin.ModelAdmin):
 	model = Award
 	list_display = ('thumb', 'title', 'description', 'year',)
+	list_display_links = ('thumb', 'title',)
 
 
 @admin.register(Seo)

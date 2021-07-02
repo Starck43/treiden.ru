@@ -25,8 +25,9 @@ module.exports = {
 	//secondSecret: process.env.SECOND_SECRET, // Pass through env variables
 	},
 	images: {
-		domains: [isProduction ? 'http://a0484102.xsph.ru' : 'http://localhost:9000'],
+		domains: [isProduction ? 'http://a0484102.xsph.ru' : 'http://localhost'],
 		deviceSizes: [320, 450, 640, 768, 1080, 1200, 1920],
+		imageSizes: [320, 450, 640, 900],
 	},
 	sassOptions: {
 		includePaths: [path.join(__dirname, 'styles')],

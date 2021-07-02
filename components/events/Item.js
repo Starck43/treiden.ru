@@ -1,14 +1,21 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-
 import styled from 'styled-components/macro'
+
+import { createThumbUrl } from '~/core/helpers/utils'
 
 import style from "~/styles/events.module.sass"
 
-const remoteLoader = ({ src }) => {
+
+
+const remoteLoader = ({ src, width }) => {
+	let breakpoints = [320, 450, 640, 768, 1080, 1200]
+	if (breakpoints.indexOf(width) !== -1)
+		return createThumbUrl(src, width)
 	return src
 }
+
 
 const Item = ({ item }) => {
 	return (
@@ -20,8 +27,8 @@ const Item = ({ item }) => {
 			alt={item.title}
 			layout="responsive"
 			objectFit="cover"
-			width={320}
-			height={180}
+			width={576}
+			height={320}
 			quality={80}
 		/>
 		<Body className={style.body}>

@@ -5,7 +5,8 @@ from django.core.cache import cache
 from django.core.cache.utils import make_template_fragment_key
 from django.utils.html import format_html
 from django.core.files.storage import FileSystemStorage
-from os import path, remove
+from os import path, remove, rename
+from glob import glob
 
 from PIL import Image
 from imagekit import ImageSpec
@@ -13,11 +14,15 @@ from imagekit.processors import ResizeToFit #, ResizeToFill
 from imagekit.cachefiles import ImageCacheFile
 
 
-# Удаление файлов на диске
-def remove_file(obj):
-	""" Remove the file from a disk. Param <path> could either be relative or absolute. """
+# delete main image and its thumbs
+def remove_images(obj):
+	filename, ext = path.splitext(obj.path)
+	files = glob(filename+'_*w'+ext)
+	# add to files array if original file exists on disk
 	if path.isfile(obj.path) or path.islink(obj.path):
-		remove(obj.path)
+		files.append(obj.path)
+	for f in files:
+		remove(f)
 
 
 def is_file_exist(obj):
@@ -47,7 +52,7 @@ class AdminThumbnail(ImageSpec):
 
 
 class GalleryThumbnail(ImageSpec):
-	processors = [ResizeToFit(1200, 800)]
+	processors = [ResizeToFit(1200, 900)]
 	format = 'JPEG'
 	autoconvert = True
 	options = {'quality': 80 }
@@ -87,24 +92,28 @@ def generate_thumbs(obj, sizes):
 
 
 def resize_image(obj, thumbnail='thumbnail', *sizes):
-
 	if obj and is_image_file(obj) :
+		file = obj.path
+		old_file = file + '.old'
 		try:
-			file = obj.path
 			source = open(file, 'rb')
 			if thumbnail == 'full':
 				image_generator = GalleryThumbnail(source=source)
 			else:
 				image_generator = Thumbnail(source=source)
 			result = image_generator.generate()
+			rename(file, old_file)
 			dest = open(file, 'wb')
 			dest.write(result.read())
 			dest.close()
+			remove(old_file)
 
 			if sizes :
-				generate_thumbs(obj, sizes)
+				generate_thumbs(obj, *sizes)
 			
 		except IOError:
+			if path.isfile(old_file):
+				rename(old_file, file)
 			return HttpResponse('Ошибка открытия файла %s!' % file)
 
 
