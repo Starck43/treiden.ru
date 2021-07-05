@@ -118,9 +118,9 @@ class Category(models.Model):
 			resize_image(self.cover)
 
 		super().save(*args, **kwargs)
-		if self.file and self.file != self.original_file:
+		if self.file:
 			generate_thumbs(self.file, [450, 900])
-		if self.cover and self.cover != self.original_cover:
+		if self.cover:
 			generate_thumbs(self.cover, [320, 450, 640, 768, 1080, 1200, 1920])
 
 		self.original_cover = self.cover
@@ -184,11 +184,12 @@ class Post(models.Model):
 		if not self.slug:
 			self.slug = uuslug(self.title, instance=self)
 
-		if self.original_cover and self.cover != self.original_cover:
+		if self.cover and self.cover != self.original_cover:
 			resize_image(self.cover, 'full')
 
 		super().save(*args, **kwargs)
-		generate_thumbs(self.cover, [320, 450, 640, 768, 1080, 1200])
+		if self.cover:
+			generate_thumbs(self.cover, [320, 450, 640, 768, 1080, 1200])
 		self.original_cover = self.cover
 
 
@@ -261,7 +262,7 @@ class Media(models.Model):
 			resize_image(self.file, 'full')
 
 		super().save(*args, **kwargs)
-		if self.file and self.file != self.original_file:
+		if self.file:
 			generate_thumbs(self.file, [320, 450, 640, 768, 1080, 1200])
 
 		self.original_file = self.file
@@ -318,7 +319,8 @@ class Customer(models.Model):
 			resize_image(self.avatar)
 
 		super().save(*args, **kwargs)
-		generate_thumbs(self.avatar, [320, 450, 640, 900])
+		if self.avatar:
+			generate_thumbs(self.avatar, [320, 450, 640, 900])
 		self.original_avatar = self.avatar
 
 
@@ -369,17 +371,16 @@ class Award(models.Model):
 			resize_image(self.file, 'full')
 
 		super().save(*args, **kwargs)
-		generate_thumbs(self.file, [320, 450, 640])
+		if self.file:
+			generate_thumbs(self.file, [320, 450, 640])
 		self.original_file = self.file
 
 
 	def __str__(self):
 		return self.title
 
-
 	def thumb(self):
 		return get_admin_thumb(self.file)
-
 	thumb.short_description = 'Фото'
 
 
@@ -408,18 +409,39 @@ class Contacts(models.Model):
 	address = models.CharField('Адрес расположения', max_length=100, blank=True)
 	file = ProcessedImageField(
 		upload_to='uploads/',
-		processors=[ResizeToFill(320, 200)],
+		processors=[ResizeToFill(640, 360)],
 		format='JPEG',
 		options={'quality': 80},
 		storage=MediaFileStorage(),
 		verbose_name='Карта',
-		blank=True, help_text='Укажите фото карты местности')
+		blank=True, help_text='Укажите фото карты местности размером 640x360 пикселей')
 
 	class Meta:
 		db_table = "contacts"
 		#unique_together = ['name', 'phone']
 		verbose_name = 'контакт'
 		verbose_name_plural = 'Контакты'
+
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.original_file = self.file
+
+
+	def delete(self, *args, **kwargs):
+		super().delete(*args, **kwargs)
+		remove_images(self.file)
+
+
+	def save(self, *args, **kwargs):
+		if self.file and self.file != self.original_file:
+			resize_image(self.file)
+
+		super().save(*args, **kwargs)
+		if self.file:
+			generate_thumbs(self.file, [320, 640])
+		self.original_file = self.file
+
 
 	def __str__(self):
 		return self.name
