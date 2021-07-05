@@ -15,7 +15,7 @@ yarn dev
 
 ## Build
 
-Run [Hook](https://api.vercel.com/v1/integrations/deploy/prj_CPUg9my2RLOhxXSS7Dssz1rrEDPa/CHgp7R2Spo) to build site
+Run [Hook](https://api.vercel.com/v1/integrations/deploy/prj_CPUg9my2RLOhxXSS7Dssz1rrEDPa/yMXYOKXUYC) to build site
 
 Open [treiden.vercel.app](http://treiden.vercel.app) with your browser to see the result.
 
