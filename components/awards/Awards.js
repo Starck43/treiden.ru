@@ -37,9 +37,17 @@ const Awards = ({awards}) => {
 	const [awardsFormatted, setAwardsFormatted] = useState([])
 	const [pageCount, setCount] = useState(1)
 
+	const loadAwards = async () => {
+		fetch(process.env.API_SERVER + 'awards')
+		.then(response => response.json())
+		.then(function(data) {
+			setArray(data)
+		})
+	}
 	const count = getPageCount()
 	if (pageCount != count) {
 		setCount(count)
+		if (array.length == 0) loadAwards()
 	}
 
 	useEffect(() => {
@@ -48,7 +56,7 @@ const Awards = ({awards}) => {
 
 	useEffect(() => {
 		setAwardsFormatted(Array(Math.ceil(array.length/pageCount)).fill().map(_ => array.splice(0, pageCount)))
-	},[pageCount])
+	},[array])
 
 
 	return ( awardsFormatted.length > 0 &&
@@ -63,10 +71,10 @@ const Awards = ({awards}) => {
 			preventMovementUntilSwipeScrollTolerance={true}
 			labels={{leftArrow: 'Назад', rightArrow: 'Вперед', item: 'Слайд'}}
 			renderArrowPrev={(onClickHandler, hasPrev, label) =>
-				hasPrev && <div className='arrow left invert' onClick={onClickHandler} title={label}></div>
+				hasPrev && pageCount>3 && <div className='arrow left invert' onClick={onClickHandler} title={label}></div>
 			}
 			renderArrowNext={(onClickHandler, hasNext, label) =>
-				hasNext && <div className='arrow right invert' onClick={onClickHandler} title={label}></div>
+				hasNext && pageCount>3 && <div className='arrow right invert' onClick={onClickHandler} title={label}></div>
 			}
 			renderIndicator={(onClickHandler, isSelected, index, label) =>
 				awardsFormatted.length > 1 && <li className={`dot ${isSelected ? 'selected' : ''}`} onClick={onClickHandler} role="button" tabIndex="0" aria-label={label} value={index}></li>

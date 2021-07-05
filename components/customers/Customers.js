@@ -36,10 +36,18 @@ const Customers = ({customers}) => {
 	const [customersFormatted, setCustomersFormatted] = useState([])
 	const [pageCount, setCount] = useState(1)
 
+	const loadCustomers = async () => {
+		fetch(process.env.API_SERVER + 'customers')
+		.then(response => response.json())
+		.then(function(data) {
+			setArray(data)
+		})
+	}
+
 	const count = getPageCount()
 	if (pageCount != count) {
 		setCount(count)
-		//console.log(pageCount, count);
+		if (array.length == 0) loadCustomers()
 	}
 
 	useEffect(() => {
@@ -47,9 +55,8 @@ const Customers = ({customers}) => {
 	},[])
 
 	useEffect(() => {
-		//console.log(array);
 		setCustomersFormatted(Array(Math.ceil(array.length/pageCount)).fill().map(_ => array.splice(0, pageCount)))
-	},[pageCount])
+	},[array])
 
 	return (customersFormatted.length > 0 &&
 	<Section className={style.section}>
@@ -66,10 +73,10 @@ const Customers = ({customers}) => {
 			preventMovementUntilSwipeScrollTolerance={true}
 			labels={{leftArrow: 'Назад', rightArrow: 'Вперед', item: 'Клиент'}}
 			renderArrowPrev={(onClickHandler, hasPrev, label) =>
-				hasPrev && <div className='arrow left invert' onClick={onClickHandler} title={label}></div>
+				hasPrev && pageCount>2 && <div className='arrow left invert' onClick={onClickHandler} title={label}></div>
 			}
 			renderArrowNext={(onClickHandler, hasNext, label) =>
-				hasNext && <div className='arrow right invert' onClick={onClickHandler} title={label}></div>
+				hasNext && pageCount>2 && <div className='arrow right invert' onClick={onClickHandler} title={label}></div>
 			}
 			renderIndicator={(onClickHandler, isSelected, index, label) =>
 				customersFormatted.length > 1 && <li className={`dot ${isSelected ? 'selected' : ''}`} onClick={onClickHandler} role="button" tabIndex="0" aria-label={label} value={index}></li>
