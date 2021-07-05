@@ -14,13 +14,10 @@ import style from "~/styles/portfolio.module.sass"
 
 
 const remoteLoader = ({ src, width }) => {
-  switch (width) {
-    case 320, 450:
-      return createThumbUrl(src, width)
-      break
-    default:
-      return src
-  }
+	let breakpoints = [320, 450]
+	if (breakpoints.indexOf(width) !== -1)
+		return createThumbUrl(src, width)
+	return src
 }
 
 

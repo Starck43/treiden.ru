@@ -10,27 +10,31 @@ import style from "~/styles/awards.module.sass"
 
 
 const remoteLoader = ({ src, width }) => {
-	return createThumbUrl(src, width)
+	let breakpoints = [320, 450, 640]
+	if (breakpoints.indexOf(width) !== -1)
+		return createThumbUrl(src, width)
+	return src
 }
 
 
 const Items = ({ awards, onClick }) => {
 
-	const [imageIndex, setImageIndex] = useState(0);
-	const [show, setShow] = useState(false);
+	const [imageIndex, setImageIndex] = useState(0)
+	const [show, setShow] = useState(false)
 
-	const handleClose = () => setShow(false);
-	const handleShow = (e) => {
+	const handleClose = () => setShow(false)
+
+	const handleClick = (e) => {
 		let el = e.currentTarget
 		let index = [...el.parentElement.children].indexOf(el)
 		setImageIndex(index)
-		setShow(true);
+		setShow(true)
 	}
 
 	return (
 	<Fragment>
 		{awards.map(award => (
-		<Award id={award.id} key={award.year} className={`col-6 col-md-3 ${style.figure}`} onClick={handleShow}>
+		<Award id={award.id} key={award.year} className={`col-6 col-sm-4 col-md-3 ${style.figure}`} onClick={handleClick}>
 			<Image className={style.cover}
 				loader={remoteLoader}
 				src={award.file}
@@ -58,22 +62,22 @@ const LightBox = (props) => {
 			scrollable={false}
 		>
 			<CloseBtn type="button" className="btn-close btn-lg btn-close-white" aria-label="Закрыть" onClick={props.onHide}/>
-			<Modal.Header>
+			<Modal.Header className={style.header}>
 				<Modal.Title>{props.item.title}</Modal.Title>
+				<Description>{props.item.description}</Description>
 			</Modal.Header>
 			<Modal.Body>
 				<Image className={style.cover}
 					loader={remoteLoader}
 					src={props.item.file}
 					alt={props.item.title}
-					layout="fill"
+					layout="responsive"
+					width={320}
+					height={450}
 					objectFit="contain"
 					quality={80}
 				/>
 			</Modal.Body>
-			<Modal.Footer>
-				{props.item.description}
-			</Modal.Footer>
 		</Modal>
 )}
 
@@ -81,5 +85,6 @@ export default Items
 
 const Award = styled.figure``
 const Title = styled.h3``
+const Description = styled.div``
 const CloseBtn = styled.div``
 

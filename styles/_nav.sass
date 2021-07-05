@@ -30,7 +30,7 @@ nav.navbar
 			top: 0
 			height: 100vh !important
 			margin: 0 -1em
-			background-color: transparentize(black, 0.5)
+			background-color: transparentize($brand-color, 0.5)
 			.navbar-nav
 				position: fixed
 				display: flex
@@ -42,7 +42,7 @@ nav.navbar
 				top: 0
 				padding-top: 12vh
 				text-align: center
-				+blur-background(15px, white, 0.2)
+				+blur-background(15px, white, 0.1)
 				border-left: solid 4px $brand-color
 				transition: 200ms all ease-out
 				transform: translateX(100%)
@@ -84,8 +84,8 @@ nav.navbar
 
 	.navbar-toggler
 		position: relative
-		width: 30px
-		height: 30px
+		width: 35px
+		height: 40px
 		padding: 0
 		margin-left: 5px
 		border-color: transparent
@@ -102,7 +102,7 @@ nav.navbar
 		&::before, &::after
 			content:''
 			position: absolute
-			left: 30%
+			left: 25%
 			height: 2px
 			right: 2px
 			background: $brand-color
@@ -134,16 +134,21 @@ nav.navbar
 			position: absolute
 			right: 4em
 			margin-left: auto
-			width: calc(100% - 200px)
+			width: calc(100% - 185px)
 			transition: 300ms width ease-in-out, 300ms right ease-in-out, 300ms background-color ease-in-out, 00ms 300ms border ease-in-out
+			pointer-events: auto
+			z-index: 1
 			+media-breakpoint-down(lg)
 				right: 6em
 				width: calc(100% - 220px)
+			+media-breakpoint-down(sm)
+				width: calc(100% - 175px)
 			&.hidden
 				width: 0
 				right: 3.4em
 				background-color: transparent
 				border: 0
+				pointer-events: none
 
 		button
 			position: relative

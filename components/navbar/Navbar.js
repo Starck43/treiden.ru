@@ -19,11 +19,16 @@ const NavBar = (props) => {
 			document.querySelector('.navbar-toggler').click()
 		}
 	}
-	const clickBurger = (e) => document.body.style.overflow = (e.currentTarget.classList.contains('collapsed')) ? 'hidden' : ''
-	const handleClose = (e) => {
-		document.body.style.overflow = ''
-		document.querySelector('.navbar-toggler').click()
+
+	const clickBurger = (e) => {
+		let toggler = e.currentTarget
+		document.body.style.overflow = (
+			window.getComputedStyle(toggler).display == 'none' ||
+			window.getComputedStyle(toggler.nextElementSibling).display !== 'none'
+		) ? '' : 'hidden'
 	}
+
+	const handleClose = (e) => document.querySelector('.navbar-toggler').click()
 
 	return (
 		<Fragment>

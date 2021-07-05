@@ -106,7 +106,7 @@ section
 
 .container
 	margin-bottom: 6vh
-	--bs-gutter-x: 2vw
+	--bs-gutter-x: 3vw
 	+media-breakpoint-down(lg)
 		--bs-gutter-x: 1vw
 	+media-breakpoint-down(md)
@@ -120,23 +120,31 @@ section
 figure div>div
 	box-shadow: 0 0 16px -1px $shadow
 
-.awards-slider
+.awards-slider, .customers-slider
+	.carousel.carousel-slider
+		padding: 1rem 0
+		margin: -1rem 0
+		overflow: unset
 	+media-breakpoint-up(md)
-		margin: 1em -3em 0
-		.carousel-slider .slide
-			padding: 0 3em
+		margin: -1rem -3rem
+		.carousel.carousel-slider
+			padding: 1rem 0
+			margin: -1rem 0
+			.slide
+				padding: 0 3rem
 
-	.carousel .control-dots
-		margin-bottom: 0em
-		padding: 0
+.customers-slider
+	.arrow:hover
+		filter: invert(100%)
 
+.awards-slider
+	.arrow:hover
+		background-color: transparentize(#fff, 0.3)
 
-.carousel
-	.control-dots li.dot
-		width: 20px
-		height: 3px
-		margin: 0 8px
-		border-radius: 3px
+	.arrow.left
+		background: linear-gradient(-90deg, rgba(255, 255, 255, 0.1) 0, rgba(255, 255, 255, 0.7) 30%, white 100%)
+	.arrow.right
+		background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0, rgba(255, 255, 255, 0.7) 30%, white 100%)
 
 
 .lightbox-container
@@ -165,6 +173,13 @@ figure div>div
 .contacts-container
 	.socials
 		margin-top: 1rem
+
+.modal-content
+	border: $border_w $brand-color solid
+	border-radius: 0
+
+.modal-backdrop
+	background-color: $brand-color
 
 .extra-posts
 	.post-link

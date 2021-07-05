@@ -10,7 +10,8 @@ button
 	font-size: 0.8rem
 	color: black
 	background-color: transparent
-	transition: .2s all ease
+	transition: 200ms all ease
+	align-self: center
 	&:hover
 		background-color: #fff
 
@@ -28,10 +29,10 @@ button
 	top: 0
 	width: 20px
 	height: 20px
-	z-index: 2
-	transition: opacity 300ms ease
+	transition: all 200ms ease
 	opacity: 0.7
 	cursor: pointer
+	z-index: 2
 	&:hover
 		opacity: 1
 
@@ -53,6 +54,55 @@ button
 	&.right
 		&::after
 			transform: rotate(180deg)
+
+
+.carousel
+	.arrow
+		position: absolute
+		width: calc(3rem + 2vw)
+		height: 100%
+		padding: 1em
+		&:hover
+			opacity: 0.9
+			&::after
+				opacity: 1
+
+		&.left
+			left: 0
+			+media-breakpoint-between(md, xl)
+				left: calc(3rem - 6vw)
+			+media-breakpoint-up(xl)
+				left: -1.5rem
+
+
+		&.right
+			right: 0
+			+media-breakpoint-between(md, xl)
+				right: calc(3rem - 6vw)
+			+media-breakpoint-up(xl)
+				right: -1.5rem
+
+		+media-breakpoint-up(md)
+			opacity: 0.3
+
+	ul.control-dots
+		margin: 0
+		li.dot
+			width: calc(0.4em + 0.25vw)
+			height: calc(0.4em + 0.25vw)
+			min-width: 0.5rem
+			min-height: 0.5rem
+			margin: 0 calc(0.1em + 0.25vw)
+			border-radius: 1px
+			border: #fff 1px solid
+			box-shadow: none
+			background-color: #fff
+			box-shadow: 0 0 0px 1px $brand-color
+			transition: 200ms all ease
+			opacity: 1
+			&.selected
+				background-color: $brand-color
+
 
 .svg-icon
 	align-items: center
@@ -82,7 +132,7 @@ button
 	color: white
 	transition: all 300ms ease-in-out
 	opacity: 0.5
-	z-index: 99999
+	z-index: 999
 	cursor: pointer
 	&:hover
 		opacity: 1

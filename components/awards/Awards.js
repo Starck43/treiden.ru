@@ -1,25 +1,57 @@
-import React from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import styled from 'styled-components/macro'
 
-import Loading from '~/components/Loading'
-import { Fetch, FetchError } from '~/core/api'
 import { Items } from '~/components/awards'
 import { Section, Header } from '~/components/UI'
 import Anchor from '~/components/UI/Anchor'
+//import Loading from '~/components/Loading'
+//import { Fetch, FetchError } from '~/core/api'
+import { getWindowDimensions } from '~/core/helpers/utils'
 
 import { Carousel } from 'react-responsive-carousel'
 
 import style from "~/styles/awards.module.sass"
 
 
-const Awards = () => {
-	var {data, error} = Fetch('awards')
-	if (error) return <FetchError error={error} />
-	if (!data) return <Loading/>
-	const n = 2
-	if (data) data = Array(Math.ceil(data.length / n)).fill().map(_ => data.splice(0, n))
+const getPageCount = () => {
+	const [count, setPageCount] = useState(1)
 
-	return (
+	const handleResize = () => {
+		let width = getWindowDimensions().width
+		let n = (width < 450) ? 2 : (width < 576) ? 2 : (width < 768) ? 3 : 4
+		setPageCount(n)
+	}
+
+	useLayoutEffect(() => {
+		handleResize()
+		window.addEventListener('resize', handleResize)
+		return () => window.removeEventListener('resize', handleResize)
+	},[])
+
+	return count
+}
+
+const Awards = ({awards}) => {
+
+	const [array, setArray] = useState([])
+	const [awardsFormatted, setAwardsFormatted] = useState([])
+	const [pageCount, setCount] = useState(1)
+
+	const count = getPageCount()
+	if (pageCount != count) {
+		setCount(count)
+	}
+
+	useEffect(() => {
+		setArray(awards)
+	},[])
+
+	useEffect(() => {
+		setAwardsFormatted(Array(Math.ceil(array.length/pageCount)).fill().map(_ => array.splice(0, pageCount)))
+	},[pageCount])
+
+
+	return ( awardsFormatted.length > 0 &&
 	<Section>
 		<Anchor id='awards'/>
 		<Header>Награды</Header>
@@ -31,16 +63,16 @@ const Awards = () => {
 			preventMovementUntilSwipeScrollTolerance={true}
 			labels={{leftArrow: 'Назад', rightArrow: 'Вперед', item: 'Слайд'}}
 			renderArrowPrev={(onClickHandler, hasPrev, label) =>
-				hasPrev && <div className={`arrow invert ${style.arrow} ${style.arrowLeft}`} onClick={onClickHandler} title={label}></div>
+				hasPrev && <div className='arrow left invert' onClick={onClickHandler} title={label}></div>
 			}
 			renderArrowNext={(onClickHandler, hasNext, label) =>
-				hasNext && <div className={`arrow invert right ${style.arrow} ${style.arrowRight}`} onClick={onClickHandler} title={label}></div>
+				hasNext && <div className='arrow right invert' onClick={onClickHandler} title={label}></div>
 			}
 			renderIndicator={(onClickHandler, isSelected, index, label) =>
-				data.length > 1 && <li className={`dot ${isSelected ? 'selected' : ''}`} onClick={onClickHandler} role="button" tabIndex="0" aria-label={label} value={index}></li>
+				awardsFormatted.length > 1 && <li className={`dot ${isSelected ? 'selected' : ''}`} onClick={onClickHandler} role="button" tabIndex="0" aria-label={label} value={index}></li>
 			}
 		 >
-			{ data && data.map((row, index) => (
+			{ awardsFormatted.map((row, index) => (
 				<div key={`awards-${index}`} className="row">
 					<Items awards={row} />
 				</div>

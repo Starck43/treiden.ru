@@ -18,12 +18,10 @@ const remoteLoader = ({ src, width }) => {
 }
 
 
-const Review = (props) => {
-	const {show, handleClose, customer} = props
+const Review = ({show, handleClose, customer}) => {
 	const [fullMode, setVideoMode] = useState(false)
 
 	const videoClickHandle = (e) => {
-		//console.log(e.currentTarget);
 		e.currentTarget.style.position = 'static'
 		//e.currentTarget.parentElement.style.width = '100%'
 		setVideoMode(true)
@@ -32,8 +30,8 @@ const Review = (props) => {
 	return (
 	<Modal show={show} onHide={handleClose} size="xl" fullscreen="sm-down" scrollable={true} centered>
 		<Modal.Header className={style.container}>
-			<h2 className='mb-0'>Отзыв клиента</h2>
-			<button type="button" className="btn-close" onClick={handleClose} data-bs-dismiss="modal" aria-label="Закрыть"></button>
+			<h3 className='mb-0'>Отзыв клиента</h3>
+			<button type="button" className="btn-close btn-lg" onClick={handleClose} data-bs-dismiss="modal" aria-label="Закрыть"></button>
 		</Modal.Header>
 
 		<Modal.Body className={style.container}>
@@ -49,7 +47,7 @@ const Review = (props) => {
 							src={customer.avatar}
 							alt={customer.title}
 							layout="intrinsic"
-							objectFit="contain"
+							objectFit="cover"
 							width={450}
 							height={450}
 							quality={80}

@@ -1,47 +1,81 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useLayoutEffect} from 'react'
 import styled from 'styled-components/macro'
 
 import { Items } from '~/components/customers'
 import { Section, Header } from '~/components/UI'
 import Anchor from '~/components/UI/Anchor'
+import { getWindowDimensions } from '~/core/helpers/utils'
+//import { Fetch, FetchError } from '~/core/api'
 
 import { Carousel } from 'react-responsive-carousel'
 
 import style from "~/styles/customer.module.sass"
 
 
+const getPageCount = () => {
+	const [count, setPageCount] = useState(1)
+
+	const handleResize = () => {
+		let width = getWindowDimensions().width
+		let n = (width < 576) ? 1 : (width < 768) ? 2 : (width < 992) ? 3 : 4
+		setPageCount(n)
+	}
+
+	useLayoutEffect(() => {
+		handleResize()
+		window.addEventListener('resize', handleResize)
+		return () => window.removeEventListener('resize', handleResize)
+	},[])
+
+	return count
+}
+
+
 const Customers = ({customers}) => {
-	const [data, setCustomers] = useState([])
-	var n = 2
+	const [array, setArray] = useState([])
+	const [customersFormatted, setCustomersFormatted] = useState([])
+	const [pageCount, setCount] = useState(1)
+
+	const count = getPageCount()
+	if (pageCount != count) {
+		setCount(count)
+		//console.log(pageCount, count);
+	}
 
 	useEffect(() => {
-		setCustomers(Array(Math.ceil(customers.length / n)).fill().map(_ => customers.splice(0, n)))
-	},[]);
+		setArray(customers)
+	},[])
 
-	return (
+	useEffect(() => {
+		//console.log(array);
+		setCustomersFormatted(Array(Math.ceil(array.length/pageCount)).fill().map(_ => array.splice(0, pageCount)))
+	},[pageCount])
+
+	return (customersFormatted.length > 0 &&
 	<Section className={style.section}>
 		<Anchor id='customers'/>
 		<Header>
 			Наши клиенты
 		</Header>
 
-		<Slider className={style.container} groupKey={'customers'}
+		<Slider className={`customers-slider`} groupKey={'customers'}
 			infiniteLoop={false}
 			showThumbs={false}
+			showIndicators={true}
 			showStatus={false}
 			preventMovementUntilSwipeScrollTolerance={true}
 			labels={{leftArrow: 'Назад', rightArrow: 'Вперед', item: 'Клиент'}}
 			renderArrowPrev={(onClickHandler, hasPrev, label) =>
-				hasPrev && <div className={`${style.arrow} ${style.arrowLeft}`} onClick={onClickHandler} title={label}></div>
+				hasPrev && <div className='arrow left invert' onClick={onClickHandler} title={label}></div>
 			}
 			renderArrowNext={(onClickHandler, hasNext, label) =>
-				hasNext && <div className={`${style.arrow} ${style.arrowRight}`} onClick={onClickHandler} title={label}></div>
+				hasNext && <div className='arrow right invert' onClick={onClickHandler} title={label}></div>
 			}
 			renderIndicator={(onClickHandler, isSelected, index, label) =>
-				data.length > 1 && <li className={`dot ${isSelected ? 'selected' : ''}`} onClick={onClickHandler} role="button" tabIndex="0" aria-label={label} value={index}></li>
+				customersFormatted.length > 1 && <li className={`dot ${isSelected ? 'selected' : ''}`} onClick={onClickHandler} role="button" tabIndex="0" aria-label={label} value={index}></li>
 			}
 		 >
-			{data.map((row, index) => (
+			{customersFormatted.map((row, index) => (
 				<div key={`row-${index}`} className="row">
 					<Items customers={row} />
 				</div>
@@ -52,17 +86,4 @@ const Customers = ({customers}) => {
 
 export default Customers
 
-const Slider = styled(Carousel)`
-	@media screen and (min-width: 768px) {
-		margin: 1em -4em 0;
-		.carousel-slider{
-			.slide{
-				padding: 0 4em;
-			}
-		}
-	}
-	.control-dots{
-		margin-bottom: 0em;
-		padding: 0;
-	}
-`
+const Slider = styled(Carousel)``

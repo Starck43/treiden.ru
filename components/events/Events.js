@@ -7,7 +7,6 @@ import { Item } from '~/components/events'
 import { Section, Header } from '~/components/UI'
 import Anchor from '~/components/UI/Anchor'
 import Loading from '~/components/Loading'
-//import {Fetch, FetchError } from '~/core/api'
 
 import style from "~/styles/events.module.sass"
 
@@ -20,12 +19,12 @@ const Events = ({data}) => {
 		fetch(process.env.API_SERVER + 'events/?page='+nextPage)
 		.then(response => response.json())
 		.then(function(data) {
-			setNextPage(data.next ? nextPage+1 : 0)
+			setNextPage(data.next ? nextPage + 1 : 0)
 			addEvents([...events, ...data.results])
 		})
 	}
 
-	return (
+	return ( data.results.length > 0 &&
 	<Section>
 		<Anchor id='events' />
 		<Header>События</Header>

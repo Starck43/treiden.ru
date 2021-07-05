@@ -6,6 +6,9 @@ export const isSafari = () => {
 
 
 export const getWindowDimensions = () => {
+	if (typeof window === 'undefined') {
+		return { width: null, height: null}
+	}
 	const { innerWidth: width, innerHeight: height } = window
 	return { width, height }
 }

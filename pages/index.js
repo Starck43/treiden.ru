@@ -14,16 +14,16 @@ const AsyncAwards = dynamic(() => import('~/components/awards/Awards'))
 const AsyncContacts = dynamic(() => import('~/components/contacts/Contacts'))
 
 
-const HomePage = ({header, navitems, about, activities, events, customers, extraPosts, contacts, meta}) => {
+const HomePage = (props) => {
 	return(
-	<Layout navitems={navitems} contacts={contacts} meta={meta[0]} >
-		<AsyncHeader sliders={header} posts={extraPosts}/>
-		<AsyncAbout data={about}/>
-		<AsyncActivities activities={activities}/>
-		<AsyncEvents data={events}/>
-		<AsyncCustomers customers={customers}/>
-		<AsyncAwards/>
-		<AsyncContacts contacts={contacts} posts={extraPosts}/>
+	<Layout navitems={props.navitems} contacts={props.contacts} meta={props.meta[0]} >
+		<AsyncHeader sliders={props.header} posts={props.extraPosts}/>
+		<AsyncAbout data={props.about}/>
+		<AsyncActivities activities={props.activities}/>
+		<AsyncEvents data={props.events}/>
+		<AsyncCustomers customers={props.customers}/>
+		<AsyncAwards awards={props.awards}/>
+		<AsyncContacts contacts={props.contacts} posts={props.extraPosts}/>
 	</Layout>
 )}
 
@@ -36,6 +36,7 @@ export const getStaticProps = async () => {
 	const activities = await fetch(process.env.API_SERVER + 'activities')
 	const events = await fetch(process.env.API_SERVER + 'events/?page=1')
 	const customers = await fetch(process.env.API_SERVER + 'customers')
+	const awards = await fetch(process.env.API_SERVER + 'awards')
 	const extraPosts = await fetch(process.env.API_SERVER + 'posts/extra')
 	const contacts = await fetch(process.env.API_SERVER + 'contacts')
 	const meta = await fetch(process.env.API_SERVER + 'metaseo/homepage')
@@ -49,6 +50,7 @@ export const getStaticProps = async () => {
 			activities : await activities.json(),
 			events : await events.json(),
 			customers : await customers.json(),
+			awards : await awards.json(),
 			extraPosts : await extraPosts.json(),
 			contacts : await contacts.json(),
 		},

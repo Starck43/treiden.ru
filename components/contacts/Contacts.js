@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/macro'
 
-import { Info } from '~/components/contacts'
+import { Info, Map } from '~/components/contacts'
 
 import { Icon } from '~/components/UI'
 import Anchor from '~/components/UI/Anchor'
@@ -18,7 +18,7 @@ const Contacts = ({contacts, posts}) => {
 			<ExtraPosts posts={posts} />
 		</LeftBlock>
 		<Info contact={contacts[0]} />
-		<RightBlock className={`map ${style.rightBlock}`} id="map" image={contacts[0].file} />
+		<Map className={`map ${style.rightBlock}`} id="map" image={contacts[0].file} />
 	</Section>
 )}
 
@@ -35,8 +35,6 @@ const ExtraPosts = ({posts}) =>  (
 
 const Section = styled.section``
 const LeftBlock = styled.div``
-const RightBlock = styled.div`
-  background-image: url(${props => props.image});
-`
+const RightBlock = styled.div``
 const Link = styled.a``
 
