@@ -2,15 +2,15 @@
 
 const path = require('path')
 const isProduction = process.env.NODE_ENV === "production"
+const serverName = isProduction ? 'http://a0484102.xsph.ru' : 'http://localhost:9000'
 
 module.exports = {
 	env: {
-		SERVER: isProduction ? 'http://a0484102.xsph.ru' : 'http://localhost:9000',
-		API_SERVER: isProduction ? 'http://a0484102.xsph.ru/api/' : 'http://localhost:9000/api/',
+		SERVER: serverName,
+		API_SERVER: serverName + '/api/',
 	},
 	publicRuntimeConfig: {
 		logo: '/images/logo.png',
-		map: '/images/map.jpg',
 		bgImage: '/images/bg-space.jpg',
 		meta: {
 			title: 'Трейден Медиа Групп',
@@ -25,7 +25,7 @@ module.exports = {
 	//secondSecret: process.env.SECOND_SECRET, // Pass through env variables
 	},
 	images: {
-		domains: [isProduction ? 'http://a0484102.xsph.ru' : 'http://localhost'],
+		domains: [serverName],
 		deviceSizes: [320, 450, 640, 768, 1080, 1200, 1920],
 		imageSizes: [320, 450, 640, 900],
 	},
