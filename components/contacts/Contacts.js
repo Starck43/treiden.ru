@@ -18,7 +18,7 @@ const Contacts = ({contacts, posts}) => {
 			<ExtraPosts posts={posts} />
 		</LeftBlock>
 		<Info contact={contacts[0]} />
-		<Map className={`map ${style.rightBlock}`} id="map" image={contacts[0].file} />
+		<Map image={contacts[0].file} />
 	</Section>
 )}
 
