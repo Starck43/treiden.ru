@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useLayoutEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components/macro'
 
 import { Items } from '~/components/customers'
@@ -21,7 +21,7 @@ const getPageCount = () => {
 		setPageCount(n)
 	}
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		handleResize()
 		window.addEventListener('resize', handleResize)
 		return () => window.removeEventListener('resize', handleResize)
