@@ -14,8 +14,8 @@ const Header = ({posts, sliders}) => {
 	const sliderProps = {
 		autoFocus: true,
 		autoPlay: true,
-		interval: 5000,
-		infiniteLoop: false,
+		interval: 7000,
+		infiniteLoop: true,
 		showThumbs: true,
 	}
 

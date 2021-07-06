@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Container } from 'react-bootstrap'
 
-import { Section, Header, Slider, Icon } from '~/components/UI'
+import { Header, Slider, Icon } from '~/components/UI'
 import { getYouTubeID, createThumbUrl } from '~/core/helpers/utils'
 
 import LiteYouTubeEmbed from "react-lite-youtube-embed"

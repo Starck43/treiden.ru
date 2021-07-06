@@ -33,10 +33,10 @@ const Slider = ({sliders, className, groupKey='', ...sliderProps}) => {
 		preventMovementUntilSwipeScrollTolerance={true}
 		labels={{leftArrow: 'Назад', rightArrow: 'Вперед', item: 'Слайд'}}
 		renderArrowPrev={(onClickHandler, hasPrev, label) =>
-			hasPrev && <div className={`arrow ${style.arrow} ${style.arrowLeft}`} onClick={onClickHandler} title={label}></div>
+			hasPrev && <div className={`arrow left ${style.arrow}`} onClick={onClickHandler} title={label}></div>
 		}
 		renderArrowNext={(onClickHandler, hasNext, label) =>
-			hasNext && <div className={`arrow right ${style.arrow} ${style.arrowRight}`} onClick={onClickHandler} title={label}></div>
+			hasNext && <div className={`arrow right ${style.arrow}`} onClick={onClickHandler} title={label}></div>
 		}
 		renderThumbs={(children) => children.map((item, index) => {
 			let obj = sliders[index]

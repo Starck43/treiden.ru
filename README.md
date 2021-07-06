@@ -58,8 +58,17 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
+
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+## Admin
+
+Go to [site](vitaly.treiden.ru/admin) for managing content
+Enter `ssh treiden@141.8.195.33` in terminal to FTP access
+Site and Virtual Environment are located in folder `domains/treiden.ru/public_html/vitaly`
+Use command `. venv/bin/activate` to activate Virtual Environment
