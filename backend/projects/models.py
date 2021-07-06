@@ -71,7 +71,7 @@ class Navbar(models.Model):
 class Category(models.Model):
 	name = models.CharField('Название категории', max_length=50, unique=True, help_text='')
 	excerpt = models.TextField('Краткая информация', null=True, blank=True, help_text='Краткое описание для вывода в разделе на главной странице')
-	description = RichTextUploadingField('Контент', db_index=True, null=True, blank=True)
+	description = RichTextUploadingField('Контент', null=True, blank=True)
 	slug = models.SlugField('Ярлык', max_length=50, unique=True, help_text='Имя раздела (лат.) для использования в качестве внутренней ссылки для перехода на страницу Портфолио')
 	url = models.URLField('Внешняя ссылка', null=True, blank=True, help_text='Ссылка на видео youtube или для перехода на указанную страницу')
 	cover = ProcessedImageField(upload_to='cover/',
@@ -292,7 +292,7 @@ class Customer(models.Model):
 		storage=MediaFileStorage(),
 		verbose_name='Аватар',
 		help_text='')
-	review = RichTextUploadingField('Отзыв', db_index=True, blank=True)
+	review = RichTextUploadingField('Отзыв', blank=True)
 	url = models.URLField('Видеоотзыв', blank=True, help_text='Внешняя ссылка на видеоотзыв')
 
 	objects = SearchManager()
