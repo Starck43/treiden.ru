@@ -4,18 +4,21 @@
 
 .activities
 	position: relative
-	padding: $activities_p
+	padding: $activities_p*2
 	display: flex
 	flex-wrap: wrap
+	+media-breakpoint-down(xl)
+		padding: $activities_p
 
 .activity
 	display: flex
 	flex-direction: column
-	min-height: 200px
+	height: 300px
 	background-color: transparentize(white, 0.2)
 	padding: 2vw
 	margin: $activities_p
 	+media-breakpoint-down(md)
+		height: 250px
 		padding: 1em
 	+media-breakpoint-down(sm)
 		margin: 4vw
