@@ -124,12 +124,15 @@ def update_google_sitemap():
 		pass
 
 def addDomainToUrl(request, value, pattern, start=False):
-	scheme = request.is_secure() and "https" or "http"
-	SITE_DOMAIN = '%s://%s' % (scheme, request.META['HTTP_HOST'])
-	SEARCH_PATTERN = pattern.replace('<URL>', '')
-	REPLACE_WITH = pattern.replace('<URL>', SITE_DOMAIN)
-	to_replace = value.startswith(SEARCH_PATTERN) if start else True
-	if to_replace:
-		url = value.replace(SEARCH_PATTERN, REPLACE_WITH)
+	if request:
+		scheme = request.is_secure() and "https" or "http"
+		SITE_DOMAIN = '%s://%s' % (scheme, request.META['HTTP_HOST'])
+		SEARCH_PATTERN = pattern.replace('<URL>', '')
+		REPLACE_WITH = pattern.replace('<URL>', SITE_DOMAIN)
+		to_replace = value.startswith(SEARCH_PATTERN) if start else True
+		if to_replace:
+			url = value.replace(SEARCH_PATTERN, REPLACE_WITH)
 
-	return url
+		return url
+	return value
+
