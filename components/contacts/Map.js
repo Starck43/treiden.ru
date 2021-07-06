@@ -15,9 +15,8 @@ const remoteLoader = ({ src, width }) => {
 }
 
 const Map = ({image}) => (
-	<Container className={`map ${style.rightBlock}`} id="map" >
+	<Container className={`map ${style.rightBlock} centered`} id="map" >
 		<Image
-			className={style.image}
 			loader={remoteLoader}
 			src={image}
 			alt={'Геолокация'}

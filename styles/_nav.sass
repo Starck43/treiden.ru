@@ -4,7 +4,7 @@
 nav.navbar
 	height: $nav-h
 	padding: 0 1em
-	+blur-background(10px, white, 0.2)
+	+blur-background(10px, $menu-bg, 0.2, 0.8)
 	box-shadow: 0 2px 8px -4px grey
 	+media-breakpoint-down(sm)
 		height: $nav-h-sm
@@ -31,7 +31,7 @@ nav.navbar
 			top: 0
 			height: 100vh !important
 			margin: 0 -1em
-			background-color: transparentize($brand-color, 0.5)
+			background-color: $overlay-bg-color
 			.navbar-nav
 				position: fixed
 				display: flex
@@ -43,12 +43,12 @@ nav.navbar
 				top: 0
 				padding-top: 12vh
 				text-align: center
-				+blur-background(15px, white, 0.1)
-				border-left: solid 4px $brand-color
+				+blur-background(15px, $menu-bg, 0.05, 0.6)
+				border-left: solid 1px $brand-color
 				transition: 200ms all ease-out
 				transform: translateX(100%)
 				.nav-link
-					padding: 4vh 1rem
+					padding: 3vh 1rem
 				.socials
 					margin-top: auto
 					margin-bottom: 1.5em
@@ -138,7 +138,7 @@ nav.navbar
 			width: calc(100% - 185px)
 			transition: 300ms width ease-in-out, 300ms right ease-in-out, 300ms background-color ease-in-out, 00ms 300ms border ease-in-out
 			pointer-events: auto
-			z-index: 1
+			z-index: 2
 			+media-breakpoint-down(lg)
 				right: 6em
 				width: calc(100% - 220px)
