@@ -10,7 +10,7 @@ from django.contrib.sitemaps.views import sitemap
 from . import views
 
 urlpatterns = [
-	path('', views.index),
+	#path('', views.index),
 	re_path(r'^admin/', admin.site.urls),
 	path('api/', include('projects.urls')),
 	re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
