@@ -14,23 +14,22 @@ const Search = () => {
 	const [isSearchDisabled, setSearchDisabled] = useState(false)
 	const [isScroll, setScroll] = useState(false)
 
-	const onScroll = () => {
-		searchRef?.current[0].classList.add('hidden')
-		setScroll(false)
-	}
-
 	const inputTextHandler = e => {
 		setSearchDisabled((e.target.textLength === 0 ) ? true : false)
 	}
 
+
 	useEffect(() => {
+		const onScroll = () => {
+			searchRef.current && searchRef.current[0].classList.add('hidden')
+			setScroll(false)
+		}
+
 		if (isScroll) {
-			window.addEventListener('scroll', onScroll, false);
+			window.addEventListener('scroll', onScroll, false)
+			return () => window.removeEventListener('scroll', onScroll, false)
 		}
-		else
-		{
-			window.removeEventListener('scroll', onScroll, false);
-		}
+
 	},[isScroll]);
 
 
@@ -54,7 +53,7 @@ const Search = () => {
 				router.replace({
 					pathname: "/search/",
 					query: {
-						q: searchQuery
+						q: encodeURI(searchQuery)
 					},
 				}, undefined, {shallow: true})
 				text.value = ''

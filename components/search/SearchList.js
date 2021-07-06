@@ -9,7 +9,7 @@ import { Fetch, FetchError } from '~/core/api'
 
 
 const HtmlContent = ({ className, content }) => (
-	<div className={className} dangerouslySetInnerHTML={{ __html: content }}></div>
+	<p className={className} dangerouslySetInnerHTML={{ __html: content }}></p>
 )
 
 const SearchList = () => {
@@ -22,14 +22,19 @@ const SearchList = () => {
 
 	return (
 		<Section>
-			<Header>Вы искали: {router.query['q']}</Header>
+			<header className='mt-5'><h1>Вы искали: {decodeURI(router.query['q'])}</h1></header>
 			<p>Найдено записей: {String(data.length)}</p>
 			<Container>
 			{data
 				? data.map(post =>
 					<Item key={post.slug}>
 						<Title>{post.title}</Title>
-						<Description content={post.description} />
+						<Description content={post.excerpt} />
+						{ post.url && <p><Link href={post.url}>[Смотреть видео]</Link></p> }
+						<p>
+							{post.post_type == 'portfolio' && <Link href='projects'>Перейти в портфолио</Link>}
+							{post.post_type == 'event' && <Link href={post.post_type+'/'+post.id}>Перейти к мероприятию</Link>}
+						</p>
 					</Item>
 				)
 				: <p>К сожалению, по Вашему запросу ничего не найдено.</p>
