@@ -5,12 +5,11 @@ import { PortfolioDetail } from '~/components/projects'
 import Contacts from '~/components/contacts/Contacts'
 
 
-const ProjectPage = ({navitems, category, projects, extraPosts, contacts}) => {
+const ProjectPage = ({navitems, category, projects, contacts, posts}) => {
 
 	return(
-	<Layout navitems={navitems} contacts={contacts} meta={category.seo}>
+	<Layout navitems={navitems} contacts={contacts} posts={posts} meta={category.seo}>
 		<PortfolioDetail category={category} projects={projects}/>
-		<Contacts contacts={contacts} posts={extraPosts} />
 	</Layout>
 )}
 
@@ -41,7 +40,7 @@ export const getStaticProps = async ({params}) => {
 			navitems : await navitems.json(),
 			category : await category.json(),
 			projects : await projects.json(),
-			extraPosts : await extraPosts.json(),
+			posts : await extraPosts.json(),
 			contacts : await contacts.json(),
 		},
 	}

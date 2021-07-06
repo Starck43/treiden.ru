@@ -11,19 +11,17 @@ const AsyncActivities = dynamic(() => import('~/components/services').then((mod)
 const AsyncEvents = dynamic(() => import('~/components/events/Events'))
 const AsyncCustomers = dynamic(() => import('~/components/customers/Customers'))
 const AsyncAwards = dynamic(() => import('~/components/awards/Awards'))
-const AsyncContacts = dynamic(() => import('~/components/contacts/Contacts'))
 
 
 const HomePage = (props) => {
 	return(
-	<Layout navitems={props.navitems} contacts={props.contacts} meta={props.meta[0]} >
-		<AsyncHeader sliders={props.header} posts={props.extraPosts}/>
+	<Layout navitems={props.navitems} contacts={props.contacts} posts={props.posts} meta={props.meta[0]} >
+		<AsyncHeader sliders={props.header} posts={props.posts}/>
 		<AsyncAbout data={props.about}/>
 		<AsyncActivities activities={props.activities}/>
 		<AsyncEvents data={props.events}/>
 		<AsyncCustomers customers={props.customers}/>
 		<AsyncAwards awards={props.awards}/>
-		<AsyncContacts contacts={props.contacts} posts={props.extraPosts}/>
 	</Layout>
 )}
 
@@ -51,8 +49,8 @@ export const getStaticProps = async () => {
 			events : await events.json(),
 			customers : await customers.json(),
 			awards : await awards.json(),
-			extraPosts : await extraPosts.json(),
 			contacts : await contacts.json(),
+			posts : await extraPosts.json(),
 		},
 	}
 }

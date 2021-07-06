@@ -12,14 +12,14 @@ import style from "~/styles/contacts.module.sass"
 
 const Contacts = ({contacts, posts}) => {
 	return (
-	<Section className={style.section}>
+	<Footer className={style.section}>
 		<Anchor id='contacts' />
 		<LeftBlock className={`extra-posts ${style.leftBlock}`}>
 			<ExtraPosts posts={posts} />
 		</LeftBlock>
 		<Info contact={contacts[0]} />
 		<Map image={contacts[0].file} />
-	</Section>
+	</Footer>
 )}
 
 export default Contacts
@@ -33,7 +33,7 @@ const ExtraPosts = ({posts}) =>  (
 	))
 )
 
-const Section = styled.section``
+const Footer = styled.footer``
 const LeftBlock = styled.div``
 const RightBlock = styled.div``
 const Link = styled.a``

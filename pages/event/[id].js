@@ -3,16 +3,12 @@ import React from 'react'
 
 import Layout from '~/components/Layout'
 import { EventDetail } from '~/components/events'
-import Contacts from '~/components/contacts/Contacts'
 
 
-const EventPage = ({navitems, event, extraPosts, contacts}) => {
-/*	const route = useRouter()
-	console.log(route);*/
+const EventPage = ({navitems, event, posts, contacts}) => {
 	return(
-	<Layout navitems={navitems} contacts={contacts} meta={event.seo}>
+	<Layout navitems={navitems} contacts={contacts} posts={posts} meta={event.seo}>
 		<EventDetail event={event} />
-		<Contacts contacts={contacts} posts={extraPosts} />
 	</Layout>
 )}
 
@@ -41,7 +37,7 @@ export const getStaticProps = async ({params}) => {
 		props: {
 			navitems : await navitems.json(),
 			event : await event.json(),
-			extraPosts : await extraPosts.json(),
+			posts : await extraPosts.json(),
 			contacts : await contacts.json(),
 		},
 	}
