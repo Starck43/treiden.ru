@@ -1,4 +1,5 @@
 # views.py
+from urllib import parse
 from django.conf import settings
 from django.db.models import Q, F
 
@@ -8,10 +9,8 @@ from rest_framework import views, viewsets, generics, permissions #, filters
 from rest_framework.decorators import api_view, permission_classes, action
 # from django.contrib.auth.models import User
 
-#from .logic import addDomainToUrl
 from .models import *
 from .serializers import *
-
 
 class HeaderView(viewsets.ModelViewSet):
 	queryset = Category.objects.all()
@@ -131,10 +130,9 @@ def SearchListView(request):
 
 	if query:
 		post_search_fields = ['title' , 'excerpt', 'description']
-
+		query = parse.unquote(query) #decoding query string
 		post_queryset = Post.objects.search(query, post_search_fields)
 		search_result = PostSerializer(post_queryset, many=True).data
-		print(search_result)
 
 	return Response(search_result)
 
