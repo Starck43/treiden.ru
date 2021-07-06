@@ -15,17 +15,19 @@ const remoteLoader = ({ src, width }) => {
 }
 
 const Map = ({image}) => (
-	<Image
-		className={style.image}
-		loader={remoteLoader}
-		src={image}
-		alt={'Геолокация'}
-		layout="intrinsic"
-		width={320}
-		height={180}
-		objectFit="cover"
-		quality={80}
-	/>
+	<Container className={`map ${style.rightBlock}`} id="map" >
+		<Image
+			className={style.image}
+			loader={remoteLoader}
+			src={image}
+			alt={'Геолокация'}
+			layout="intrinsic"
+			width={320}
+			height={180}
+			objectFit="cover"
+			quality={80}
+		/>
+	</Container>
 )
 
 export default Map
