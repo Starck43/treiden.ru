@@ -65,7 +65,7 @@ const PortfolioDetail = ({category, projects}) => {
 			</Cover>
 			)}
 		</Content>
-		<List projects={projects} title='Проекты' />
+		{ projects.length > 0 && <List projects={projects} title='Проекты' /> }
 		<Link href="/#activities"><a className='nav-link'><Icon name='arrow_left' className='nav-arrow left' />Назад</a></Link>
 	</Section>
 )}
