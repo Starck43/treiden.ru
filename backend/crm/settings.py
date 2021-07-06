@@ -61,6 +61,8 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware', # debug_toolbar
 ]
 
+API_PAGES_RENDER_HOOK = env('API_BUILD_HOOK')
+
 CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_URLS_REGEX = r'^/api/.*$'

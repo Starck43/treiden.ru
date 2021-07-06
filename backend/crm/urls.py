@@ -14,6 +14,7 @@ urlpatterns = [
 	re_path(r'^admin/', admin.site.urls),
 	path('api/', include('projects.urls')),
 	re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
+	path('generate_new_pages/', views.generate_pages),
 	#path('accounts/', include('allauth.urls')),
 	#re_path(r'^chaining/', include('smart_selects.urls')),
 	#re_path(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
