@@ -22,7 +22,7 @@ const Search = () => {
 	useEffect(() => {
 		const onScroll = () => {
 			searchRef.current && searchRef.current[0].classList.add('hidden')
-			setSearchDisabled(true)
+			searchRef.current[0].blur()
 			setScroll(false)
 		}
 
@@ -41,7 +41,6 @@ const Search = () => {
 		if (text.classList.contains('hidden')) {
 			text.classList.remove('hidden')
 			text.focus()
-			setSearchDisabled(false)
 			setScroll(true)
 		}
 		else
@@ -49,7 +48,6 @@ const Search = () => {
 			if (text.value == '') {
 				text.classList.add('hidden')
 				text.blur()
-				setSearchDisabled(true)
 				setScroll(false)
 			}
 			else
