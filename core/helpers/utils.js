@@ -1,3 +1,4 @@
+import getConfig from 'next/config'
 
 export const isSafari = () => {
 	var userAgent = navigator.userAgent.toLowerCase()
@@ -60,15 +61,15 @@ export const createThumbUrl = (src, width) => {
 		let ext = path.pop()
 		let thumbName = '_' + width + 'w'
 		let thumbSrc = path.join('.') + thumbName + '.' + ext
-
 		return thumbSrc
 	}
 	return src
 }
 
-/*export const toAbsoluteUrl = (content, baseUrl) => {
-	return replace(content, baseUrl)
+
+export const absoluteUrl = (url) => {
+	if (url.indexOf('http',0) == -1) return process.env.SERVER + url
+	return url
 }
-*/
 
 

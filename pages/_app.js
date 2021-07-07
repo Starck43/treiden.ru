@@ -32,7 +32,7 @@ export default MyApp
 
 const ProgressBar = () => (
   <NextNprogress
-    color={theme.colors.colorAccent}
+    color={theme.colors.brandColor}
     startPosition={0.3}
     stopDelayMs={300}
     height={3}

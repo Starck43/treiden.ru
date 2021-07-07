@@ -2,11 +2,11 @@ import React, { Fragment, useEffect, useState }  from 'react'
 import styled from 'styled-components/macro'
 import Image from 'next/image'
 import Link from 'next/link'
-import { createThumbUrl } from '~/core/helpers/utils'
+
+import { getYouTubeID, createThumbUrl } from '~/core/helpers/utils'
 
 import { Modal, Button, Row, Col } from 'react-bootstrap'
 import LiteYouTubeEmbed from "react-lite-youtube-embed"
-import { getYouTubeID } from '~/core/helpers/utils'
 
 import style from "~/styles/review.module.sass"
 
@@ -37,8 +37,8 @@ const Review = ({show, handleClose, customer}) => {
 		<Modal.Body className={style.container}>
 			<Row>
 				<Title className={style.title}>
-						<h3>{customer.title}</h3>
-						<span className={style.subtitle}>{customer.subtitle}</span>
+					<h3>{customer.title}</h3>
+					<span className={style.subtitle}>{customer.subtitle}</span>
 				</Title>
 				<Col sm={12} md={12} lg={4} xl={5}>
 					<Cover className={style.avatar} onClick={videoClickHandle}>

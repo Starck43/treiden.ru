@@ -69,13 +69,13 @@
 		right: $r
 		bottom: $b
 
-@mixin blur-background($blur:10, $color:white, $transparentize:0.8, $filter_transparentize:0)
+@mixin blur-background($blur:10px, $color:white, $transparentize:0.8, $filter_transparentize:0)
 	background-color: transparentize($color, $transparentize)
-	@supports (backdrop-filter: blur(0)) or (-webkit-backdrop-filter: blur(0))
+	@supports (backdrop-filter: blur($blur)) or (-webkit-backdrop-filter: blur($blur))
 		@if $filter_transparentize != 0
 			background-color: transparentize($color, $filter_transparentize)
-		-webkit-backdrop-filter: blur($blur)
-		backdrop-filter: blur($blur)
+			backdrop-filter: blur($blur)
+			-webkit-backdrop-filter: blur($blur)
 
 // Вычисляем высоту блока за вычетом видимых в области экрана
 // например: height: calc-height($header-height, $nav-height, $top-bar-height)

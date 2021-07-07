@@ -1,6 +1,6 @@
 import React from 'react'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
-import { flushToHTML } from 'styled-jsx/server'
+//import { flushToHTML } from 'styled-jsx/server'
 import getConfig from 'next/config'
 
 const isProduction = process.env.NODE_ENV === "production"
@@ -20,12 +20,12 @@ class MyDocument extends Document {
 	}
 
 	render() {
-		const styles = flushToHTML()
+		//const styles = flushToHTML()
 		return (
 			<Html lang="ru">
 				<Head>
 					<meta charSet="utf-8" />
-					<meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+					{/*<meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />*/}
 					{/*<meta name="viewport" content="width=device-width,minimum-scale=0.8,maximum-scale=1,user-scalable=no" />*/}
 					<meta name="robots" content="follow, index" />
 					<meta name="google-site-verification" content=""/>
@@ -43,7 +43,6 @@ class MyDocument extends Document {
 
 					<link rel="canonical" href={process.env.SERVER} />
 
-					{styles}
 
 					{isProduction && publicRuntimeConfig.googleAnalyticsId && (
 					<>

@@ -7,6 +7,14 @@
 @import fonts
 @import "vendors/youtube-embed.css"
 
+*
+	margin: 0
+
+*::selection
+	color: $selected-text-color
+	background-color: $brand-color
+
+
 html, body
 	height: 100%
 
@@ -14,6 +22,7 @@ html
 	font-size: $base-font-size
 
 body
+	scroll-behavior: smooth
 	--bs-font-sans-serif: #{$font-family-text, $default-fonts}
 	+media-breakpoint-up(md)
 		font-size: 1.1rem

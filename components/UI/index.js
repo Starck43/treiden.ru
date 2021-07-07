@@ -1,3 +1,4 @@
+export {default as Anchor} from './Anchor'
 export {default as Section} from './Section'
 export {default as Header} from './Header'
 export {default as Icon} from './Icon'

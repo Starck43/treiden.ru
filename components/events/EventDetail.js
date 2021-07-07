@@ -20,7 +20,6 @@ const remoteLoader = ({ src, width }) => {
 	return src
 }
 
-
 const HtmlContent = ({ className, content }) => (
 	<div className={className} dangerouslySetInnerHTML={{ __html: content }}></div>
 )

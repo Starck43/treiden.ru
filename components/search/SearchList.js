@@ -2,10 +2,20 @@ import React from 'react'
 import styled from 'styled-components/macro'
 import { useRouter } from "next/router"
 import Link from 'next/link'
+import Image from 'next/image'
 
 import { Section, Header, Icon } from '~/components/UI'
 import Loading from '~/components/Loading'
 import { Fetch, FetchError } from '~/core/api'
+import { createThumbUrl, absoluteUrl } from '~/core/helpers/utils'
+
+
+const remoteLoader = ({ src, width }) => {
+	let breakpoints = [320]
+	if (breakpoints.indexOf(width) !== -1)
+		return createThumbUrl(src, width)
+	return src
+}
 
 
 const HtmlContent = ({ className, content }) => (
@@ -29,11 +39,35 @@ const SearchList = () => {
 				? data.map(post =>
 					<Item key={post.slug}>
 						<Title>{post.title}</Title>
+						<Image
+							loader={remoteLoader}
+							src={absoluteUrl(post.cover)}
+							alt={post.title}
+							layout="intrinsic"
+							width={320}
+							height={180}
+							objectFit="cover"
+							quality={80}
+						/>
 						<Description content={post.excerpt} />
-						{ post.url && <p><Link href={post.url}>[Смотреть видео]</Link></p> }
+
+						{ post.url &&
+						<Button className='mb-4'>
+							<Link href={post.url}>
+								<a className='centered'>
+									<Icon name='play' className='fs-5 me-2' />
+									<span>Смотреть видео</span>
+								</a>
+							</Link>
+						</Button>
+						}
 						<p>
-							{post.post_type == 'portfolio' && <Link href='projects'>Перейти в портфолио</Link>}
-							{post.post_type == 'event' && <Link href={post.post_type+'/'+post.id}>Перейти к мероприятию</Link>}
+						{ post.post_type != 'event' && post.post_type != '' &&
+							<Link href={`projects/${post.post_type}`}><a>Перейти к проектам</a></Link>
+						}
+						{ post.post_type == 'event' &&
+							<Link href={post.post_type+'/'+post.id}><a>Перейти к мероприятию</a></Link>
+						}
 						</p>
 					</Item>
 				)
@@ -41,10 +75,10 @@ const SearchList = () => {
 			}
 
 			</Container>
-			<Button className='nav-link' onClick={() => router.back()}>
+			<ButtonLink className='nav-link' onClick={() => router.back()}>
 				<Icon name='arrow_left' className='nav-arrow left' />
 				<span>Назад</span>
-			</Button>
+			</ButtonLink>
 		</Section>
 )}
 
@@ -63,5 +97,5 @@ const Item = styled.li`
 `
 const Title = styled.h3``
 const Description = styled(HtmlContent)``
-const Button = styled.a``
-
+const ButtonLink = styled.a``
+const Button = styled.button``

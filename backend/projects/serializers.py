@@ -92,7 +92,7 @@ class PostSerializer(serializers.ModelSerializer):
 	description = FixAbsolutePathSerializer()
 	class Meta:
 		model = Post
-		fields = ('id', 'slug', 'title', 'excerpt', 'description', 'extra_display_section', 'url', 'post_type')
+		fields = ('id', 'slug', 'title', 'cover', 'excerpt', 'description', 'extra_display_section', 'url', 'post_type')
 
 
 class EventListSerializer(serializers.ModelSerializer):

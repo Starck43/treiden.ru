@@ -3,8 +3,7 @@ import styled from 'styled-components/macro'
 
 import { Info, Map } from '~/components/contacts'
 
-import { Icon } from '~/components/UI'
-import Anchor from '~/components/UI/Anchor'
+import { Icon, Anchor } from '~/components/UI'
 import { getHostname } from '~/core/helpers/utils'
 
 import style from "~/styles/contacts.module.sass"

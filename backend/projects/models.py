@@ -213,6 +213,7 @@ class Event(Post):
 		verbose_name_plural = 'Ивенты'
 
 	def save(self, *args, **kwargs):
+		# set type 'event' for building link in search result
 		self.post_type = self._meta.model_name
 		super().save(*args, **kwargs)
 
@@ -229,7 +230,8 @@ class Portfolio(Post):
 		verbose_name_plural = 'Проекты'
 
 	def save(self, *args, **kwargs):
-		self.post_type = self._meta.model_name
+		# set type category's slug for building link in search result
+		self.post_type = self.category.slug #self._meta.model_name
 		super().save(*args, **kwargs)
 
 
