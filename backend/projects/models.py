@@ -438,6 +438,8 @@ class Contacts(models.Model):
 	def save(self, *args, **kwargs):
 		if self.file and self.file != self.original_file:
 			resize_image(self.file)
+		if not self.file and self.original_file:
+			remove_images(self.original_file)
 
 		super().save(*args, **kwargs)
 		if self.file:
