@@ -12,10 +12,13 @@ import style from "~/styles/portfolio.module.sass"
 
 
 
-
 const remoteLoader = ({ src, width }) => {
-  return createThumbUrl(src, width)
+  let breakpoints = [320, 450, 640, 768, 1080, 1200]
+  if (breakpoints.indexOf(width) !== -1)
+    return createThumbUrl(src, width)
+  return src
 }
+
 
 
 const Item = (props) => {
