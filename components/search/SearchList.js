@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState }  from 'react'
 import styled from 'styled-components/macro'
 import { useRouter } from "next/router"
 import Link from 'next/link'
@@ -7,7 +7,9 @@ import Image from 'next/image'
 import { Section, Header, Icon } from '~/components/UI'
 import Loading from '~/components/Loading'
 import { Fetch, FetchError } from '~/core/api'
-import { createThumbUrl, absoluteUrl } from '~/core/helpers/utils'
+import { getYouTubeID, createThumbUrl, absoluteUrl, truncateHTML } from '~/core/helpers/utils'
+
+import LiteYouTubeEmbed from "react-lite-youtube-embed"
 
 
 const remoteLoader = ({ src, width }) => {
@@ -24,6 +26,13 @@ const HtmlContent = ({ className, content }) => (
 
 const SearchList = () => {
 	const router = useRouter()
+	const [fullMode, setVideoMode] = useState(false)
+
+	const videoClickHandle = (e) => {
+		e.currentTarget.style.position = 'static'
+		//e.currentTarget.parentElement.style.width = '100%'
+		setVideoMode(true)
+	}
 
 	const params = new URLSearchParams(router.query).toString()
 	const { data, error } = Fetch(`search/?${params}`)
@@ -32,55 +41,63 @@ const SearchList = () => {
 
 	return (
 		<Section>
-			<header className='mt-5'><h1>Вы искали: {decodeURI(router.query['q'])}</h1></header>
+			<header className='mt-5 mb-3'><h1>Вы искали: {decodeURI(router.query['q'])}</h1></header>
 			<p>Найдено записей: {String(data.length)}</p>
 			<Container>
 			{data
 				? data.map(post =>
 					<Item key={post.slug}>
-						<Title>{post.title}</Title>
-						{ post.cover &&
-						<Image
-							loader={remoteLoader}
-							src={absoluteUrl(post.cover)}
-							alt={post.title}
-							layout="intrinsic"
-							width={320}
-							height={180}
-							objectFit="cover"
-							quality={80}
-						/>
-						}
-						<Description content={post.excerpt} />
+						<Title className="mb-3">{post.title}</Title>
+						<Description content={post.excerpt || post.description && truncateHTML(post.description)} />
+						<Cover onClick={videoClickHandle}>
+							{ post.cover &&
+							<Image
+								loader={remoteLoader}
+								src={absoluteUrl(post.cover)}
+								alt={post.title}
+								layout="intrinsic"
+								objectFit="cover"
+								objectPosition="left"
+								width={320}
+								height={180}
+								quality={80}
+							/>
+							}
 
-						{ post.url &&
-						<Button className='mb-4'>
-							<Link href={post.url}>
-								<a className='centered'>
-									<Icon name='play' className='fs-5 me-2' />
-									<span>Смотреть видео</span>
-								</a>
-							</Link>
-						</Button>
+							{ post.url && getYouTubeID(post.url) ?
+								<YouTube
+									id={getYouTubeID(post.url)}
+									title={post.title}
+									wrapperClass="youtube-lite"
+									playerClass="play-btn"
+									adNetwork={false}
+								/>
+								: post.url && <p><Link href={post.url}><a>[Перейти]</a></Link></p>
+							}
+						</Cover>
+
+						<div className="mt-4 mb-2">
+						{
+							!post.url || getYouTubeID(post.url) ? (
+								post.post_type == 'category'
+								? (<Link href={`projects/${post.slug}`}><a>Перейти в раздел</a></Link>)
+								: (post.post_type == 'event'
+									? (<Link href={`event/${post.id}`}><a>Перейти к мероприятию</a></Link>)
+									: (<Link href={`projects/${post.post_type}`}><a>Перейти к проектам</a></Link>)
+								)
+							) : null
 						}
-						<p>
-						{ post.post_type && post.post_type != 'event' &&
-							<Link href={`projects/${post.post_type}`}><a>Перейти к проектам</a></Link>
-						}
-						{ post.post_type == 'event' &&
-							<Link href={post.post_type+'/'+post.id}><a>Перейти к мероприятию</a></Link>
-						}
-						</p>
+						</div>
 					</Item>
 				)
 				: <p>К сожалению, по Вашему запросу ничего не найдено.</p>
 			}
 
 			</Container>
-			<ButtonLink className='nav-link' onClick={() => router.back()}>
+			<Back className='nav-link' onClick={() => router.back()}>
 				<Icon name='arrow_left' className='nav-arrow left' />
 				<span>Назад</span>
-			</ButtonLink>
+			</Back>
 		</Section>
 )}
 
@@ -99,5 +116,11 @@ const Item = styled.li`
 `
 const Title = styled.h3``
 const Description = styled(HtmlContent)``
-const ButtonLink = styled.a``
-const Button = styled.button``
+const Back = styled.a``
+const Cover = styled.div`
+	position: relative;
+	width: max-content;
+	line-height: 0;
+`
+const YouTube = styled(LiteYouTubeEmbed)``
+
