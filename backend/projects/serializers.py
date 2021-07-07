@@ -37,10 +37,30 @@ class ContactsSerializer(serializers.ModelSerializer):
 		fields = '__all__'
 
 
+class CategorySerializer(serializers.ModelSerializer):
+	# adding custom fields
+	title = serializers.CharField(write_only=True)
+	display_section = serializers.CharField(write_only=True)
+	post_type = serializers.CharField(write_only=True)
+
+	def to_representation(self, instance):
+		data = super().to_representation(instance)
+		data['title'] = instance.name
+		data['cover'] = instance.file.url
+		data['display_section'] = 'page'
+		data['post_type'] = 'category'
+		return data
+
+	class Meta:
+		model = Category
+		fields = ('id', 'slug', 'url', 'cover', 'title', 'excerpt', 'description', 'display_section', 'post_type')
+
+
 class CategoryListSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Category
 		fields = ('id', 'slug', 'url', 'name', 'excerpt')
+
 
 class CategoryDetailSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -86,13 +106,11 @@ class SeoDetailSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-	# def to_representation(self, instance):
-	# 	return {'id': instance.pk, 'count': 'instance.post__count'}
 	#cover = FileFieldSerializer()
 	description = FixAbsolutePathSerializer()
 	class Meta:
 		model = Post
-		fields = ('id', 'slug', 'title', 'cover', 'excerpt', 'description', 'extra_display_section', 'url', 'post_type')
+		fields = ('id', 'slug', 'url', 'cover', 'title', 'excerpt', 'description', 'display_section', 'post_type')
 
 
 class EventListSerializer(serializers.ModelSerializer):

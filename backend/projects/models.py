@@ -18,7 +18,12 @@ from .logic import MediaFileStorage, get_admin_thumb, resize_image, generate_thu
 
 class SearchManager(models.Manager):
 
-	def search(self, search_query, fields):
+	def search(self, search_query, fields, **kwargs):
+		extra_query = Q()
+		for key, value in kwargs.items():
+			query = Q(**{ f'{key}': value })
+			extra_query.add(query, Q.AND)
+
 		if search_query and fields:
 			params = search_query.split()
 			or_lookup = None
@@ -29,14 +34,13 @@ class SearchManager(models.Manager):
 					if not and_lookup:
 						and_lookup = query
 					else:
-						and_lookup.add(query, Q.AND)
+						and_lookup.add(query, Q.AND) # for searching words
 
 				if not or_lookup:
 					or_lookup = and_lookup
 				else:
-					or_lookup.add(and_lookup, Q.OR)
-
-			return self.get_queryset().filter(or_lookup, is_active=True).distinct()
+					or_lookup.add(and_lookup, Q.OR) # for searching fields
+			return self.get_queryset().filter(or_lookup, extra_query).distinct()
 		return None
 
 
