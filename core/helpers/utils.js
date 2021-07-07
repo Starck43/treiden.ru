@@ -68,7 +68,7 @@ export const createThumbUrl = (src, width) => {
 
 
 export const absoluteUrl = (url) => {
-	if (url.indexOf('http',0) == -1) return process.env.SERVER + url
+	if (url && url.indexOf('http',0) == -1) return process.env.SERVER + url
 	return url
 }
 
