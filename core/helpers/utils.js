@@ -31,6 +31,7 @@ export const getHostname = (url) => {
 
 
 export const getYouTubeID = (url) => {
+	if (!url) return null
 	url = url.split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/)
 	return (url[2] !== undefined) ? url[2].split(/[^0-9a-z_\-]/i)[0] : null //url[0]
 }
@@ -72,4 +73,12 @@ export const absoluteUrl = (url) => {
 	return url
 }
 
+export const truncateHTML = (value, n=200) => {
+	var t=value.substring(0, n) // first cut
+	var tr=t.replace(/<(.*?[^\/])>.*?<\/\1>|<.*?\/>/,"") // remove opened+closed tags
+	// capture open tags
+	var ar=tr.match(/<((?!li|hr|img|br|area|base|col|command|embed|input|keygen|link|meta|head|param|source|track|wbr).*?)>/g)
 
+	if (ar) return t+"&hellip;"+ar.reverse().join("").replace(/</g,"<\/") // close tags
+	return value
+}
