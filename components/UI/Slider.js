@@ -28,7 +28,7 @@ const Slider = ({sliders, className, groupKey='', ...sliderProps}) => {
 	return (
 	<Container {...sliderProps} className={className || style.sliderBg}
 		showStatus={false}
-		autoFocus={false}
+		emulateTouch={true}
 		useKeyboardArrows
 		animationHandler="fade"
 		preventMovementUntilSwipeScrollTolerance={true}
