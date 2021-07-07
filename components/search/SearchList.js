@@ -39,6 +39,7 @@ const SearchList = () => {
 				? data.map(post =>
 					<Item key={post.slug}>
 						<Title>{post.title}</Title>
+						{ post.cover &&
 						<Image
 							loader={remoteLoader}
 							src={absoluteUrl(post.cover)}
@@ -49,6 +50,7 @@ const SearchList = () => {
 							objectFit="cover"
 							quality={80}
 						/>
+						}
 						<Description content={post.excerpt} />
 
 						{ post.url &&
@@ -62,7 +64,7 @@ const SearchList = () => {
 						</Button>
 						}
 						<p>
-						{ post.post_type != 'event' && post.post_type != '' &&
+						{ post.post_type && post.post_type != 'event' &&
 							<Link href={`projects/${post.post_type}`}><a>Перейти к проектам</a></Link>
 						}
 						{ post.post_type == 'event' &&
