@@ -4,7 +4,7 @@
 nav.navbar
 	height: $nav-h
 	padding: 0 1em
-	+blur-background(10px, $menu-bg, 0.2, 0.5)
+	+blur-background(10px, $menu-bg, 0.15, 0.5)
 	box-shadow: 0 2px 8px -4px grey
 	+media-breakpoint-down(sm)
 		height: $nav-h-sm
@@ -23,7 +23,7 @@ nav.navbar
 		width: 100%
 		transition: 200ms all ease-in
 		overflow: hidden
-		z-index: 1
+		z-index: 2
 		.btn-close
 			display: none
 		+media-breakpoint-down(lg)
@@ -43,13 +43,23 @@ nav.navbar
 				top: 0
 				padding-top: 12vh
 				text-align: center
-				+blur-background(15px, $menu-bg, 0.05, 0.5)
+				+blur-background(15px, $menu-bg, 0.05, 0.4)
 				border-left: solid 1px $brand-color
 				text-shadow: 1px 1px 2px $menu-bg
 				transition: 200ms all ease-out
 				transform: translateX(100%)
 				.nav-link
-					padding: 3vh 1rem
+					padding: .3rem 1rem
+					margin: 2vh 0
+					text-decoration: none
+					background-color: transparent
+					border-radius: $border_radius
+					border: $border_w solid transparent
+					transition: all 200 ease-out
+					&:hover
+						background-color: $menu-bg
+						border-color: transparentize($brand-color,0.5)
+
 				.socials
 					margin-top: auto
 					margin-bottom: 1.5em
@@ -69,6 +79,8 @@ nav.navbar
 				position: absolute
 				top: 1.5em
 				right: 1.5em
+				&:hover
+					opacity: 1
 
 		&.show
 			.navbar-nav

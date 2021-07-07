@@ -20,7 +20,6 @@ const remoteLoader = ({ src, width }) => {
 }
 
 
-
 const Item = (props) => {
   const [viewerIsOpen, setViewerIsOpen] = useState(false)
   const [currentImage, setCurrentImage] = useState(0)
@@ -82,7 +81,33 @@ const Portfolio = styled.div`
       font-size: unset;
       width: 4em;
       height: 4em;
+      border-radius: 5px;
     }
+    .fslightbox-slide-btn-container .fslightbox-slide-btn{
+      svg{
+        display: none;
+      }
+      &::after{
+        font-family: 'ip';
+        color: white;
+        font-size: 2rem;
+        transition: all 200ms ease;
+        opacity: 0.5;
+      }
+      &:hover:after{
+          opacity: 1;
+      }
+    }
+   .fslightbox-slide-btn-previous-container .fslightbox-slide-btn{
+      &::after{
+        content: '\\e810';
+      }
+    }
+   .fslightbox-slide-btn-next-container .fslightbox-slide-btn{
+      &::after{
+        content: '\\e811';
+      }
+   }
 
     svg{
       min-width: 1.5em;
