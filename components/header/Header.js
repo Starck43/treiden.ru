@@ -12,7 +12,6 @@ import style from "~/styles/header.module.sass"
 const Header = ({posts, sliders}) => {
 
 	const sliderProps = {
-		autoFocus: true,
 		autoPlay: true,
 		interval: 7000,
 		infiniteLoop: true,

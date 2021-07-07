@@ -49,7 +49,7 @@ const NavBar = (props) => {
 
 				<Search/>
 				<Navbar.Toggle className='centered btn-light' aria-controls="responsive-navbar-nav" onClick={clickBurger}/>
-				<Navbar.Collapse className="fade" id="responsive-navbar-nav" onClick={toggleShow}>
+				<Navbar.Collapse id="responsive-navbar-nav" onClick={toggleShow}>
 					<Nav className="mr-auto">
 						<button type="button" className="btn-close btn-lg" aria-label="Закрыть" onClick={handleClose}></button>
 						{props.navitems && props.navitems.map((item, index) => (

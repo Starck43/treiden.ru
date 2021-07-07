@@ -26,7 +26,8 @@ const Slider = ({sliders, className, groupKey='', ...sliderProps}) => {
 	}
 
 	return (
-	<Container {...sliderProps} className={className || style.sliderBg}
+	<Container {...sliderProps} className={className}
+		autoFocus={false}
 		showStatus={false}
 		emulateTouch={true}
 		useKeyboardArrows

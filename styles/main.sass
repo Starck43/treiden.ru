@@ -103,6 +103,11 @@ section
 
 	&.header-section
 		padding-top: 0
+		.carousel .slide
+			background-color: $overlay-bg-color
+			img
+				mix-blend-mode: multiply
+
 		@media (min-width: 576px) and (orientation: landscape)
 			height: calc(100vh - #{$nav-h})
 		@media (max-width: 575.98px) and (orientation: landscape)
