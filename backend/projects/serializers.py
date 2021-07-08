@@ -63,9 +63,19 @@ class CategoryListSerializer(serializers.ModelSerializer):
 
 
 class CategoryDetailSerializer(serializers.ModelSerializer):
+	seo = serializers.SerializerMethodField()
 	class Meta:
 		model = Category
-		fields = ('id', 'name', 'url', 'cover', 'file', 'description')
+		fields = ('id', 'name', 'url', 'cover', 'file', 'description', 'seo')
+
+	def get_seo(self, obj):
+		request = self.context['request']
+		return {
+			'title': obj.seo_title,
+			'description': obj.seo_description,
+			'keywords': obj.seo_keywords,
+			'image': request.build_absolute_uri(obj.cover.url) #settings.ALLOWED_HOSTS[0] + obj.cover.url,
+		}
 
 
 class CustomerSerializer(serializers.ModelSerializer):

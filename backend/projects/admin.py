@@ -34,6 +34,16 @@ def get_app_list(self, request):
 admin.AdminSite.get_app_list = get_app_list
 
 
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+	model = Category
+
+	prepopulated_fields = {"seo_title": ('name',)} # adding name to seo field
+	list_display = ('thumb', 'name', 'excerpt',)
+	list_display_links = ('thumb', 'name',)
+
+
 class PostInlineAdmin(admin.StackedInline):
 	model = Post
 	extra = 0 #new blank record count
@@ -48,6 +58,7 @@ class MediaInlineAdmin(admin.TabularInline):
 	fields = ('thumb', 'file', 'title', 'alt',)
 	#list_display = ('file_thumb', 'title',)
 	readonly_fields = ('thumb', 'filename',)
+	list_display_links = ('thumb', 'name',)
 
 
 class SocialsInlineAdmin(admin.TabularInline):
@@ -66,7 +77,7 @@ class SeoInlineAdmin(admin.TabularInline):
 class NavbarAdmin(admin.ModelAdmin):
 	model = Navbar
 
-	prepopulated_fields = {"slug": ('name',)} # adding name to slug field
+	prepopulated_fields = {'slug': ('name',)} # adding name to slug field
 	list_display = ('name', 'slug', 'link_to',)
 	list_display_links = ('name', 'slug',)
 	inlines = [PostInlineAdmin]
@@ -93,10 +104,10 @@ class PostAdmin(admin.ModelAdmin):
 			return obj.editor.username
 		else:
 			return "%s %s" % (obj.editor.first_name, obj.editor.last_name)
-	editor_name.short_description = 'Автор изменений'
+	editor_name.short_description = 'Редактор'
 
 	def get_queryset(self, request):
-		if self.model.__name__ == 'Post':
+		if self.model.__name__.lower() == 'post':
 			return self.model.objects.filter(Q(portfolio__isnull=True) & Q(event__isnull=True))
 		else:
 			return super().get_queryset(request)
@@ -111,18 +122,20 @@ class EventAdmin(PostAdmin):
 	model = Event
 
 	exclude = ('editor', 'display_section', 'extra_display_section',)
-	list_display = ('title', 'date', 'location', 'editor_name', 'is_active',)
+	list_display = ('thumb', 'title', 'date', 'location', 'editor_name', 'is_active',)
+	list_display_links = ('thumb', 'title',)
 	list_filter = ('location', 'is_active',)
 	date_hierarchy = 'date'
 	inlines = [MediaInlineAdmin, SeoInlineAdmin]
 
 
 @admin.register(Portfolio)
-class PortfolioAdmin(PostAdmin, admin.ModelAdmin):
+class PortfolioAdmin(PostAdmin):
 	model = Portfolio
 
 	exclude = ('editor', 'display_section', 'extra_display_section',)
-	list_display = ('title', 'category', 'editor_name', 'modified_date', 'is_active',)
+	list_display = ('thumb', 'title', 'category', 'editor_name', 'modified_date', 'is_active',)
+	list_display_links = ('thumb', 'title',)
 	list_filter = ('category', 'is_active',)
 	ordering = ('-modified_date',)
 	inlines = [MediaInlineAdmin, SeoInlineAdmin]
@@ -132,8 +145,8 @@ class PortfolioAdmin(PostAdmin, admin.ModelAdmin):
 class MediaAdmin(admin.ModelAdmin):
 	model = Media
 
-	list_display = ('thumb', 'title', 'post',)
-	list_display_links = ('thumb', 'title',)
+	list_display = ('thumb', 'filename', 'title', 'post',)
+	list_display_links = ('thumb', 'filename', 'title',)
 
 
 @admin.register(Contacts)
@@ -148,6 +161,7 @@ class ContactsAdmin(admin.ModelAdmin):
 class CustomerAdmin(admin.ModelAdmin):
 	model = Customer
 	list_display = ('thumb', 'title',)
+	list_display_links = ('thumb', 'title',)
 
 
 @admin.register(Award)
@@ -164,5 +178,5 @@ class SeoAdmin(admin.ModelAdmin):
 	list_display = ('title', 'description', 'keywords',)
 
 
-admin.site.register(Category)
 admin.site.register(Socials)
+

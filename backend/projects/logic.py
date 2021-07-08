@@ -7,7 +7,7 @@ from django.utils.html import format_html
 from django.core.files.storage import FileSystemStorage
 from os import path, remove, rename
 from glob import glob
-
+from shutil import rmtree
 from PIL import Image
 from imagekit import ImageSpec
 from imagekit.processors import ResizeToFit #, ResizeToFill
@@ -16,13 +16,17 @@ from imagekit.cachefiles import ImageCacheFile
 
 # delete main image and its thumbs
 def remove_images(obj):
-	filename, ext = path.splitext(obj.path)
-	files = glob(filename+'_*w'+ext)
-	# add to files array if original file exists on disk
-	if path.isfile(obj.path) or path.islink(obj.path):
-		files.append(obj.path)
-	for f in files:
-		remove(f)
+	if obj.path:
+		filename, ext = path.splitext(obj.path)
+		cache_folder = filename.replace('/media/', '/media/CACHE/images/')
+		rmtree(cache_folder, ignore_errors=True)
+		# select all thumbs for original file
+		files = glob(filename+'_[0-9][0-9][0-9]*w'+ext)
+		# add to files array if original file exists on disk
+		if path.isfile(obj.path) or path.islink(obj.path):
+			files.append(obj.path)
+		for f in files:
+			remove(f)
 
 
 def is_file_exist(obj):
@@ -37,12 +41,17 @@ def is_image_file(obj):
 class MediaFileStorage(FileSystemStorage):
 
 	def save(self, name, content, max_length=None):
-		#return super().save(name, content, max_length)
-		if not self.exists(name):
-			return super().save(name, content, max_length)
-		else:
-			# prevent saving file on disk
-			return name
+		filename, ext = path.splitext(name)
+		index = 1
+		while self.exists(name):
+			index += 1
+			name = '{}-{}{}'.format(filename, index, ext)
+			if index == 20:
+				break
+		return super().save(name, content, max_length)
+		# prevent saving file on disk
+		# if self.exists(name):
+		# 	return name
 
 
 class AdminThumbnail(ImageSpec):
@@ -65,13 +74,20 @@ class Thumbnail(ImageSpec):
 	options = {'quality': 80 }
 
 
+def update_admin_thumb(obj):
+	thumbnail = ImageCacheFile(AdminThumbnail(obj))
+	print(thumbnail)
+	thumbnail.generate()
+	return thumbnail
+
+
 def get_admin_thumb(obj):
 	if obj and is_file_exist(obj) and is_image_file(obj) :
-		thumb = ImageCacheFile(AdminThumbnail(obj))
-		thumb.generate()
-		return format_html('<img src="{0}" width="100"/>', thumb.url)
-	else:
-		return format_html('<img src="/media/no-image.jpg" width="100"/>')
+		thumb = update_admin_thumb(obj)
+		print(f'get admin thumb {thumb.url}')
+		if thumb.url:
+			return format_html('<img src="{0}" width="100"/>', thumb.url)
+	return format_html('<img src="/media/no-image.jpg" width="100"/>')
 
 
 def generate_thumbs(obj, sizes):
@@ -91,7 +107,7 @@ def generate_thumbs(obj, sizes):
 				im.save(thumb_filename)
 
 
-def resize_image(obj, thumbnail='thumbnail', *sizes):
+def generate_images(obj, thumbnail='thumbnail', *sizes):
 	if obj and is_image_file(obj) :
 		file = obj.path
 		old_file = file + '.old'
@@ -101,6 +117,7 @@ def resize_image(obj, thumbnail='thumbnail', *sizes):
 				image_generator = GalleryThumbnail(source=source)
 			else:
 				image_generator = Thumbnail(source=source)
+
 			result = image_generator.generate()
 			rename(file, old_file)
 			dest = open(file, 'wb')
@@ -112,6 +129,7 @@ def resize_image(obj, thumbnail='thumbnail', *sizes):
 				generate_thumbs(obj, *sizes)
 			
 		except IOError:
+			print('error in file: %s' % file)
 			if path.isfile(old_file):
 				rename(old_file, file)
 			return HttpResponse('Ошибка открытия файла %s!' % file)

@@ -13,7 +13,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFit, ResizeToFill
 
-from .logic import MediaFileStorage, get_admin_thumb, resize_image, generate_thumbs, remove_images
+from .logic import MediaFileStorage, get_admin_thumb, is_file_exist, generate_images, generate_thumbs, remove_images
 
 
 class SearchManager(models.Manager):
@@ -93,6 +93,9 @@ class Category(models.Model):
 		null=True, blank=True,
 		verbose_name='Фото',
 		help_text='Фото для вывода в секции описания с размером 450х300')
+	seo_title = models.CharField('Заголовок страницы', max_length=100, blank=True)
+	seo_description = models.CharField('Мета описание', max_length=150, blank=True, help_text='Описание записи в поисковой выдаче. Рекомендуется 70-80 символов')
+	seo_keywords = models.CharField('Ключевые слова', max_length=255, blank=True, help_text='Укажите через запятую поисковые словосочетания, которые присутствуют в заголовке или описании самой записи. Рекомендуется до 20 слов и не более 3-х повторов')
 
 	objects = SearchManager()
 
@@ -107,6 +110,11 @@ class Category(models.Model):
 		super().__init__(*args, **kwargs)
 		self.original_file = self.file
 		self.original_cover = self.cover
+		if not self.seo_title:
+			self.seo_title = self.name
+
+		if not self.seo_description:
+			self.seo_description = self.excerpt
 
 
 	def delete(self, *args, **kwargs):
@@ -116,23 +124,33 @@ class Category(models.Model):
 
 
 	def save(self, *args, **kwargs):
-		if self.file and self.file != self.original_file:
-			resize_image(self.file)
-		if self.cover and self.cover != self.original_cover:
-			resize_image(self.cover)
+		# delete an old image before saving a new one
+		if self.original_file and self.file != self.original_file:
+			remove_images(self.original_file)
+			self.original_file = None
+
+		# delete an old image before saving a new one
+		if self.original_cover and self.cover != self.original_cover:
+			remove_images(self.original_cover)
+			self.original_cover = None
 
 		super().save(*args, **kwargs)
-		if self.file:
+
+		if self.file != self.original_file:
 			generate_thumbs(self.file, [450, 900])
-		if self.cover:
+
+		if self.cover != self.original_cover:
 			generate_thumbs(self.cover, [320, 450, 640, 768, 1080, 1200, 1920])
 
 		self.original_cover = self.cover
 		self.original_file = self.file
 
-
 	def __str__(self):
 		return self.name
+
+	def thumb(self):
+		return get_admin_thumb(self.cover)
+	thumb.short_description = 'Обложка'
 
 
 
@@ -154,7 +172,7 @@ class Post(models.Model):
 		options={'quality': 80},
 		storage=MediaFileStorage(),
 		verbose_name='Обложка',
-		null=True, help_text='')
+		null=True, help_text='Обложка для фотогалереи проектов и ивентов')
 
 	# display_section и extra_display_section для наследующих моделей (Portfolio, Event) скрывать!!!
 	display_section = models.ForeignKey(Navbar, on_delete=models.SET_NULL, null=True, blank=True, related_name='posts', verbose_name = 'Раздел', help_text='Выберите раздел для отображения контента')
@@ -188,14 +206,19 @@ class Post(models.Model):
 		if not self.slug:
 			self.slug = uuslug(self.title.lower(), instance=self)
 
-		if self.cover and self.cover != self.original_cover:
-			resize_image(self.cover, 'full')
-
 		if not self.post_type:
 			self.post_type = self._meta.model_name
+
+		# delete an old image before saving a new one
+		if self.original_cover and self.cover != self.original_cover:
+			remove_images(self.original_cover)
+			self.original_cover = None
+
 		super().save(*args, **kwargs)
-		if self.cover:
+
+		if self.cover != self.original_cover:
 			generate_thumbs(self.cover, [320, 450, 640, 768, 1080, 1200])
+
 		self.original_cover = self.cover
 
 
@@ -251,8 +274,8 @@ class Portfolio(Post):
 class Media(models.Model):
 	post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True, blank=True, related_name='media', verbose_name = 'Запись', help_text='Укажите запись, к которой принадлежит медиафайл')
 	title = models.CharField('Заголовок', max_length=100, help_text='')
-	file = models.ImageField('Медиафайл', upload_to='gallery/', storage=MediaFileStorage(), help_text='Выберите фото для отображения в галерее')
-	alt = models.CharField('Описание', max_length=250, blank=True, help_text='Описание медиафайла для поисковых систем')
+	file = models.ImageField('Медиафайл', upload_to='gallery/', storage=MediaFileStorage(), help_text='Выберите фото для отображения в галерее портфолио или ивента')
+	alt = models.CharField('Описание', max_length=250, blank=True, help_text='Краткое описание медиафайла для поисковых систем')
 
 	class Meta:
 		db_table = "media"
@@ -272,12 +295,15 @@ class Media(models.Model):
 
 
 	def save(self, *args, **kwargs):
-		if self.file and self.file != self.original_file:
-			resize_image(self.file, 'full')
+		# delete an old image before saving a new one
+		if self.original_file and self.file != self.original_file:
+			remove_images(self.original_file)
+			self.original_file = None
 
 		super().save(*args, **kwargs)
-		if self.file:
-			generate_thumbs(self.file, [320, 450, 640, 768, 1080, 1200])
+
+		if self.file != self.original_file:
+			generate_images(self.file, 'full', [320, 450, 640, 768, 1080, 1200])
 
 		self.original_file = self.file
 
@@ -305,7 +331,7 @@ class Customer(models.Model):
 		options={'quality': 80},
 		storage=MediaFileStorage(),
 		verbose_name='Аватар',
-		help_text='')
+		help_text='Фото клиента размером 900х900 пикселей')
 	review = RichTextUploadingField('Отзыв', blank=True)
 	url = models.URLField('Видеоотзыв', blank=True, help_text='Внешняя ссылка на видеоотзыв')
 
@@ -329,12 +355,16 @@ class Customer(models.Model):
 
 
 	def save(self, *args, **kwargs):
-		if self.avatar and self.avatar != self.original_avatar:
-			resize_image(self.avatar)
+		# delete an old image before saving a new one
+		if self.original_avatar and self.avatar != self.original_avatar:
+			remove_images(self.original_avatar)
+			self.original_avatar = None
 
 		super().save(*args, **kwargs)
-		if self.avatar:
+
+		if self.avatar != self.original_avatar:
 			generate_thumbs(self.avatar, [320, 450, 640, 900])
+
 		self.original_avatar = self.avatar
 
 
@@ -381,12 +411,16 @@ class Award(models.Model):
 
 
 	def save(self, *args, **kwargs):
-		if self.file and self.file != self.original_file:
-			resize_image(self.file, 'full')
+		# delete an old image before saving a new one
+		if self.original_file and self.file != self.original_file:
+			remove_images(self.original_file)
+			self.original_file = None
 
 		super().save(*args, **kwargs)
-		if self.file:
+
+		if self.file != self.original_file:
 			generate_thumbs(self.file, [320, 450, 640])
+
 		self.original_file = self.file
 
 
@@ -448,8 +482,10 @@ class Contacts(models.Model):
 
 
 	def save(self, *args, **kwargs):
-		if self.file and self.file != self.original_file:
-			resize_image(self.file)
+		# if update image
+		if self.file and self.original_file and self.file.file != self.file.path:
+			generate_images(self.file)
+
 		if not self.file and self.original_file:
 			remove_images(self.original_file)
 
