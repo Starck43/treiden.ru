@@ -27,10 +27,9 @@ class MyDocument extends Document {
 					<meta charSet="utf-8" />
 					{/*<meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />*/}
 					{/*<meta name="viewport" content="width=device-width,minimum-scale=0.8,maximum-scale=1,user-scalable=no" />*/}
-					<meta name="robots" content="follow, index" />
-					<meta name="google-site-verification" content=""/>
 					<meta name="robots" content="index,follow" />
 					<meta name="googlebot" content="index,follow" />
+					<meta name="google-site-verification" content=""/>
 
 					<meta name="msapplication-TileColor" content="#073f80"/>
 					<meta name="theme-color" content="#ffffff"/>
