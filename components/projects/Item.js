@@ -13,112 +13,112 @@ import style from "~/styles/portfolio.module.sass"
 
 
 const remoteLoader = ({ src, width }) => {
-  let breakpoints = [320, 450, 640, 768, 1080, 1200]
-  if (breakpoints.indexOf(width) !== -1)
-    return createThumbUrl(src, width)
-  return src
+	let breakpoints = [320, 450, 640, 768, 1080, 1200]
+	if (breakpoints.indexOf(width) !== -1)
+		return createThumbUrl(src, width)
+	return src
 }
 
 
 const Item = (props) => {
-  const [viewerIsOpen, setViewerIsOpen] = useState(false)
-  const [currentImage, setCurrentImage] = useState(0)
+	const [viewerIsOpen, setViewerIsOpen] = useState(false)
+	const [currentImage, setCurrentImage] = useState(0)
 
-  const openLightbox = (event) => {
-    let el = event.target.parentElement.parentElement
-    let index = [...el.parentElement.children].indexOf(el)
-    setCurrentImage(index)
-    setViewerIsOpen(!viewerIsOpen)
-  }
+	const openLightbox = (event) => {
+		let el = event.target.parentElement.parentElement
+		let index = [...el.parentElement.children].indexOf(el)
+		setCurrentImage(index)
+		setViewerIsOpen(!viewerIsOpen)
+	}
 
-  var images = (props.url) ? [props.url] : []
-  var types =  (props.url) ? ['youtube'] : []
+	var images = (props.url) ? [props.url] : []
+	var types =  (props.url) ? ['youtube'] : []
 
-  images = images.concat(props.portfolio.length ? props.portfolio.map(obj => (obj.file)) : [props.cover])
-  types = types.concat(props.portfolio.length ? props.portfolio.map(obj => ('image')) : ['image'])
+	images = images.concat(props.portfolio.length ? props.portfolio.map(obj => (obj.file)) : [props.cover])
+	types = types.concat(props.portfolio.length ? props.portfolio.map(obj => ('image')) : ['image'])
 
-  return (
-  <Portfolio>
-    <Card className={style.card} onClick={openLightbox}>
-      <Image
-        loader={remoteLoader}
-        src={props.cover}
-        alt={props.title}
-        layout="responsive"
-        width={320}
-        height={320}
-        quality={80}
-      />
-      <Card.ImgOverlay className={style.overlay}>
-        <header className={style.title}><h4>{props.title}</h4></header>
-        <p>{props.excerpt}</p>
-      </Card.ImgOverlay>
-      { props.url && <Icon name='play' className={`${style.play} centered`} /> }
-    </Card>
+	return (
+	<Portfolio>
+		<Card id={`project-${props.id}`} className={style.card} onClick={openLightbox}>
+			<Image
+				loader={remoteLoader}
+				src={props.cover}
+				alt={props.title}
+				layout="responsive"
+				width={320}
+				height={320}
+				quality={80}
+			/>
+			<Card.ImgOverlay className={style.overlay}>
+				<header className={style.title}><h4>{props.title}</h4></header>
+				<p>{props.excerpt}</p>
+			</Card.ImgOverlay>
+			{ props.url && <Icon name='play' className={`${style.play} centered`} /> }
+		</Card>
 
-    <LightBox
-      sources={images}
-      types={types}
-      sourceIndex={currentImage}
-      toggler={viewerIsOpen}
-    />
-  </Portfolio>
+		<LightBox
+			sources={images}
+			types={types}
+			sourceIndex={currentImage}
+			toggler={viewerIsOpen}
+		/>
+	</Portfolio>
 )}
 
 
 export default Item
 
 const Portfolio = styled.div`
-  .fslightbox-container{
-    .fslightbox-toolbar{
-      background: transparent;
-    }
-    .fslightbox-nav {
-      height: 4em;
-    }
-    .fslightbox-toolbar-button, .fslightbox-slide-btn{
-      padding: 0;
-      font-size: unset;
-      width: 4em;
-      height: 4em;
-      border-radius: 5px;
-    }
-    .fslightbox-slide-btn-container .fslightbox-slide-btn{
-      svg{
-        display: none;
-      }
-      &::after{
-        font-family: 'ip';
-        color: white;
-        font-size: 2rem;
-        transition: all 200ms ease;
-        opacity: 0.5;
-      }
-      &:hover:after{
-          opacity: 1;
-      }
-    }
-   .fslightbox-slide-btn-previous-container .fslightbox-slide-btn{
-      &::after{
-        content: '\\e810';
-      }
-    }
-   .fslightbox-slide-btn-next-container .fslightbox-slide-btn{
-      &::after{
-        content: '\\e811';
-      }
-   }
+	.fslightbox-container{
+		.fslightbox-toolbar{
+			background: transparent;
+		}
+		.fslightbox-nav {
+			height: 4em;
+		}
+		.fslightbox-toolbar-button, .fslightbox-slide-btn{
+			padding: 0;
+			font-size: unset;
+			width: 4em;
+			height: 4em;
+			border-radius: 5px;
+		}
+		.fslightbox-slide-btn-container .fslightbox-slide-btn{
+			svg{
+				display: none;
+			}
+			&::after{
+				font-family: 'ip';
+				color: white;
+				font-size: 2rem;
+				transition: all 200ms ease;
+				opacity: 0.5;
+			}
+			&:hover:after{
+					opacity: 1;
+			}
+		}
+	 .fslightbox-slide-btn-previous-container .fslightbox-slide-btn{
+			&::after{
+				content: '\\e810';
+			}
+		}
+	 .fslightbox-slide-btn-next-container .fslightbox-slide-btn{
+			&::after{
+				content: '\\e811';
+			}
+	 }
 
-    svg{
-      min-width: 1.5em;
-      min-height: 1.5em;
-      pointer-events: none;
-    }
+		svg{
+			min-width: 1.5em;
+			min-height: 1.5em;
+			pointer-events: none;
+		}
 
-    .fslightbox-toolbar-button:first-child{
-      display: none;
-    }
+		.fslightbox-toolbar-button:first-child{
+			display: none;
+		}
 
-  }
+	}
 `
 
