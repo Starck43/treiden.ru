@@ -48,7 +48,7 @@ const SearchList = () => {
 				? data.map(post =>
 					<Item key={post.slug}>
 						<Title className="mb-3">{post.title}</Title>
-						<Description content={post.excerpt || post.description && truncateHTML(post.description)} />
+						<Description content={post.excerpt || post.description && truncateHTML(post.description, 250)} />
 						<Cover onClick={videoClickHandle}>
 							{ post.cover &&
 							<Image
@@ -64,7 +64,7 @@ const SearchList = () => {
 							/>
 							}
 
-							{ post.url && getYouTubeID(post.url) ?
+							{ post.url && getYouTubeID(post.url) &&
 								<YouTube
 									id={getYouTubeID(post.url)}
 									title={post.title}
@@ -72,32 +72,32 @@ const SearchList = () => {
 									playerClass="play-btn"
 									adNetwork={false}
 								/>
-								: post.url && <p><Link href={post.url}><a>[Перейти]</a></Link></p>
 							}
 						</Cover>
 
-						<div className="mt-4 mb-2">
-						{
-							!post.url || getYouTubeID(post.url) ? (
-								post.post_type == 'category'
-								? (<Link href={`projects/${post.slug}`}><a>Перейти в раздел</a></Link>)
-								: (post.post_type == 'event'
-									? (<Link href={`event/${post.id}`}><a>Перейти к мероприятию</a></Link>)
-									: (<Link href={`projects/${post.post_type}`}><a>Перейти к проектам</a></Link>)
-								)
-							) : null
+						<Button className="ms-auto mt-4 mb-4">
+						{ post.link && (!post.url || post.url && getYouTubeID(post.url)) ? (
+								<Link href={post.link}><NavLink className='nav-link'>
+								{
+									post.post_type == 'post' || post.post_type == 'category'
+										? `Перейти`
+										: (post.post_type == 'event' ? `Перейти к мероприятию` : `Перейти к проекту`)
+								}
+								<Icon name='arrow_right' className='nav-arrow right' />
+								</NavLink></Link>
+							) : post.url && <Link href={post.url}><a>Перейти</a></Link>
 						}
-						</div>
+						</Button>
 					</Item>
 				)
 				: <p>К сожалению, по Вашему запросу ничего не найдено.</p>
 			}
 
 			</Container>
-			<Back className='nav-link' onClick={() => router.back()}>
+			<NavLink className='nav-link' onClick={() => router.back()}>
 				<Icon name='arrow_left' className='nav-arrow left' />
 				<span>Назад</span>
-			</Back>
+			</NavLink>
 		</Section>
 )}
 
@@ -116,7 +116,8 @@ const Item = styled.li`
 `
 const Title = styled.h3``
 const Description = styled(HtmlContent)``
-const Back = styled.a``
+const Button = styled.button``
+const NavLink = styled.a``
 const Cover = styled.div`
 	position: relative;
 	width: max-content;
