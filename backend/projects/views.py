@@ -12,6 +12,7 @@ from rest_framework.decorators import api_view, permission_classes, action
 from .models import *
 from .serializers import *
 
+
 class HeaderView(viewsets.ModelViewSet):
 	queryset = Category.objects.all()
 	serializer_class = HeaderSerializer
@@ -84,6 +85,7 @@ class NavItemsView(viewsets.ModelViewSet):
 
 		return Response(serializer.data)
 
+
 class PostExtraView(viewsets.ModelViewSet):
 	queryset = Post.objects.filter(is_active=True, extra_display_section__isnull=False)
 	serializer_class = PostSerializer
@@ -113,6 +115,7 @@ class MetaSeoView(generics.ListAPIView):
 	permission_classes = [permissions.AllowAny]
 
 	def get_queryset(self):
+		# url params
 		post_id = self.kwargs['post_id'] or None
 		post_type = self.kwargs['post_type'] or None
 		query = Q(post__post_type__isnull=True) if post_type == 'homepage' else Q(post__post_type=post_type)

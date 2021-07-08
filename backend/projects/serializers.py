@@ -40,20 +40,20 @@ class ContactsSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
 	# adding custom fields
 	title = serializers.CharField(write_only=True)
-	display_section = serializers.CharField(write_only=True)
+	link = serializers.CharField(write_only=True)
 	post_type = serializers.CharField(write_only=True)
 
 	def to_representation(self, instance):
 		data = super().to_representation(instance)
 		data['title'] = instance.name
-		data['cover'] = instance.file.url
-		data['display_section'] = 'page'
+		data['cover'] = instance.file.url if instance.file else None
+		data['link'] = 'projects/' + instance.slug
 		data['post_type'] = 'category'
 		return data
 
 	class Meta:
 		model = Category
-		fields = ('id', 'slug', 'url', 'cover', 'title', 'excerpt', 'description', 'display_section', 'post_type')
+		fields = ('id', 'slug', 'url', 'cover', 'title', 'excerpt', 'description', 'link', 'post_type')
 
 
 class CategoryListSerializer(serializers.ModelSerializer):
@@ -107,10 +107,28 @@ class SeoDetailSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
 	#cover = FileFieldSerializer()
+	link = serializers.SerializerMethodField()
 	description = FixAbsolutePathSerializer()
+
 	class Meta:
 		model = Post
-		fields = ('id', 'slug', 'url', 'cover', 'title', 'excerpt', 'description', 'display_section', 'post_type')
+		fields = ('id', 'slug', 'url', 'cover', 'title', 'excerpt', 'description', 'link', 'post_type', 'extra_display_section')
+
+	def get_link(self, obj):
+		#post, event, portfolio
+		if obj.post_type == 'post':
+			if obj.display_section and obj.display_section.link_to == 'page':
+				return f'/{obj.display_section.slug}/{obj.slug}'
+			else:
+				return f'/#{obj.slug}'
+
+		if obj.post_type == 'event':
+			return f'/{obj.post_type}/{obj.id}'
+
+		if obj.post_type:
+			return f'/projects/{obj.post_type}/#project-{obj.id}'
+
+		return None
 
 
 class EventListSerializer(serializers.ModelSerializer):

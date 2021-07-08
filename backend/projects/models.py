@@ -46,7 +46,7 @@ class SearchManager(models.Manager):
 
 class Navbar(models.Model):
 	CHOICES = (
-		('page', 'Cтраница'),
+		('page', 'Cтраница'), #default link_to
 		('index_page', 'Секция на главной странице'),
 		('header', 'Шапка'),
 		('footer', 'Подвал'),
@@ -164,7 +164,7 @@ class Post(models.Model):
 	# editor скрыть в админке и сохранять там текущего пользователя
 	editor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name = 'Автор')
 	modified_date = models.DateField('Дата изменения', auto_now_add=True)
-	post_type = models.CharField('Тип записи', max_length=10, null=True, blank=True, editable=False)
+	post_type = models.CharField('Тип записи', max_length=50, null=True, blank=True, editable=False)
 
 	objects = SearchManager()
 
@@ -186,11 +186,13 @@ class Post(models.Model):
 
 	def save(self, *args, **kwargs):
 		if not self.slug:
-			self.slug = uuslug(self.title, instance=self)
+			self.slug = uuslug(self.title.lower(), instance=self)
 
 		if self.cover and self.cover != self.original_cover:
 			resize_image(self.cover, 'full')
 
+		if not self.post_type:
+			self.post_type = self._meta.model_name
 		super().save(*args, **kwargs)
 		if self.cover:
 			generate_thumbs(self.cover, [320, 450, 640, 768, 1080, 1200])
@@ -217,6 +219,9 @@ class Event(Post):
 		verbose_name_plural = 'Ивенты'
 
 	def save(self, *args, **kwargs):
+		if not self.slug:
+			self.slug = 'event-'+uuslug(str(self.id), instance=self)
+
 		# set type 'event' for building link in search result
 		self.post_type = self._meta.model_name
 		super().save(*args, **kwargs)
@@ -234,8 +239,11 @@ class Portfolio(Post):
 		verbose_name_plural = 'Проекты'
 
 	def save(self, *args, **kwargs):
+		if not self.slug:
+			self.slug = 'project-'+uuslug(str(self.id), instance=self)
+
 		# set type category's slug for building link in search result
-		self.post_type = self.category.slug #self._meta.model_name
+		self.post_type = self.category.slug
 		super().save(*args, **kwargs)
 
 
