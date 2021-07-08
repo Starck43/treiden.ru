@@ -3,7 +3,7 @@ import styled from 'styled-components/macro'
 
 import { Info, Map } from '~/components/contacts'
 
-import { Icon, Anchor } from '~/components/UI'
+import { Icon } from '~/components/UI'
 import { getHostname } from '~/core/helpers/utils'
 
 import style from "~/styles/contacts.module.sass"
@@ -11,8 +11,7 @@ import style from "~/styles/contacts.module.sass"
 
 const Contacts = ({contacts, posts}) => {
 	return (
-	<Footer className={style.section}>
-		<Anchor id='contacts' />
+	<Footer id='contacts' className={style.section}>
 		<LeftBlock className={`extra-posts ${style.leftBlock}`}>
 			<ExtraPosts posts={posts} />
 		</LeftBlock>
