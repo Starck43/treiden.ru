@@ -23,7 +23,7 @@ nav.navbar
 		width: 100%
 		transition: 200ms all ease-in
 		overflow: hidden
-		z-index: 2
+		z-index: 1
 		.btn-close
 			display: none
 		+media-breakpoint-down(lg)
@@ -33,6 +33,7 @@ nav.navbar
 			margin: 0 -1em
 			background-color: $overlay-bg-color
 			opacity: 1
+			z-index: 3
 			&:not(.show)
 				opacity: 0
 			.navbar-nav
@@ -57,8 +58,8 @@ nav.navbar
 					font-size: calc(1rem + 0.5vh)
 					text-decoration: none
 					background-color: transparent
-					border-radius: $border_radius
-					border: $border_w solid transparent
+					border-radius: 1px
+					border: 1px solid transparent
 					transition: all 200 ease-out
 					&:hover
 						background-color: $menu-bg
