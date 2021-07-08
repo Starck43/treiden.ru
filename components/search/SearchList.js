@@ -75,19 +75,18 @@ const SearchList = () => {
 							}
 						</Cover>
 
-						<Button className="ms-auto mt-4 mb-4">
+						<p className="mt-4 mb-4">
 						{ post.link && (!post.url || post.url && getYouTubeID(post.url)) ? (
-								<Link href={post.link}><NavLink className='nav-link'>
+								<Link href={post.link}><NavLink className=''>
 								{
 									post.post_type == 'post' || post.post_type == 'category'
 										? `Перейти`
 										: (post.post_type == 'event' ? `Перейти к мероприятию` : `Перейти к проекту`)
 								}
-								<Icon name='arrow_right' className='nav-arrow right' />
 								</NavLink></Link>
 							) : post.url && <Link href={post.url}><a>Перейти</a></Link>
 						}
-						</Button>
+						</p>
 					</Item>
 				)
 				: <p>К сожалению, по Вашему запросу ничего не найдено.</p>
@@ -116,7 +115,6 @@ const Item = styled.li`
 `
 const Title = styled.h3``
 const Description = styled(HtmlContent)``
-const Button = styled.button``
 const NavLink = styled.a``
 const Cover = styled.div`
 	position: relative;
