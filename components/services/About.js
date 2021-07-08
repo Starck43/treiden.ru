@@ -17,7 +17,7 @@ const About = ({data}) => {
         <Header>
           {item.title}
         </Header>
-        <Content className={style.content} dangerouslySetInnerHTML={{ __html: item.description }} />
+        <Content id={item.slug} className={style.content} dangerouslySetInnerHTML={{ __html: item.description }} />
       </Fragment>
     ))}
 

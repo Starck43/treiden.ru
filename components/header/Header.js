@@ -37,7 +37,7 @@ export default Header
 const ExtraPosts = ({posts}) =>  (
 	posts.map((post) => (
 		(post.extra_display_section == 'H' || post.extra_display_section == 'HF')
-			? <Link className='post-link white centered' key={post.slug}><Icon name={getHostname(post.url)} className='social-icon' />{post.title}</Link>
+			? <Link id={post.slug} className='post-link white centered' key={post.slug}><Icon name={getHostname(post.url)} className='social-icon' />{post.title}</Link>
 			: null
 	))
 )

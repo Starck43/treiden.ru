@@ -16,6 +16,7 @@ const List = ({ projects, title }) => {
 		{projects.map((project) => (
 		<Col className={style.column} xs='12' sm='6' lg='4' key={project.id}>
 			<Item
+				id={project.id}
 				title={project.title}
 				excerpt={project.excerpt}
 				description={project.description}

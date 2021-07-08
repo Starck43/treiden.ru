@@ -19,7 +19,7 @@ const remoteLoader = ({ src, width }) => {
 
 const Item = ({ item }) => {
 	return (
-	<Article className={`card ${style.article}`}>
+	<Article id={`event-${item.id}`} className={`card ${style.article}`}>
 		<Image
 			className={style.image}
 			loader={remoteLoader}
