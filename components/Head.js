@@ -17,13 +17,9 @@ const Head = ({meta}) => {
 		<meta property="og:site_name" content={siteName} />
 		<meta property="og:description" content={meta?.description || description} />
 		<meta property="og:title" content={meta?.title || title} />
-		<meta property="og:image" content={`${publicRuntimeConfig.cover}`} />
+		<meta property="og:image" content={meta?.image || publicRuntimeConfig.logo} />
 	</NextHead>
 )}
 
-/*
-Head.getStaticProps = async () => {
-	return {}
-}*/
 
 export default Head
