@@ -4,11 +4,13 @@
 
 .activities
 	position: relative
-	padding: $activities_p*2
+	padding: #{$container-gutter * 1.5}
 	display: flex
 	flex-wrap: wrap
-	+media-breakpoint-down(xl)
-		padding: $activities_p
+	max-width: 1400px
+	margin: auto
+
+	+media-breakpoint-down(md)
 
 .activity
 	display: flex
@@ -16,12 +18,13 @@
 	height: 300px
 	background-color: transparentize(white, 0.2)
 	padding: 2vw
-	margin: $activities_p
+	margin: #{$container-gutter * 0.5}
 	+media-breakpoint-down(md)
 		height: 200px
 		padding: 1em
 	+media-breakpoint-down(sm)
 		margin: 4vw
+		padding: 1rem
 
 
 .header

@@ -8,16 +8,15 @@
 
 .post
 	position: absolute
-	display: flex
-	justify-content: flex-end
-	width: 100%
+	right: 0
+	width: auto
 	padding: 2vw calc(1rem + 2vh)
 	color: #fff
-	pointer-events: none
 	z-index: 1
 	+media-breakpoint-down(sm)
-		justify-content: center
 		padding: 1rem
+		right: 50%
+		transform: translateX(50%)
 
 .title
 	position: absolute
@@ -29,15 +28,15 @@
 	transform: translate(-50%, -50%)
 	font-weight: bold
 	color: white
-	font-size: 2.2em
+	font-size: 2.6em
 	text-transform: uppercase
 	text-align: center
 	pointer-events: none
 	z-index: 1
 	+media-breakpoint-down(xl)
-		font-size: 2em
+		font-size: 2.2em
 	+media-breakpoint-down(lg)
-		font-size: 1.8em
+		font-size: 2em
 	+media-breakpoint-down(md)
 		font-size: 1.6em
 	+media-breakpoint-down(sm)

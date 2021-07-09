@@ -55,7 +55,7 @@ header
 	align-items: center
 	flex: 100%
 	margin-bottom: 1em
-	+media-breakpoint-up(lg)
+	+media-breakpoint-up(xxl)
 		.check-mark
 			position: absolute
 			right: 100%
@@ -107,6 +107,8 @@ section
 			background-color: $overlay-bg-color
 			img
 				mix-blend-mode: multiply
+		.arrow
+			padding: calc(1.6em - 1vw)
 
 		@media (min-width: 576px) and (orientation: landscape)
 			height: calc(100vh - #{$nav-h})
@@ -119,7 +121,7 @@ section
 					padding-top: 0 !important
 
 		.thumbs-wrapper
-			+media-breakpoint-down(md)
+			+media-breakpoint-down(sm)
 				font-size: 0.9rem
 			@media (max-width: 575.98px) and (orientation: portrait)
 				display: none
@@ -130,11 +132,11 @@ section
 
 .container
 	margin-bottom: 6vh
-	--bs-gutter-x: 3vw
+	--bs-gutter-x: $container-gutter
 	+media-breakpoint-down(lg)
-		--bs-gutter-x: 1vw
+		--bs-gutter-x: #{$container-gutter / 3}
 	+media-breakpoint-down(md)
-		--bs-gutter-x: 6vw
+		--bs-gutter-x: #{$container-gutter * 2}
 		max-width: 100%
 	+media-breakpoint-down(sm)
 		--bs-gutter-x: 1.5rem
