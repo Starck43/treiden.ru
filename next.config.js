@@ -17,7 +17,7 @@ module.exports = {
 			description: 'Создание рекламных, коммуникационных и ивент-продуктов федерального качества по провинциальной цене',
 			keywords: "реклама, медиа, брендинг, видеопродакшн, ивенты, AR, дополненная реальность, маркетинговые услуги, продвижение бренда",
 		},
-		googleAnalyticsId: 'G-000000000',
+		googleAnalyticsId: 'G-QVTB1FKKT4',
 	},
 	serverRuntimeConfig: {
 	// Will only be available on the server side

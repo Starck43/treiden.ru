@@ -29,7 +29,8 @@ class MyDocument extends Document {
 					{/*<meta name="viewport" content="width=device-width,minimum-scale=0.8,maximum-scale=1,user-scalable=no" />*/}
 					<meta name="robots" content="index,follow" />
 					<meta name="googlebot" content="index,follow" />
-					<meta name="google-site-verification" content=""/>
+					<meta name="google-site-verification" content="H5C5oN1s5MBS3ussfkd9iwbtRr5ZXaCfNrLMIuWdJYc"/>
+					<meta name="yandex-verification" content="809052e19175c0f4" />
 
 					<meta name="msapplication-TileColor" content="#073f80"/>
 					<meta name="theme-color" content="#ffffff"/>
