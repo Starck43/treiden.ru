@@ -18,6 +18,7 @@ module.exports = {
 			keywords: "реклама, медиа, брендинг, видеопродакшн, ивенты, AR, дополненная реальность, маркетинговые услуги, продвижение бренда",
 		},
 		googleAnalyticsId: 'G-QVTB1FKKT4',
+		yandexMetrikaId: '21758641',
 	},
 	serverRuntimeConfig: {
 	// Will only be available on the server side

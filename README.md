@@ -165,7 +165,7 @@ Insert the following code in the `head` section of `_document.js`:
 ## Analytics Tools
 
 [Webmaster Yandex](https://webmaster.yandex.ru)
-[Analytics Google](https://analytics.google.com)
+[Search Console Google](https://search.google.com)
 
 
 
