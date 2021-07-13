@@ -1,4 +1,5 @@
-
+import React from 'react'
+const fs = require('fs')
 import { SitemapStream, streamToPromise } from 'sitemap'
 
 export default async (req, res) => {
