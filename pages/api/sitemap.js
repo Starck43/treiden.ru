@@ -4,6 +4,7 @@ import { SitemapStream, streamToPromise } from 'sitemap'
 
 export default async (req, res) => {
   try {
+    console.log(req.headers.host);
     const smStream = new SitemapStream({
       hostname: `https://${req.headers.host}`,
       cacheTime: 600000,

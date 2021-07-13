@@ -1,5 +1,0 @@
-User-agent: *
-Disallow: */?
-Disallow: /search/?q=
-
-Sitemap: http://treiden.ru/api

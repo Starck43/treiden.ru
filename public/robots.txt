@@ -5,4 +5,4 @@ Disallow: */?
 Disallow: /search/?q=
 Disallow: /api/*
 
-Sitemap: https://treiden.ru/sitemap
+Sitemap: https://treiden.ru/api/sitemap
