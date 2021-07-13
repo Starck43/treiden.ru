@@ -30,7 +30,8 @@
     "babel-preset-react": "^6.24.1",
     "bootstrap": "^5.0.2",
     "fslightbox-react": "^1.6.2",
-    "react-responsive-carousel": "^3.2.19"
+    "react-responsive-carousel": "^3.2.19",
+    "sitemap": "^7.0.0"
   },
   "browserslist": [
     "last 1 version",
