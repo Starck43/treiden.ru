@@ -1,6 +1,6 @@
 import React from 'react'
-//const fs = require('fs')
-const { SitemapStream, streamToPromise } = require('sitemap')
+const fs = require('fs')
+const { SitemapStream, streamToPromise } from 'sitemap/dist'
 
 export default async (req, res) => {
   try {

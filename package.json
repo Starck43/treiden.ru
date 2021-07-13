@@ -17,6 +17,7 @@
     "react-lite-youtube-embed": "^2.0.3",
     "react-youtube": "^7.13.1",
     "sass": "^1.35.2",
+    "sitemap": "^7.0.0",
     "styled-components": "^5.3.0",
     "swr": "^0.5.6"
   },
