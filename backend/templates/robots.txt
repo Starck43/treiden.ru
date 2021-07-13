@@ -1,9 +1,7 @@
 User-agent: *
 Disallow: /site.wsgi
 Disallow: /admin
-Disallow: /account
-Disallow: /accounts
-Disallow: */None
+Disallow: /api
 Disallow: */?
 Disallow: /search/?q=
 
