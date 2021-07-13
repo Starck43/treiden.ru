@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: */?
+Disallow: /search/?q=
+Disallow: /static
+
+Sitemap: http://treiden.ru/sitemap.xml
