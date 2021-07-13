@@ -1,5 +1,4 @@
 import React from 'react'
-const fs = require('fs')
 import { SitemapStream, streamToPromise } from 'sitemap/dist'
 
 export default async (req, res) => {
@@ -11,14 +10,25 @@ export default async (req, res) => {
     });
 
     // List of events
-    const data = await fetch(process.env.API_SERVER + 'events')
+    var data = await fetch(process.env.API_SERVER + 'events')
     const events = await data.json()
+
+    data = await fetch(process.env.API_SERVER + 'activities')
+    const projects = await data.json()
 
     // Create each URL row
     events.forEach(event => {
       smStream.write({
         url: `/event/${event.id}`,
-        changefreq: 'daily',
+        changefreq: 'weekly',
+        priority: 0.8
+      })
+    })
+
+    projects.forEach(project => {
+      smStream.write({
+        url: `/projects/${project.slug}`,
+        changefreq: 'weekly',
         priority: 0.8
       })
     })
