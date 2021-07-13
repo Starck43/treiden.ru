@@ -134,7 +134,9 @@ Go to the site [vitaly.treiden.ru/admin](https://vitaly.treiden.ru/admin) for ma
 
 
 
-## Favicon Package
+## Additional Packages
+
+Generate fonts with [Fontello](https://fontello.com/)
 
 Generate favicons with [RealFaviconGenerator](https://realfavicongenerator.net/)
 
