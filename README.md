@@ -71,6 +71,26 @@ To see prerendered site run `yarn start`
 Open Django admin on `http://localhost:9000/admin`
 
 
+### API
+- `/api/navitems/` - get Navbar Items list
+- `/api/section/<slug>/` - get Navbar Item detail
+- `/api/header/` - get Header Sliders list
+- `/api/posts/extra/` - get Posts list for header and footer output
+- `/api/contacts/` - get Contacts list
+- `/api/customers/` - get Customers list
+- `/api/awards/` - get Awards list
+- `/api/activities/` - get Categories list
+- `/api/activities/<slug>/` - get Category detail
+- `/api/events/` - get Events list
+- `/api/event/<id>/` - get Event detail
+- `/api/projects/` - get all Portfolio List
+- `/api/projects/<category>/` - get Portfolio list for category
+- `/api/projects/<category>/<id>` - get Portfolio detail for category
+- `/api/metaseo/<post_type>/` - get Meta Seo list
+- `/api/metaseo/<post_type>/<post_id>/` - get Meta Seo detail
+- `/api/search/` - get Search List
+
+
 
 ## Production
 
