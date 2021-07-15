@@ -9,14 +9,17 @@
 .post
 	position: absolute
 	right: 0
-	width: auto
+	width: 100%
 	padding: 2vw calc(1rem + 2vh)
 	color: #fff
 	z-index: 1
-	+media-breakpoint-down(sm)
+	+media-breakpoint-up(md)
+		display: flex
+		justify-content: space-between
+	+media-breakpoint-down(md)
 		padding: 1rem
-		right: 50%
-		transform: translateX(50%)
+		width: 100%
+		text-align: right
 
 .title
 	position: absolute
@@ -25,6 +28,7 @@
 	left: 50%
 	top: 50%
 	width: 100%
+	margin-bottom: 0
 	transform: translate(-50%, -50%)
 	font-weight: bold
 	color: white
@@ -45,4 +49,9 @@
 .subtitle
 	font-weight: normal
 	font-size: 0.6em
+
+.titleBottom
+	@media (max-width: 400px)
+		top: unset
+		bottom: 0
 
