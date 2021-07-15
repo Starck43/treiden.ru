@@ -32,14 +32,18 @@ class MyDocument extends Document {
 					<meta name="google-site-verification" content="H5C5oN1s5MBS3ussfkd9iwbtRr5ZXaCfNrLMIuWdJYc"/>
 					<meta name="yandex-verification" content="809052e19175c0f4" />
 
-					<meta name="msapplication-TileColor" content="#073f80"/>
-					<meta name="theme-color" content="#ffffff"/>
-
-					<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png"/>
-					<link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png"/>
-					<link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png"/>
-					<link rel="manifest" href="/favicons/site.webmanifest"/>
-					<link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#073F80FF"/>
+					<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+					<link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+					<link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+					<link rel="manifest" href="/favicons/site.webmanifest">
+					<link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#073f80">
+					<link rel="shortcut icon" href="/favicons/favicon.ico">
+					<meta name="apple-mobile-web-app-title" content="Трейден Медиа Групп">
+					<meta name="application-name" content="Трейден Медиа Групп">
+					<meta name="msapplication-TileColor" content="#073f80">
+					<meta name="msapplication-TileImage" content="/favicons/mstile-144x144.png">
+					<meta name="msapplication-config" content="/favicons/browserconfig.xml">
+					<meta name="theme-color" content="#ffffff">
 
 					<link rel="canonical" href={process.env.SERVER} />
 
