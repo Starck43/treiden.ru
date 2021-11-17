@@ -3,7 +3,7 @@ import styled from 'styled-components/macro'
 
 import { Slider, Icon } from '~/components/UI'
 import Loading from '~/components/Loading'
-import {Fetch, FetchError } from '~/core/api'
+import { Fetch, FetchError } from '~/core/api'
 import { header } from '~/core/settings/default'
 import { getHostname } from '~/core/helpers/utils'
 

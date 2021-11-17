@@ -26,7 +26,15 @@ export default Contacts
 const ExtraPosts = ({posts}) =>  (
 	posts.map((post) => (
 		(post.extra_display_section == 'F' || post.extra_display_section == 'HF')
-			? <Link id={post.slug} className='post-link white centered' key={post.slug}><Icon name={getHostname(post.url)} className='social-icon' />{post.title}</Link>
+			? <Link
+					id={post.slug}
+					className='post-link white centered'
+					key={post.slug}
+					href={post.url}
+					target='_blank'
+				>
+				<Icon name={getHostname(post.url)} className='social-icon' />{post.title}
+			</Link>
 			: null
 	))
 )
