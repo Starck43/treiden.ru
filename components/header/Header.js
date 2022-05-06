@@ -23,10 +23,12 @@ const Header = ({posts, sliders}) => {
 			<Posts className={`extra-posts ${style.post}`}>
 				<ExtraPosts posts={posts} />
 			</Posts>
+		{/*
 			<Title className={(posts.length > 1 ? `${style.titleBottom}` : '')+` ${style.title}`}>
 				<div>{header.title}</div>
 				<div className={style.subtitle}>{header.subtitle}</div>
 			</Title>
+		*/}
 			<Slider sliders={sliders} className={style.slider} groupKey={'activities'} {...sliderProps} />
 		</HeaderSection>
 	)

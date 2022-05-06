@@ -76,7 +76,7 @@ class Thumbnail(ImageSpec):
 
 def update_admin_thumb(obj):
 	thumbnail = ImageCacheFile(AdminThumbnail(obj))
-	print(thumbnail)
+	#print(thumbnail)
 	thumbnail.generate()
 	return thumbnail
 
@@ -84,7 +84,7 @@ def update_admin_thumb(obj):
 def get_admin_thumb(obj):
 	if obj and is_file_exist(obj) and is_image_file(obj) :
 		thumb = update_admin_thumb(obj)
-		print(f'get admin thumb {thumb.url}')
+		#print(f'get admin thumb {thumb.url}')
 		if thumb.url:
 			return format_html('<img src="{0}" width="100"/>', thumb.url)
 	return format_html('<img src="/media/no-image.jpg" width="100"/>')
