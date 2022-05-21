@@ -17,7 +17,7 @@ Required:
 
 ### Install
 
-Clone project from [Github](github.com) in project folder and install dependencies for React App
+Clone project from [Github](github.com) and install its dependencies
 
 ```bash
 git clone https://github.com/Starck43/treiden.ru.git/treiden.ru
@@ -108,12 +108,6 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-### Build
-
-Run [Hook](https://api.vercel.com/v1/integrations/deploy/prj_CPUg9my2RLOhxXSS7Dssz1rrEDPa/yMXYOKXUYC) to build site on the hoster's server
-
-Open [treiden.vercel.app](http://treiden.vercel.app) with your browser to see the result.
-
 
 
 ## Remote admin
@@ -165,27 +159,7 @@ To install this package:
 If the site is <code>http://www.example.com</code>, you should be able to access a file named <code>http://www.example.com/favicon.ico</code>.
 Put the `favicon.ico` file to your `public` directory
 
-Insert the following code in the `head` section of `_document.js`:
-
-```html
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#160d32">
-<meta name="msapplication-TileColor" content="#160d32">
-<meta name="msapplication-TileImage" content="/mstile-144x144.png">
-<meta name="theme-color" content="#ffffff">
-```
-
 *Optional* - Check your favicon with the [favicon checker](https://realfavicongenerator.net/favicon_checker)
-
-
-
-## Analytics Tools
-
-[Webmaster Yandex](https://webmaster.yandex.ru)
-[Search Console Google](https://search.google.com)
 
 
 
