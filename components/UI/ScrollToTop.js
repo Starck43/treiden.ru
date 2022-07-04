@@ -21,7 +21,7 @@ const ScrollToTop = ({homeRef}) => {
   },[])
 
   return (
-    <button className={`scroll-to-top ${showScroll}`} onClick={smoothScroll}>
+    <button className={`scroll-to-top ${showScroll ? "show" : ""}`} onClick={smoothScroll}>
         <Icon name='arrow_top' className='nav-arrow' />
     </button>
   )
