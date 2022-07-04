@@ -16,7 +16,7 @@ from imagekit.cachefiles import ImageCacheFile
 
 # delete main image and its thumbs
 def remove_images(obj):
-	if obj.path:
+	if obj and obj.path:
 		filename, ext = path.splitext(obj.path)
 		cache_folder = filename.replace('/media/', '/media/CACHE/images/')
 		rmtree(cache_folder, ignore_errors=True)
@@ -30,7 +30,8 @@ def remove_images(obj):
 
 
 def is_file_exist(obj):
-	return path.isfile(path.join(settings.MEDIA_ROOT,obj.name))
+	#return path.isfile(path.join(settings.MEDIA_ROOT,obj.name))
+	return path.isfile(obj.path)
 
 
 def is_image_file(obj):

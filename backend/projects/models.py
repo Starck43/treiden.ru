@@ -65,7 +65,7 @@ class Navbar(models.Model):
 
 	def save(self, *args, **kwargs):
 		if not self.slug:
-			self.slug = uuslug(self.title, instance=self)
+			self.slug = uuslug(self.name, instance=self)
 		super().save(*args, **kwargs)
 
 	def __str__(self):
