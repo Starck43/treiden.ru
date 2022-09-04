@@ -1,28 +1,20 @@
-import React from 'react'
-import Link from 'next/link'
-import styled from 'styled-components/macro'
+import React from "react"
+import Link from "next/link"
 
-import { Navbar } from 'react-bootstrap'
-import PropTypes from 'prop-types'
+import {Navbar} from "react-bootstrap"
 
-const NavLogo = ({ href, logo, pathname }) => {
-  let url = pathname == '/' ? '#' : href
-  var navBrand =
-    <Navbar.Brand href={url}>
-      <img alt="logo" src={logo} />
-    </Navbar.Brand>
+const NavLogo = ({href, logo, pathname}) => {
+	let url = pathname === "/" ? "#" : href
+	let navBrand =
+		<Navbar.Brand href={url}>
+			<img alt="logo" src={logo}/>
+		</Navbar.Brand>
 
-  return (
-    pathname !== '/'
-      ? <Link href={url}>{navBrand}</Link>
-      : <>{navBrand}</>
-  )}
-
-
-NavLogo.propTypes = {
-  href: PropTypes.string,
-  logo: PropTypes.string,
-  pathname: PropTypes.string,
+	return (
+		pathname !== "/"
+			? <Link href={url}>{navBrand}</Link>
+			: <>{navBrand}</>
+	)
 }
 
 export default NavLogo

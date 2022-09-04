@@ -1,22 +1,19 @@
 import { useState, useEffect } from 'react'
 import { getWindowDimensions } from './utils'
 
-/* istanbul ignore next */
 export const useWindowDimensions = () => {
-  const [dimensions, setDimensions] = useState(
-    getWindowDimensions()
+  const [windowDimensions, setWindowDimensions] = useState(
+      getWindowDimensions()
   )
 
   useEffect(() => {
-    function handleResize() {
-      setDimensions(getWindowDimensions())
+    let handleResize = function () {
+      setWindowDimensions(getWindowDimensions())
     }
 
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
   }, [])
 
-  return dimensions
+  return windowDimensions
 }
-
-//export default useWindowDimensions

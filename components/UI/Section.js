@@ -1,12 +1,12 @@
-import React from 'react'
-import { Container } from 'react-bootstrap'
+import React from "react"
+import {Container} from "react-bootstrap"
 
-const Section = ({ id, className, children }) => (
-  <section id={id} className={className}>
-    <Container>
-      {children}
-    </Container>
-  </section>
+const Section = ({id, className, children}) => (
+	<section id={id} className={className}>
+		<Container>
+			{children}
+		</Container>
+	</section>
 )
 
 

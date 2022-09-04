@@ -1,6 +1,6 @@
 import React, { Fragment, useRef } from "react"
 import Navbar from "./navbar/Navbar"
-import Head from './Head'
+import Meta from './Meta'
 import { ScrollToTop } from '~/components/UI'
 import Contacts from '~/components/contacts/Contacts'
 
@@ -10,7 +10,7 @@ const Layout = ({ children, navitems, contacts, posts, meta }) => {
 
 	return(
 	<Fragment>
-		<Head meta={meta} />
+		<Meta meta={meta} />
 		<Navbar navitems={navitems} contact={contacts[0]} navRef={homeRef}/>
 		<main id="main">
 			{children}

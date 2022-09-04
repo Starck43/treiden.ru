@@ -1,4 +1,4 @@
-
+@use "sass:math"
 @import mixins
 @import vars
 @import controls
@@ -22,6 +22,7 @@ html
 	font-size: $base-font-size
 
 body
+	overflow-x: hidden
 	scroll-behavior: smooth
 	--bs-font-sans-serif: #{$font-family-text, $default-fonts}
 	+media-breakpoint-up(md)
@@ -64,8 +65,8 @@ header
 
 .post-title
 	text-transform: uppercase
-	+media-breakpoint-up(lg)
-		font-size: calc(1rem + 0.5vw)
+	+media-breakpoint-up(md)
+		font-size: calc(1rem + 0.3vw)
 
 img
 	color: transparent
@@ -131,15 +132,14 @@ section
 				display: none
 
 .container
+	--bs-gutter-x: #{$container-gutter / 3}
 	margin-bottom: 6vh
-	--bs-gutter-x: $container-gutter
-	+media-breakpoint-down(lg)
-		--bs-gutter-x: #{$container-gutter / 3}
-	+media-breakpoint-down(md)
-		--bs-gutter-x: #{$container-gutter * 2}
-		max-width: 100%
-	+media-breakpoint-down(sm)
-		--bs-gutter-x: 1.5rem
+	+media-breakpoint-up(sm)
+		--bs-gutter-x: #{$container-gutter / 2}
+	+media-breakpoint-up(md)
+		--bs-gutter-x: #{$container-gutter / 2}
+	+media-breakpoint-up(lg)
+		--bs-gutter-x: #{$container-gutter}
 	+media-breakpoint-up(xxl)
 		max-width: 1200px
 
@@ -148,33 +148,36 @@ figure
 	>div
 		overflow: unset !important
 		>div
-			box-shadow: 0 0 1rem -1px $shadow
-			transition: all 300ms ease-out
+			box-shadow: 0 0 1rem -2px $shadow
+			transition: all 200ms ease-out
 			&:hover
-				box-shadow: 0 0 1rem -1px $brand-color
+				box-shadow: 0 0 1rem -2px transparentize($brand-color, 0.2)
 
-.awards-slider, .customers-slider
-	.carousel.carousel-slider
-		padding-bottom: 2rem
-		margin: -1rem 0
-		overflow: unset
-	+media-breakpoint-up(md)
-		margin: -1rem -3rem
-		.carousel.carousel-slider
-			.slide
-				padding: 0 3rem
+.grouped-slider-container
+	padding: 1rem
+	margin: -1rem
+	.carousel
+		&.carousel-slider
+			padding-bottom: 2rem
+			overflow: unset
+		+media-breakpoint-up(sm)
+			.slider-wrapper
+				width: auto
+				margin: 0 calc(var(--bs-gutter-x) * -2)
+				.slide
+					padding: 0 calc(var(--bs-gutter-x) * 2)
 
 	.arrow.left
-		+media-breakpoint-between(md, xl)
-			left: calc(3rem - 6vw)
-		+media-breakpoint-up(xl)
-			left: -1.5rem
+		left: unset
+		right: 100%
+		+media-breakpoint-up(lg)
+			right: calc(100% + 1vw)
 
 	.arrow.right
-		+media-breakpoint-between(md, xl)
-			right: calc(3rem - 6vw)
-		+media-breakpoint-up(xl)
-			right: -1.5rem
+		right: unset
+		left: 100%
+		+media-breakpoint-up(lg)
+			left: calc( 100% + 1vw)
 
 .customers-slider
 	.arrow:hover
@@ -226,6 +229,7 @@ figure
 
 .extra-posts
 	.post-link
+		position: absolute
 		display: flex
 		justify-content: flex-end
 		align-items: center

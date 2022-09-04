@@ -84,14 +84,17 @@
 		align-items: flex-end
 
 .filterItem
-	flex: 1
+	flex: auto
 	padding: 0.25em
 	text-align: center
 
 .filterLink
+	font-size: 1rem
 	&:hover
 		text-decoration: underline
 
+	+media-breakpoint-down(lg)
+		font-size: 0.9rem
 	+media-breakpoint-down(md)
 		font-size: 0.8rem
 

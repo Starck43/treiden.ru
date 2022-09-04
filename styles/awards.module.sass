@@ -1,13 +1,17 @@
 @import vars
 @import mixins
 
+.section
+	background-color: $bg-light
+	padding: 3vw 0
+
 .figure
 	margin: 1rem 0 1rem
 	cursor: pointer
 	img
-		transition: all 300ms ease-out
+		transition: all 200ms ease-out
 		&:hover
-			box-shadow: 0 0 1rem -1px $brand-color
+			box-shadow: 0 0 1rem -2px transparentize($brand-color, 0.4)
 
 .header
 	flex-direction: column

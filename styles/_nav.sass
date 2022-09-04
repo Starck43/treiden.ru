@@ -42,12 +42,12 @@ nav.navbar
 				align-items: center
 				justify-content: center
 				width: 300px
-				height: 100%
+				height: 100vh
 				right: 0
 				top: 0
 				padding-top: 12vh
 				text-align: center
-				+blur-background(15px, $menu-bg, 0.05, 0.4)
+				+blur-background(20px, $menu-bg, 0.05, 0.2)
 				border-left: solid 1px $brand-color
 				text-shadow: 1px 1px 2px $menu-bg
 				transition: 200ms all ease-out
@@ -60,9 +60,9 @@ nav.navbar
 					background-color: transparent
 					border-radius: 1px
 					border: 1px solid transparent
-					transition: all 200 ease-out
+					transition: all 200ms ease-out
 					&:hover
-						background-color: $menu-bg
+						//background-color: $menu-bg
 						border-color: transparentize($brand-color,0.5)
 
 				.socials
@@ -119,7 +119,7 @@ nav.navbar
 			background: $brand-color
 
 		&::before, &::after
-			content:''
+			content: ''
 			position: absolute
 			left: 25%
 			height: 2px

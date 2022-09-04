@@ -1,40 +1,19 @@
-//import axios from 'axios'
-import useSWR from 'swr'
-//import getConfig from 'next/config'
+import useSWR from "swr"
+import {cleanDoubleSlashes} from "../helpers/utils"
 
-//const config = getConfig().publicRuntimeConfig //next.config.js
+const fetcher = url => fetch(url).then(res => res.json())
 
+const Fetch = (server, endpoint, params = {}) => {
+	let url = cleanDoubleSlashes(server + endpoint)
+	if (!url) return {data: null, error: "Пустой запрос к серверу"}
 
-/*const getData = response => response.data || {}
-const getError = response => response.error || {}
-const isSuccess = response => response.success || false
+	if (Object.keys(params).length) {
+		params = new URLSearchParams(params)
+		url = url + "?" + params.toString()
+	}
 
-const loadData = async (url) => {
-  const result = await axios.get(url)
-  const { data: response } = result
-  //console.log(result)
-  if (isSuccess(response)) {
-    return getData(response)
-  }
-  const error = getError(response)
-  console.error(
-    `There was an error with code ${error.code}: "${error.message}"`
-  )
-  return []
+	const {data, error} = useSWR(url, fetcher)
+	return {data, error}
 }
 
-export default fetchData
-*/
-
-
-const fetchData = async (endpoint) => {
-  const response = await fetch(process.env.API_SERVER + endpoint)
-  return await response.json()
-}
-
-const ajaxFetch = (endpoint='') => {
-  return useSWR(endpoint, () => fetchData(endpoint))
-}
-
-export default ajaxFetch
-
+export default Fetch

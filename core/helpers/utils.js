@@ -1,22 +1,47 @@
-import getConfig from 'next/config'
-
-export const isSafari = () => {
-	var userAgent = navigator.userAgent.toLowerCase()
-	return /^((?!chrome|android).)*safari/i.test(userAgent)
+//convert an array from one dimensional to two dimensional
+export const convert2DimensionalArray = (arr, len) => {
+	const res = []
+	for (let i = 0; i < Math.ceil(arr.length / len); i++) {
+		res.push(arr.slice(i*len, (i+1)*len))
+	}
+	return res
 }
 
-
 export const getWindowDimensions = () => {
-	if (typeof window === 'undefined') {
-		return { width: null, height: null}
+	if (typeof window !== "undefined") {
+		let w = window.innerWidth
+
+		const getMediaScreen = () => {
+			switch (true) {
+				case w < 576:
+					return "xs"
+				case w >= 576 && w < 768:
+					return "sm"
+				case w >= 768 && w < 992:
+					return "md"
+				case w >= 992 && w < 1200:
+					return "lg"
+				default:
+					return "xl"
+			}
+		}
+		return {
+			width: window.innerWidth,
+			height: window.innerHeight,
+			ratio: window.innerWidth / window.innerHeight,
+			media: getMediaScreen()
+		}
 	}
-	const { innerWidth: width, innerHeight: height } = window
-	return { width, height }
+	return {
+		width: 0,
+		height: 0,
+		ratio: 0
+	}
 }
 
 
 export const getYear = () => {
-	return new Date().getFullYear();
+	return new Date().getFullYear()
 }
 
 export const getHostname = (url) => {
@@ -24,7 +49,7 @@ export const getHostname = (url) => {
 	if (url) {
 		let hostname = new URL(url.toLowerCase()).hostname.split('.')
 		name = hostname[0]
-		if (hostname.length > 1 && name == 'www') name = hostname[1]
+		if (hostname.length > 1 && name === 'www') name = hostname[1]
 	}
 	return name
 }
@@ -33,21 +58,21 @@ export const getHostname = (url) => {
 export const getYouTubeID = (url) => {
 	if (!url) return null
 	url = url.split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/)
-	return (url[2] !== undefined) ? url[2].split(/[^0-9a-z_\-]/i)[0] : null //url[0]
+	return (url[2] !== undefined) ? url[2].split(/[^0-9a-z_\-]/i)[0] : null
 }
 
 
 export const getLinkType = (url) => {
 	if (!url) return {type: null, id: null}
 
-	var link = {
+	const link = {
 		type: 'youtube',
 		id: getYouTubeID(url)
 	}
 
 	if (!link.id) {
-		var ext = url.split('.').pop()
-		link.type = (ext.toLowerCase() == 'jpg' || ext.toLowerCase() == 'png') ? 'image' : 'link'
+		let ext = url.split('.').pop()
+		link.type = (ext.toLowerCase() === 'jpg' || ext.toLowerCase() === 'png') ? 'image' : 'link'
 	}
 	return link
 }
@@ -57,27 +82,31 @@ export const scrollToRef = (ref, offset=0) => window.scrollTo(offset, ref.curren
 
 
 export const createThumbUrl = (src, width) => {
-	let path = src.split('.')
+	let path = src?.split('.')
 	if (path.length > 1) {
 		let ext = path.pop()
 		let thumbName = '_' + width + 'w'
-		let thumbSrc = path.join('.') + thumbName + '.' + ext
-		return thumbSrc
+		return path.join('.') + thumbName + '.' + ext
 	}
 	return src
 }
 
+export const remoteLoader = ({src, width}) => {
+	return createThumbUrl(src, width)
+}
+
+export const cleanDoubleSlashes = (str) => str.replace(/([^:]\/)\/+/g, "$1")
 
 export const absoluteUrl = (url) => {
-	if (url && url.indexOf('http',0) == -1) return process.env.SERVER + url
+	if (url && url.indexOf('http',0) === -1) return process.env.SERVER + url
 	return url
 }
 
 export const truncateHTML = (value, n=200) => {
-	var t=value.substring(0, n) // first cut
-	var tr=t.replace(/<(.*?[^\/])>.*?<\/\1>|<.*?\/>/,"") // remove opened+closed tags
+	let t=value.substring(0, n) // first cut
+	let tr=t.replace(/<(.*?[^\/])>.*?<\/\1>|<.*?\/>/,"") // remove opened+closed tags
 	// capture open tags
-	var ar=tr.match(/<((?!li|hr|img|br|area|base|col|command|embed|input|keygen|link|meta|head|param|source|track|wbr).*?)>/g)
+	let ar=tr.match(/<((?!li|hr|img|br|area|base|col|command|embed|input|keygen|link|meta|head|param|source|track|wbr).*?)>/g)
 
 	if (ar) return t+"&hellip;"+ar.reverse().join("").replace(/</g,"<\/") // close tags
 	return value

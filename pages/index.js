@@ -1,9 +1,13 @@
-import React from 'react'
-import dynamic from 'next/dynamic'
+//import dynamic from 'next/dynamic'
 
-import Header from '~/components/header/Header'
 import Layout from '~/components/Layout'
+import Header from "../components/header/Header"
+import {About, Activities} from "../components/services"
+import Events from "../components/events/Events"
+import Customers from "../components/customers/Customers"
+import Awards from "../components/awards/Awards"
 
+/*
 
 const AsyncHeader = dynamic(() => import('~/components/header/Header'))
 const AsyncAbout = dynamic(() => import('~/components/services').then((mod) => mod.About))
@@ -11,21 +15,23 @@ const AsyncActivities = dynamic(() => import('~/components/services').then((mod)
 const AsyncEvents = dynamic(() => import('~/components/events/Events'))
 const AsyncCustomers = dynamic(() => import('~/components/customers/Customers'))
 const AsyncAwards = dynamic(() => import('~/components/awards/Awards'))
+*/
 
 
-const HomePage = (props) => {
+const HomePage = ({...props}) => {
 	return(
 	<Layout navitems={props.navitems} contacts={props.contacts} posts={props.posts} meta={props.meta[0]} >
-		<AsyncHeader sliders={props.header} posts={props.posts}/>
-		<AsyncAbout data={props.about}/>
-		<AsyncActivities activities={props.activities}/>
-		<AsyncEvents data={props.events}/>
-		<AsyncCustomers customers={props.customers}/>
-		<AsyncAwards awards={props.awards}/>
+		<Header sliders={props.header} posts={props.posts}/>
+		<About data={props.about}/>
+		<Activities activities={props.activities}/>
+		<Events data={props.events}/>
+		<Customers customers={props.customers}/>
+		<Awards awards={props.awards}/>
 	</Layout>
 )}
 
 export default HomePage
+
 
 export const getStaticProps = async () => {
 	const header = await fetch(process.env.API_SERVER + 'header')

@@ -1,24 +1,17 @@
-import React, { Fragment, useState }  from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { createThumbUrl } from '~/core/helpers/utils'
+import React, {Fragment, useState} from "react"
+import Image from "next/image"
+import styled from "styled-components/macro"
+import {remoteLoader} from "../../core/helpers/utils"
 
-import styled from 'styled-components/macro'
-import { Review } from '~/components/customers'
+import {Review} from "~/components/customers"
 
 import style from "~/styles/customer.module.sass"
-//import styles from 'react-responsive-carousel/lib/styles/carousel.min.css'
 
 
 
-const remoteLoader = ({ src, width }) => {
-	return createThumbUrl(src, width)
-}
-
-
-const Items = ({ customers }) => {
+const Items = ({customers}) => {
 	const [showModal, setShowModal] = useState(false)
-	const [imageIndex, setImageIndex] = useState(0);
+	const [imageIndex, setImageIndex] = useState(0)
 
 	const handleClick = (e) => {
 		let el = e.currentTarget
@@ -32,33 +25,37 @@ const Items = ({ customers }) => {
 	}
 
 	return (
-	<Fragment>
-		{customers.map(customer => (
-		<Customer className={`card col-12 col-sm-6 col-md-4 col-lg-3 ${style.article}`} onClick={handleClick} key={`customer-${customer.id}`}>
-			<Avatar className={style.avatar}>
-				<Image
-					loader={remoteLoader}
-					src={customer.avatar}
-					alt={customer.title}
-					layout="intrinsic"
-					width={450}
-					height={450}
-					quality={80}
-				/>
-			</Avatar>
-			<Header className={`post-title card-title ${style.title}`}>
-				{customer.title}
-			</Header>
-			<Button className={style.button}>
-				Посмотреть отзыв
-			</Button>
-		</Customer>
-		))}
+		<Fragment>
+			{customers.map(customer => (
+				<Customer
+					className={`card col-12 col-sm-6 col-md-4 col-lg-3 ${style.article}`}
+					onClick={handleClick}
+					key={`customer-${customer.id}`}>
+					<Avatar className={style.avatar}>
+						<Image
+							loader={remoteLoader}
+							src={customer.avatar}
+							alt={customer.title}
+							layout="intrinsic"
+							width={450}
+							height={450}
+							quality={80}
+						/>
+					</Avatar>
+					<Header className={`post-title card-title ${style.title}`}>
+						{customer.title}
+					</Header>
+					<Button className={style.button}>
+						Посмотреть отзыв
+					</Button>
+				</Customer>
+			))}
 
-		<Review show={showModal} handleClose={toggleShow} customer={customers[imageIndex]} />
+			<Review show={showModal} handleClose={toggleShow} customer={customers[imageIndex]}/>
 
-	</Fragment>
-)}
+		</Fragment>
+	)
+}
 
 
 export default Items

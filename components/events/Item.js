@@ -1,15 +1,14 @@
-import React from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import styled from 'styled-components/macro'
+import Image from "next/image"
+import Link from "next/link"
 
-import { createThumbUrl } from '~/core/helpers/utils'
+import {createThumbUrl} from "~/core/helpers/utils"
 
 import style from "~/styles/events.module.sass"
 
 
+const SLUG = "event"
 
-const remoteLoader = ({ src, width }) => {
+const remoteLoader = ({src, width}) => {
 	let breakpoints = [320, 450, 640, 768, 1080, 1200]
 	if (breakpoints.indexOf(width) !== -1)
 		return createThumbUrl(src, width)
@@ -17,36 +16,35 @@ const remoteLoader = ({ src, width }) => {
 }
 
 
-const Item = ({ item }) => {
+const Item = ({item}) => {
 	return (
-	<Article id={`event-${item.id}`} className={`card ${style.article}`}>
-		<Image
-			className={style.image}
-			loader={remoteLoader}
-			src={item.cover}
-			alt={item.title}
-			layout="responsive"
-			objectFit="cover"
-			width={576}
-			height={320}
-			quality={80}
-		/>
-		<Body className={style.body}>
-			<h2 className='post-title'>
-				<Link href={'/event/'+item.id}><a>{item.title}</a></Link>
-			</h2>
-			<p className={`card-text ${style.excerpt}`}>{item.excerpt}</p>
-			<p className={`card-date ${style.date}`}>{item.date}</p>
-		</Body>
+		<article id={`${SLUG}-${item.id}`} className={`card ${style.article}`}>
+			<Link href={`/${SLUG}/${item.id}`}><a>
+				<Image
+					className={style.image}
+					loader={remoteLoader}
+					src={item.cover}
+					alt={item.title}
+					layout="responsive"
+					objectFit="cover"
+					width={576}
+					height={320}
+					quality={80}
+				/>
+			</a></Link>
+			<div className={style.body}>
+				<h2 className="post-title">
+					<Link href={`/${SLUG}/${item.id}`}><a>{item.title}</a></Link>
+				</h2>
+				<p className={`card-text ${style.excerpt}`}>{item.excerpt}</p>
+				<p className={`card-date ${style.date}`}>{item.date}</p>
+			</div>
 
-	</Article>
-)}
+		</article>
+	)
+}
 
 
 export default Item
-
-const Article = styled.article``
-const Body = styled.div``
-const Button = styled.button``
 
 

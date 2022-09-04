@@ -1,3 +1,7 @@
+@use "sass:math"
+
+$base-font-size: 16px
+
 // Source mixin
 @mixin make-container($padding-x: 0)
 	width: 100%
@@ -20,9 +24,8 @@
 
 @mixin font-settings($font:false, $colour:false, $size:false, $case:false, $weight:false, $lh:false)
 	@if $font
-		font-family: "#{$font}",#{$default-fonts}
-	@else
-		font-family: #{$default-fonts}
+		font-family: "#{$font}", Arial, Tahoma
+
 	@if $size
 		font-size: $size
 	@if $colour

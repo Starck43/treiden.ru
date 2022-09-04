@@ -1,13 +1,11 @@
 // next.config.js
 
 const path = require('path')
-const isProduction = process.env.NODE_ENV === "production"
-const serverName = isProduction ? 'https://vitaly.treiden.ru' : 'http://localhost:9000'
 
 module.exports = {
 	env: {
-		SERVER: serverName,
-		API_SERVER: serverName + '/api/',
+		SERVER: process.env.SERVER_URL,
+		API_SERVER: process.env.SERVER_URL + '/api/',
 	},
 	publicRuntimeConfig: {
 		logo: '/images/logo.png',
@@ -17,8 +15,6 @@ module.exports = {
 			description: 'Создание рекламных, коммуникационных и ивент-продуктов федерального качества по провинциальной цене',
 			keywords: "реклама, медиа, брендинг, видеопродакшн, ивенты, AR, дополненная реальность, маркетинговые услуги, продвижение бренда",
 		},
-		googleAnalyticsId: 'G-QVTB1FKKT4',
-		yandexMetrikaId: '21758641',
 	},
 	serverRuntimeConfig: {
 	// Will only be available on the server side
@@ -27,7 +23,7 @@ module.exports = {
 	},
 	// settings for next/images
 	images: {
-		domains: [serverName],
+		domains: [process.env.SERVER_HOST],
 		deviceSizes: [320, 450, 640, 768, 1080, 1200, 1920], // breakpoints
 		imageSizes: [320, 450, 640, 900], // breakpoints
 	},
