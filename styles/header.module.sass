@@ -9,7 +9,7 @@
 .post
 	position: absolute
 	right: 0
-	width: 100%
+	//width: 100%
 	padding: 2vw calc(1rem + 2vh)
 	color: #fff
 	z-index: 1
@@ -55,3 +55,11 @@
 		top: unset
 		bottom: 0
 
+.slider
+	position: relative
+	height: 100%
+	max-height: calc(100vh - #{$nav-h})
+	//@media (min-width: 576px) and (orientation: landscape)
+	//	max-height: calc(100vh - #{$nav-h})
+	@media (max-width: 575.98px) and (orientation: landscape)
+		max-height: calc(100vh - #{$nav-h-sm})

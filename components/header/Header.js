@@ -7,7 +7,7 @@ import style from "~/styles/header.module.sass"
 const Header = ({posts, sliders}) => {
 
 	const sliderProps = {
-		autoPlay: true,
+		//autoPlay: true,
 		interval: 7000,
 		infiniteLoop: true,
 		showThumbs: true,
@@ -24,7 +24,7 @@ const Header = ({posts, sliders}) => {
 				<div className={style.subtitle}>{header.subtitle}</div>
 			</Title>
 			*/}
-			<Slider sliders={sliders} className={style.slider} groupKey={"activities"} {...sliderProps} />
+			<Slider sliders={sliders} className={`header-slider ${style.slider}`} priority groupKey={"activities"} {...sliderProps} />
 		</section>
 	)
 }

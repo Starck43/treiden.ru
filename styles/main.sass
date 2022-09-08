@@ -99,18 +99,15 @@ section
 			padding: 0
 
 	&.header-section
+		overflow: hidden
 		padding-top: 0
-		.carousel .slide
-			background-color: $overlay-bg-color
+		.carousel
+			position: inherit
+			.slide
+				background-color: $overlay-bg-color
 			img
 				mix-blend-mode: multiply
-		.arrow
-			padding: calc(1.6em - 1vw)
 
-		@media (min-width: 576px) and (orientation: landscape)
-			max-height: calc(100vh - #{$nav-h})
-		@media (max-width: 575.98px) and (orientation: landscape)
-			max-height: calc(100vh - #{$nav-h-sm})
 		@media (orientation: landscape)
 			.carousel .slide>div
 				height: 100%
@@ -128,13 +125,16 @@ section
 				display: none
 
 .container
-	--bs-gutter-x: #{$container-gutter / 3}
+	--bs-gutter-x: #{$container-gutter / 1.5}
 	+media-breakpoint-up(sm)
 		--bs-gutter-x: #{$container-gutter / 2}
+		max-width: 485px
 	+media-breakpoint-up(md)
 		--bs-gutter-x: #{$container-gutter / 2}
+		max-width: 700px
 	+media-breakpoint-up(lg)
 		--bs-gutter-x: #{$container-gutter}
+		max-width: 900px
 	+media-breakpoint-up(xxl)
 		max-width: 1200px
 
@@ -192,10 +192,6 @@ section
 
 .extra-posts
 	.post-link
-		position: absolute
-		display: flex
-		justify-content: flex-end
-		align-items: center
 		+media-breakpoint-down(sm)
 			font-size: 0.9rem
 		p
@@ -229,4 +225,3 @@ section
 .centered
 	display: flex
 	align-items: center
-	justify-content: center

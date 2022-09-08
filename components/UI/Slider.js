@@ -18,7 +18,7 @@ const remoteLoader = ({src, width}) => {
 }
 
 
-const Slider = ({sliders, className, groupKey = "", ...sliderProps}) => {
+const Slider = ({sliders, className, priority = false, groupKey = "", ...sliderProps}) => {
 	const onClick = (e) => {
 		// Остановим все click события вверх по дереву
 		e.stopPropagation()
@@ -35,10 +35,10 @@ const Slider = ({sliders, className, groupKey = "", ...sliderProps}) => {
 		           transitionTime={900}
 		           labels={{leftArrow: "Назад", rightArrow: "Вперед", item: "Слайд"}}
 		           renderArrowPrev={(onClickHandler, hasPrev, label) =>
-			           hasPrev && <div className={`arrow left ${style.arrow}`} onClick={onClickHandler} title={label}/>
+			           hasPrev && <div className={`arrow left`} onClick={onClickHandler} title={label}/>
 		           }
 		           renderArrowNext={(onClickHandler, hasNext, label) =>
-			           hasNext && <div className={`arrow right ${style.arrow}`} onClick={onClickHandler} title={label}/>
+			           hasNext && <div className={`arrow right`} onClick={onClickHandler} title={label}/>
 		           }
 		           renderThumbs={(children) => children.map((item, index) => {
 			           let obj = sliders[index]
@@ -72,6 +72,7 @@ const Slider = ({sliders, className, groupKey = "", ...sliderProps}) => {
 						width={320}
 						height={180}
 						quality={80}
+						priority={priority}
 					/>
 					}
 					{sliderProps.showTitle && <p className="legend">{obj.title}</p>}
@@ -85,12 +86,19 @@ const Slider = ({sliders, className, groupKey = "", ...sliderProps}) => {
 export default Slider
 
 
-export const GridSlider = ({children, groupKey = "slider", itemLabel = "", showControls = true, showDots = true}) => {
+export const GridSlider = ({
+	                           children,
+	                           groupKey = "slider",
+	                           itemLabel = "",
+	                           showControls = true,
+	                           showDots = true,
+	                           transitionTime = 700
+                           }) => {
 	return (
 		<Carousel
 			className={`grouped-slider-container`} groupKey={groupKey}
 			infiniteLoop={false}
-			transitionTime={700}
+			transitionTime={transitionTime}
 			showThumbs={false}
 			showIndicators={showDots}
 			showStatus={false}
@@ -115,7 +123,6 @@ export const GridSlider = ({children, groupKey = "slider", itemLabel = "", showC
 
 
 const Container = styled(Carousel)`
-	height: 100%;
 
 	.carousel-slider {
 		height: 100%;
