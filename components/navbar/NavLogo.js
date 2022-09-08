@@ -1,7 +1,9 @@
 import React from "react"
 import Link from "next/link"
+//import Image from "next/image"
 
 import {Navbar} from "react-bootstrap"
+
 
 const NavLogo = ({href, logo, pathname}) => {
 	let url = pathname === "/" ? "#" : href

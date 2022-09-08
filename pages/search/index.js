@@ -2,7 +2,7 @@ import React from 'react'
 
 import Layout from '~/components/Layout'
 import SearchList from '~/components/search/SearchList'
-import Contacts from '~/components/contacts/Contacts'
+//import Contacts from '~/components/contacts/Contacts'
 
 
 const SearchPage = ({navitems, contacts, posts}) => {

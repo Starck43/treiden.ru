@@ -1,84 +1,92 @@
-import React, { useState }  from 'react'
-import styled from 'styled-components/macro'
-import Image from 'next/image'
-import Link from 'next/link'
+import React, {useEffect, useState} from "react"
+import Image from "next/image"
+import {Modal, Row, Col} from "react-bootstrap"
 
-import { getYouTubeID, createThumbUrl } from '~/core/helpers/utils'
+import VideoPlayer from "../UI/VideoPlayer"
+import {HtmlContent} from "../UI/HtmlContent"
 
-import { Modal, Button, Row, Col } from 'react-bootstrap'
-import LiteYouTubeEmbed from "react-lite-youtube-embed"
+import {remoteLoader} from "../../core/helpers/utils"
 
 import style from "~/styles/review.module.sass"
 
 
-
-
-const remoteLoader = ({ src, width }) => {
-	return createThumbUrl(src, width)
-}
-
-
 const Review = ({show, handleClose, customer}) => {
-	const [fullMode, setVideoMode] = useState(false)
+	const [videoState, setVideoState] = useState(null)
 
-	const videoClickHandle = (e) => {
-		e.currentTarget.style.position = 'static'
-		//e.currentTarget.parentElement.style.width = '100%'
-		setVideoMode(true)
-	}
+/*	const videoClickHandle = (e) => {
+		let currentState = videoState[customer.id]
+		currentState.playing = !videoState.playing
+		setVideoState({
+			...videoState,
+			[customer.id]: currentState
+		})
+	}*/
+
+	useEffect(() => {
+		setVideoState({
+			[customer.id]: {
+				id: customer.id,
+				url: customer.url,
+				ended: false,
+				loaded: 0,
+				played: 0,
+				playing: false
+			}
+		})
+	}, [customer])
+
 
 	return (
-	<Modal show={show} onHide={handleClose} size="xl" fullscreen="sm-down" scrollable={true} centered>
-		<Modal.Header className={style.container}>
-			<h3 className='mb-0'>Отзыв клиента</h3>
-			<button type="button" className="btn-close btn-lg" onClick={handleClose} data-bs-dismiss="modal" aria-label="Закрыть"></button>
-		</Modal.Header>
+		<Modal show={show} onHide={handleClose} size="xl" fullscreen="sm-down" scrollable={true} centered>
+			<Modal.Header className={style.container}>
+				<h3 className="mb-0">Отзыв клиента</h3>
+				<button type="button" className="btn-close btn-lg" onClick={handleClose} data-bs-dismiss="modal"
+				        aria-label="Закрыть"/>
+			</Modal.Header>
 
-		<Modal.Body className={style.container}>
-			<Row>
-				<Title className={style.title}>
-					<h3>{customer.title}</h3>
-					<span className={style.subtitle}>{customer.subtitle}</span>
-				</Title>
-				<Col sm={12} md={12} lg={4} xl={5}>
-					<Cover className={style.avatar} onClick={videoClickHandle}>
-						<Image
-							loader={remoteLoader}
-							src={customer.avatar}
-							alt={customer.title}
-							layout="intrinsic"
-							objectFit="cover"
-							width={450}
-							height={450}
-							quality={80}
-						/>
-						{ customer.url && (
-							<YouTube
-								id={getYouTubeID(customer.url)}
-								title={customer.title}
-								wrapperClass="youtube-lite"
-								playerClass="play-btn"
-								adNetwork={false}
+			<Modal.Body className={style.container}>
+				{customer?.title &&
+				<div className={style.title}>
+					<h3>{customer?.title}</h3>
+					{customer?.subtitle && <span className={style.subtitle}>{customer.subtitle}</span>}
+				</div>
+				}
+
+				<Row>
+					<Col sm={12} md={12} lg={5}>
+						<div className={style.avatar}>
+							{customer.avatar &&
+							<Image
+								loader={remoteLoader}
+								src={customer.avatar}
+								alt={customer.title}
+								layout="intrinsic"
+								objectFit="cover"
+								width={450}
+								height={450}
+								quality={80}
 							/>
-						)}
-					</Cover>
-				</Col>
-				<Col sm md lg={8} xl={7}>
-					<Content className={style.content} dangerouslySetInnerHTML={{ __html: customer.review }} />
-				</Col>
-			</Row>
-		</Modal.Body>
+							}
+							{videoState && customer.url && (
+								<VideoPlayer
+									id={customer.id}
+									playerState={videoState}
+									setPlayerState={setVideoState}
+								/>
+							)}
+						</div>
+					</Col>
 
-	</Modal>
-)}
+					<Col sm md lg={7}>
+						<HtmlContent className={style.content}>{customer.review}</HtmlContent>
+					</Col>
+				</Row>
+			</Modal.Body>
+
+		</Modal>
+	)
+}
 
 export default Review
-
-
-const Title = styled.div``
-const Content = styled.div``
-const Cover = styled.div``
-const YouTube = styled(LiteYouTubeEmbed)``
-
 
 

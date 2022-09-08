@@ -23,7 +23,7 @@ const Customers = ({customers}) => {
 		let groupCount = (media === "xs") ? 1 : (media === "sm") ? 2 : (media === "md") ? 3 : 4
 		let groupedArray = convert2DimensionalArray(customers, groupCount)
 		customers && setGroupedCustomers(groupedArray)
-	}, [media])
+	}, [customers, media])
 
 	return (
 		groupedCustomers.length > 0 &&

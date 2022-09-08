@@ -11,37 +11,25 @@
 		flex-wrap: wrap
 		flex-direction: row
 
-.slider
-	flex: 100%
-
 .title2
 	width: 100%
-	margin: 8vh auto 4vh
+	margin: 8rem auto 2rem
 	text-align: center
 	text-transform: uppercase
 
 .cover
 	position: relative
 	height: 100%
-	flex: 1
 	max-width: 450px
 	margin-bottom: 2em
-	+media-breakpoint-up(md)
-		flex: 1 1 40%
-
-
-.content
-	display: flex
-	flex-direction: column
-	flex: 1
-	margin-bottom: 2em
-	+media-breakpoint-up(md)
-		flex: 1 1 46%
-		margin-left: 4%
 
 .button
 	align-self: baseline
 	margin-bottom: 2rem
+	font-weight: bold
+	&:hover span~span
+		text-decoration: underline
+
 
 .navigation
 	display: flex

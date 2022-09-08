@@ -21,6 +21,7 @@ const Activities = ({activities}) => (
 			layout="fill"
 			objectFit="cover"
 			quality={80}
+			placeholder
 			alt="Виды деятельности"
 		/>
 		<Container className={style.activities}>

@@ -11,7 +11,7 @@ import style from "~/styles/events.module.sass"
 
 const Events = ({data}) => {
 	const [nextPage, setNextPage] = useState(data.next ? 2 : 0)
-	const [events, addEvents] = useState(data.results)
+	const [events, addEvents] = useState(data.results || [])
 
 	const loadMoreEvents = async () => {
 		const post = await fetchEvents(nextPage)
@@ -20,14 +20,14 @@ const Events = ({data}) => {
 	}
 
 	return (
-		data.results.length > 0 &&
-		<Section>
+		data.results?.length > 0 &&
+		<Section className="events">
 			<Anchor id="events"/>
 			<Header>События</Header>
 			<Row>
 				{events.length > 0 &&
 				<Col className={style.column_1}>
-					<Item item={events[0]}/>
+					<Item item={events[0]} mainColumn/>
 				</Col>
 				}
 				{events.length > 1 &&
@@ -37,7 +37,6 @@ const Events = ({data}) => {
 				</Col>
 				}
 			</Row>
-
 		</Section>
 	)
 }

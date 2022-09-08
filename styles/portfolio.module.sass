@@ -6,6 +6,15 @@
 	display: flex
 	flex-wrap: wrap
 	margin: 6vw auto
+	> div:first-child:not(:last-child)
+		flex: 1 1 40%
+		max-width: 40% !important
+		margin-right: 4vw !important
+		margin-bottom: 4vw !important
+		+media-breakpoint-down(md)
+			flex: 100%
+			max-width: 100%
+			margin: 0 auto 4vw !important
 
 
 .flexDescription
@@ -19,9 +28,9 @@
 
 .media
 	position: relative
-	flex: 100%
-	max-width: 450px
-	margin: 5vh auto 0
+	//flex: 100%
+	//max-width: 450px
+	+push--auto
 
 
 .row
@@ -37,6 +46,7 @@
 
 .card
 	border: none
+	font-size: 1rem
 	+media-breakpoint-down(sm)
 		margin-bottom: 0.75rem
 
@@ -45,7 +55,7 @@
 	margin-bottom: 0
 	text-transform: uppercase
 	font-weight: bold
-	text-shadow: 0px 2px 8px $shadow
+	text-shadow: 0 2px 8px $shadow
 
 
 .overlay
@@ -53,10 +63,12 @@
 	flex-direction: column
 	justify-content: flex-start
 	color: white
+	border-radius: 0
+	border: 1px solid white
 	background-color: transparentize(#000, 0.9)
-	transition: all 300ms ease-out
+	transition: all 200ms ease
 	&:hover
-		+blur-background(15px, $brand-color, 0.5)
+		+blur-background(8px, black, 0.7, 0.7)
 
 
 .play

@@ -33,32 +33,33 @@ const Search = () => {
 	const handleSubmit = e => {
 		e.preventDefault()
 		e.stopPropagation()
-		let text = e.target.querySelector("[type=text]")
+		let text = searchRef.current[0]
 		if (text.classList.contains("hidden")) {
 			text.classList.remove("hidden")
 			text.focus()
 			setScroll(true)
 		} else {
-			if (text.value === "") {
+			if (!text.value) {
 				text.classList.add("hidden")
 				text.blur()
 				setScroll(false)
+				setSearchDisabled(!isSearchDisabled)
 			} else {
-				const searchQuery = text.value
+				const searchQuery = searchRef.current[0].value
+				setSearchDisabled(false)
 				router.replace({
-					pathname: "/search/",
+					pathname: "/search",
 					query: {
 						q: encodeURI(searchQuery)
 					},
-				}, undefined, {shallow: true})
-				text.value = ""
+				}, undefined, {shallow: false, replace: false})
 			}
 		}
 	}
 
 	return (
 		<div className="nav-search-block ms-2">
-			<Form className="search-form" inline onSubmit={handleSubmit} ref={searchRef}>
+			<Form className="search-form" onSubmit={handleSubmit} ref={searchRef}>
 				<FormControl
 					type="text"
 					placeholder="поиск по сайту..."

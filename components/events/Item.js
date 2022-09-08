@@ -16,10 +16,11 @@ const remoteLoader = ({src, width}) => {
 }
 
 
-const Item = ({item}) => {
+const Item = ({item, mainColumn=false}) => {
 	return (
 		<article id={`${SLUG}-${item.id}`} className={`card ${style.article}`}>
-			<Link href={`/${SLUG}/${item.id}`}><a>
+			<Link href={`/${SLUG}/${item.id}`}><a className={style.cover}>
+				{item.cover &&
 				<Image
 					className={style.image}
 					loader={remoteLoader}
@@ -31,12 +32,13 @@ const Item = ({item}) => {
 					height={320}
 					quality={80}
 				/>
+				}
 			</a></Link>
-			<div className={style.body}>
-				<h2 className="post-title">
+			<div className={`event-meta ${style.body}`}>
+				<h2 className={`post-title ${style[mainColumn ? "mainTitle" : "secondTitle"]}`}>
 					<Link href={`/${SLUG}/${item.id}`}><a>{item.title}</a></Link>
 				</h2>
-				<p className={`card-text ${style.excerpt}`}>{item.excerpt}</p>
+				<p className={`card-text`}>{item.excerpt}</p>
 				<p className={`card-date ${style.date}`}>{item.date}</p>
 			</div>
 

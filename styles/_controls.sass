@@ -1,3 +1,4 @@
+@use "sass:math"
 
 @import mixins
 @import vars
@@ -16,6 +17,41 @@ button
 	&:hover
 		background-color: #fff
 
+.btn-close
+	position: relative
+	display: block
+	max-width: 1.5rem
+	width: $controls_w
+	height: $controls_w
+	background-color: transparent
+	transition: all 200ms ease
+	user-select: none
+	box-sizing: content-box
+	border: none
+	opacity: 0.5
+	z-index: 2
+	&:hover
+		opacity: 1
+	&::before,
+	&::after
+		content: ''
+		position: absolute
+		width: 80%
+		height: $border_w
+		left: 10%
+		top: 50%
+		margin-top: math.div(-$border_w, 2)
+		border-radius: 50rem
+		background-color: black
+	&::before
+		transform: rotate(45deg)
+	&::after
+		transform: rotate(-45deg)
+	&.white
+		&::before,
+		&::after
+			background-color: white
+
 
 .nav-arrow
 	font-size: 1.5em
@@ -29,8 +65,8 @@ button
 	position: relative
 	display: flex
 	top: 0
-	width: 20px
-	height: 20px
+	width: $controls_w
+	height: $controls_w
 	transition: all 200ms ease
 	opacity: 0.7
 	cursor: pointer
@@ -61,9 +97,9 @@ button
 .carousel
 	.arrow
 		position: absolute
-		width: calc(3rem + 2vw)
+		width: calc(#{$controls_w} + 3vw)
 		height: 100%
-		padding: 1em
+		padding: 1rem
 		z-index: 2
 		&:hover
 			opacity: 0.9
@@ -80,7 +116,6 @@ button
 			opacity: 0.3
 
 	ul.control-dots
-		margin: 0
 		li.dot
 			width: calc(0.4em + 0.25vw)
 			height: calc(0.4em + 0.25vw)
@@ -91,7 +126,7 @@ button
 			border: #fff 1px solid
 			background-color: #fff
 			//box-shadow: none
-			box-shadow: 0 0 0px 1px $brand-color
+			box-shadow: 0 0 0 1px $brand-color
 			transition: 200ms all ease
 			opacity: 1
 			&.selected

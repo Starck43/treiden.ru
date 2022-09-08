@@ -3,7 +3,6 @@
 
 .section
 	background-color: $bg-light
-	padding: 3vw 0
 
 .article
 	border: none
@@ -12,11 +11,10 @@
 	cursor: pointer
 
 .title
-	margin: 1em 0
-	+media-breakpoint-between(md,lg)
-		font-size: 1rem
-	+media-breakpoint-down(md)
-		font-size: calc(0.6rem + 1.8vw)
+	margin: 1.5rem 0
+	+media-breakpoint-up(md)
+		font-size: 1.2rem
+
 
 .avatar
 	line-height: 0

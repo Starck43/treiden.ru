@@ -23,13 +23,13 @@ const NavBar = (props) => {
 
 	const clickBurger = (e) => {
 		let toggler = e.currentTarget
-		document.body.style.overflow = (
+		if (typeof window !== "undefined") document.body.style.overflow = (
 			window.getComputedStyle(toggler).display === "none" ||
 			window.getComputedStyle(toggler.nextElementSibling).display !== "none"
 		) ? "" : "hidden"
 	}
 
-	const handleClose = (e) => document.querySelector(".navbar-toggler").click()
+	const handleClose = () => typeof window !== "undefined" && document.querySelector(".navbar-toggler").click()
 
 	return (
 		<Fragment>
@@ -39,7 +39,7 @@ const NavBar = (props) => {
 				<ContactBlock className="contacts centered">
 					{
 						props.contact?.socials
-							? props.contact.socials.map((item) =>
+							? props.contact.socials.map(item =>
 								<Link className="social-link" key={item.name} href={item.url}>
 									<Icon name={item.name.toLowerCase()} className="social-icon centered"/>
 								</Link>

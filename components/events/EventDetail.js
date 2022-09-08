@@ -1,14 +1,18 @@
-import styled from "styled-components/macro"
+import React, {useEffect, useState} from "react"
 import Image from "next/image"
 import Link from "next/link"
-import {Container} from "react-bootstrap"
+import styled from "styled-components/macro"
 
-import {Header, Slider, Icon} from "~/components/UI"
-import {getYouTubeID, createThumbUrl} from "~/core/helpers/utils"
+import {Header, Icon} from "~/components/UI"
 
-import LiteYouTubeEmbed from "react-lite-youtube-embed"
+import {HtmlContent} from "../UI/HtmlContent"
+import PhotoGallery from "../UI/PhotoGallery"
+import VideoPlayer from "../UI/VideoPlayer"
+
+import {createThumbUrl} from "~/core/helpers/utils"
 
 import style from "~/styles/event.module.sass"
+import {Section} from "../UI"
 
 
 const remoteLoader = ({src, width}) => {
@@ -18,25 +22,38 @@ const remoteLoader = ({src, width}) => {
 	return src
 }
 
-const HtmlContent = ({className, content}) => (
-	<div className={className} dangerouslySetInnerHTML={{__html: content}}/>
-)
-
 
 const EventDetail = ({event, slug}) => {
 	const date = event.date
+	const [videoState, setVideoState] = useState(null)
 
-	const videoClickHandle = (e) => {
-		let yt = document.querySelector(".youtube-lite")
-		e.currentTarget.disabled = true
-		yt && yt.click()
+	const videoClickHandle = () => {
+		let currentState = videoState[event.id]
+		currentState.playing = !videoState.playing
+		setVideoState({
+			...videoState,
+			[event.id]: currentState
+		})
 	}
 
-	return (
-		<Container id={`event-${event.id}`} className={style.container}>
-			<Header>{event.title}</Header>
+	useEffect(() => {
+		setVideoState({
+			[event.id]: {
+				id: event.id,
+				url: event?.url || null,
+				ended: false,
+				loaded: 0,
+				played: 0,
+				playing: false
+			}
+		})
+	}, [event])
 
-			<Cover className={style.cover}>
+	return (
+		<Section id={`event-${event.id}`}>
+			<Header>{event.title}</Header>
+			<figure className={style.cover}>
+				{event.cover &&
 				<Image
 					className={style.image}
 					loader={remoteLoader}
@@ -48,41 +65,45 @@ const EventDetail = ({event, slug}) => {
 					objectFit="cover"
 					quality={80}
 				/>
-				{event.url && (
-					<YouTube
-						id={getYouTubeID(event.url)}
-						title={event.title}
-						wrapperClass="youtube-lite"
-						playerClass="play-btn"
-						adNetwork={false}
-						//onIframeAdded={InitFrame()}
+				}
+
+				{videoState && event.url && (
+					<VideoPlayer
+						id={event.id}
+						playerState={videoState}
+						setPlayerState={setVideoState}
 					/>
 				)}
-			</Cover>
-			<Content className={style.content}>
-				<Description content={event.description}/>
+			</figure>
+
+			<div className="event-meta">
+				<HtmlContent className="description">{event.description}</HtmlContent>
 				{event.url && (
-					<Button className={style.button}>
-						<VideoLink className="centered" onClick={videoClickHandle}>
-							<Icon name="play" className="fs-5 me-2"/>
-							<span>Смотреть видео</span>
-						</VideoLink>
-					</Button>
+					<button className={`${style.button} centered`} onClick={videoClickHandle}>
+						<Icon name="play" className="fs-5 me-2"/>
+						<span>Смотреть видео</span>
+					</button>
 				)}
-				<Location>
+				<div>
 					<b>Место проведения: </b>{event.location}
-				</Location>
-				<EventDate>
+				</div>
+				<div>
 					<b>Дата мероприятия: </b>{date}
-				</EventDate>
-			</Content>
+				</div>
+			</div>
 
 			{event.media.length > 0 && (
 				<>
 					<h2 className={style.title2}>
 						Фотоотчет с мероприятия
 					</h2>
-					<Slider sliders={event.media || []} className={style.slider} showThumbs={false} showTitle/>
+					{/*<Slider sliders={event.media || []} className={style.slider} showThumbs={false} showTitle/>*/}
+					<PhotoGallery
+						slides={event.media}
+						infinite
+						paginationType="progressbar"
+						layout="responsive"
+					/>
 				</>
 			)}
 
@@ -98,7 +119,7 @@ const EventDetail = ({event, slug}) => {
 				}
 				{
 					event.next?.id &&
-					<Link href={slug + event.next.id}>
+					<Link href={slug + event.next.id} replace scroll={false}>
 						<a className={`${style.next} nav-link`} title={event.next.title}>
 							<span>{event.next.title}</span>
 							<Icon name="arrow_right" className="nav-arrow right"/>
@@ -107,19 +128,11 @@ const EventDetail = ({event, slug}) => {
 				}
 			</Navigation>
 
-		</Container>
+		</Section>
 	)
 }
 
 export default EventDetail
 
 
-const Cover = styled.figure``
-const YouTube = styled(LiteYouTubeEmbed)``
-const Content = styled.div``
-const Button = styled.button``
-const VideoLink = styled.a``
-const Location = styled.p``
-const EventDate = styled.p``
-const Description = styled(HtmlContent)``
 const Navigation = styled.div``

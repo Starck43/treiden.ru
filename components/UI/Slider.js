@@ -2,12 +2,12 @@ import React, {Fragment} from "react"
 import styled from "styled-components/macro"
 import Link from "next/link"
 import Image from "next/image"
+import {Carousel} from "react-responsive-carousel"
 
 import {getLinkType, createThumbUrl} from "~/core/helpers/utils"
 
-import {Carousel} from "react-responsive-carousel"
-import "react-responsive-carousel/lib/styles/carousel.min.css"
 import style from "~/styles/slider.module.sass"
+import "react-responsive-carousel/lib/styles/carousel.min.css"
 
 
 const remoteLoader = ({src, width}) => {
@@ -46,7 +46,7 @@ const Slider = ({sliders, className, groupKey = "", ...sliderProps}) => {
 			           let url = link.type === "link" ? obj.url : `/projects/${obj.slug}`
 			           return (
 				           <Fragment key={index}>
-					           <svg className={`${style.icon} check-mark svg-icon white mx-2`}>
+					           <svg viewBox="0 0 46 20" className={`${style.icon} check-mark svg-icon white mx-2`}>
 						           <use xlinkHref="#check-mark-icon"/>
 					           </svg>
 					           <Link key={obj.slug} shallow={true} href={url}><a onClick={onClick}>{obj.name}</a></Link>
@@ -61,6 +61,7 @@ const Slider = ({sliders, className, groupKey = "", ...sliderProps}) => {
 		>
 			{sliders.map((obj) => (
 				<Fragment key={`${groupKey}-${obj.id}`}>
+					{(obj.cover || obj.file) &&
 					<Image
 						className={style.image}
 						loader={remoteLoader}
@@ -72,6 +73,7 @@ const Slider = ({sliders, className, groupKey = "", ...sliderProps}) => {
 						height={180}
 						quality={80}
 					/>
+					}
 					{sliderProps.showTitle && <p className="legend">{obj.title}</p>}
 				</Fragment>
 			))}
@@ -83,8 +85,7 @@ const Slider = ({sliders, className, groupKey = "", ...sliderProps}) => {
 export default Slider
 
 
-
-export const GridSlider = ({children, groupKey="slider", itemLabel="", showControls=true, showDots=true}) => {
+export const GridSlider = ({children, groupKey = "slider", itemLabel = "", showControls = true, showDots = true}) => {
 	return (
 		<Carousel
 			className={`grouped-slider-container`} groupKey={groupKey}

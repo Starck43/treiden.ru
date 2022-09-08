@@ -12,6 +12,7 @@ const ExtraPosts = ({posts}) => (
 				key={post.slug}
 				href={post.url}
 				target="_blank"
+				rel="noreferrer"
 			>
 				<Icon name={getHostname(post.url)} className="social-icon"/>
 				{

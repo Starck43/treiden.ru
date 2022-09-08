@@ -1,13 +1,13 @@
-import React from "react"
-import styled from "styled-components/macro"
+import React, {useEffect, useState} from "react"
 import Link from "next/link"
 import Image from "next/image"
 
-import {getLinkType, createThumbUrl} from "~/core/helpers/utils"
 import {Section, Header, Icon} from "~/components/UI"
 import {List} from "~/components/projects"
+import VideoPlayer from "../UI/VideoPlayer"
+import {HtmlContent} from "../UI/HtmlContent"
 
-import LiteYouTubeEmbed from "react-lite-youtube-embed"
+import {getLinkType, createThumbUrl} from "~/core/helpers/utils"
 
 import style from "~/styles/portfolio.module.sass"
 
@@ -21,12 +21,27 @@ const remoteLoader = ({src, width}) => {
 
 
 const PortfolioDetail = ({category, projects}) => {
-	let link = getLinkType(category.url)
+	const link = getLinkType(category.url)
+	const [videoState, setVideoState] = useState(null)
+
+	useEffect(() => {
+		link.type === "youtube" &&
+		setVideoState({
+			[category.id]: {
+				id: category.id,
+				url: category?.url || null,
+				ended: false,
+				loaded: 0,
+				played: 0,
+				playing: false
+			}
+		})
+	}, [link, category])
 
 	return (
 		<Section>
 			<Header>{category.name}</Header>
-			<Content className={style.content}>
+			<div className={style.content}>
 				{category.file &&
 				<Image className={style.flexImage}
 				       loader={remoteLoader}
@@ -39,11 +54,13 @@ const PortfolioDetail = ({category, projects}) => {
 				/>
 				}
 
-				<div className={`${category.file ? style.flexDescription : style.description}`}
-				     dangerouslySetInnerHTML={{__html: category.description}}/>
+				<HtmlContent className={`${category.file ? style.flexDescription : style.description}`}>
+					{category.description}
+				</HtmlContent>
 
 				{link.type === "youtube" && (
-					<Cover className={style.media}>
+					<div className={style.media}>
+						{category.cover &&
 						<Image
 							className={style.image}
 							loader={remoteLoader}
@@ -55,38 +72,26 @@ const PortfolioDetail = ({category, projects}) => {
 							height={300}
 							quality={80}
 						/>
-						<YouTube
-							id={link.id}
-							title={category.name}
-							wrapperClass="youtube-lite"
-							playerClass="play-btn"
-							adNetwork={false}
-						/>
-					</Cover>
+						}
+						{videoState && (
+							<VideoPlayer
+								id={category.id}
+								playerState={videoState}
+								setPlayerState={setVideoState}
+							/>
+						)}
+					</div>
 				)}
-			</Content>
-			{projects.length > 0 && <List projects={projects} title="Проекты"/>}
-			<Link href="/#activities"><a className="nav-link"><Icon name="arrow_left" className="nav-arrow left"/>На главную</a></Link>
+			</div>
+
+			{projects.length > 0 &&
+			<List projects={projects} title="Проекты"/>
+			}
+
+			<Link href="/#activities"><a className="nav-link"><Icon name="arrow_left" className="nav-arrow left"/>На
+				главную</a></Link>
 		</Section>
 	)
 }
 
 export default PortfolioDetail
-
-const Content = styled.div`
-	> div:first-child:not(:last-child) {
-		flex: 1 1 40%;
-		max-width: 40% !important;
-		margin-right: 4vw !important;
-		margin-bottom: 4vw !important;
-		@media screen and (max-width: 767.98px) {
-			flex: 100%;
-			max-width: 100%;
-			margin: 0 auto 4vw !important;
-		}
-	}
-
-`
-
-const Cover = styled.div``
-const YouTube = styled(LiteYouTubeEmbed)``

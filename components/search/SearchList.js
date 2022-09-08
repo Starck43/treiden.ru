@@ -1,14 +1,17 @@
-import styled from "styled-components/macro"
+import React, {useEffect, useState} from "react"
 import {useRouter} from "next/router"
 import Link from "next/link"
 import Image from "next/image"
+import styled from "styled-components/macro"
 
+import VideoPlayer from "../UI/VideoPlayer"
+import {HtmlContent} from "../UI/HtmlContent"
 import {Section, Icon} from "~/components/UI"
 import Loading from "~/components/Loading"
-import {Fetch, FetchError} from "~/core/api"
-import {getYouTubeID, createThumbUrl, absoluteUrl, truncateHTML} from "~/core/helpers/utils"
+import {FetchError} from "~/core/api"
 
-import LiteYouTubeEmbed from "react-lite-youtube-embed"
+import {getYouTubeID, createThumbUrl, absoluteUrl, truncateHTML} from "~/core/helpers/utils"
+import {Ratio} from "react-bootstrap"
 
 
 const remoteLoader = ({src, width}) => {
@@ -18,67 +21,105 @@ const remoteLoader = ({src, width}) => {
 	return src
 }
 
-
-const HtmlContent = ({className, content}) => (
-	<p className={className} dangerouslySetInnerHTML={{__html: content}}/>
-)
-
 const SearchList = () => {
 	const router = useRouter()
-	//const [fullMode, setVideoMode] = useState(false)
+	const [videoState, setVideoState] = useState(null)
+	const [searchResult, setSearchResult] = useState(null)
+	const [error, setError] = useState(null)
+	const [isLoading, setLoading] = useState(true)
 
-	const videoClickHandle = (e) => {
-		//e.currentTarget.style.position = "static"
-		//e.currentTarget.parentElement.style.width = '100%'
-		//setVideoMode(true)
-		let yt = document.querySelector(".youtube-lite")
-		//e.currentTarget.disabled = true
-		yt && yt.click()
+	const videoClickHandle = () => {
+		/*		let currentState = videoState[post.id]
+				currentState.playing = !videoState.playing
+				setVideoState({
+					...videoState,
+					[post.id]: currentState
+				})
+		*/
 	}
 
-	const params = new URLSearchParams(router.query).toString()
-	const {data, error} = Fetch(process.env.API_SERVER, "search/", params)
+	useEffect(() => {
+		const params = new URLSearchParams(router.query).toString()
+		fetch(process.env.API_SERVER + process.env.SEARCH_ENDPOINT + "?" + params)
+			.then(res => res.json())
+			.then(data => {
+				setSearchResult(data)
+				setLoading(false)
+
+				if (data) {
+					setVideoState(
+						data?.reduce((acc, value) => {
+							if (getYouTubeID(value.url)) {
+								acc[value.id] = {
+									id: value.id,
+									url: value.url,
+									loaded: 0,
+									played: 0,
+									playing: false,
+									ended: false,
+								}
+							}
+							return acc
+						}, {})
+					)
+				} else {
+					setVideoState([])
+				}
+			})
+			.catch(error => {
+				setError(error)
+				setLoading(false)
+				console.log(error)
+			})
+
+	}, [router.query])
+
 	if (error) return <FetchError error={error}/>
-	if (!data) return <Loading/>
+	if (isLoading) return <Loading/>
 
 	return (
 		<Section>
 			<header className="mt-5 mb-3"><h1>Вы искали: {decodeURI(router.query["q"])}</h1></header>
-			<p>Найдено записей: {String(data.length)}</p>
+			{searchResult && <p>Найдено записей: {String(searchResult?.length)}</p>}
 			<Container>
-				{data
-					? data.map(post =>
+				{searchResult
+					? searchResult.map(post =>
 						<Item key={post.slug}>
 							<Title className="mb-3">
 								{post.url && <Link href={post.url}><a>{post.title}</a></Link>}
-								</Title>
-							<Description
-								content={post.excerpt || post.description && truncateHTML(post.description, 250)}/>
-							<Cover onClick={videoClickHandle}>
-								{post.cover &&
-								<Image
-									loader={remoteLoader}
-									src={absoluteUrl(post.cover)}
-									alt={post.title}
-									layout="intrinsic"
-									objectFit="cover"
-									objectPosition="left"
-									width={320}
-									height={180}
-									quality={80}
-								/>
-								}
+							</Title>
+							<Description>
+								{post.excerpt || post.description && truncateHTML(post.description, 300)}
+							</Description>
 
-								{post.url && getYouTubeID(post.url) &&
-								<YouTube
-									id={getYouTubeID(post.url)}
-									title={post.title}
-									wrapperClass="youtube-lite"
-									playerClass="play-btn"
-									adNetwork={false}
-								/>
-								}
-							</Cover>
+							{post.cover || videoState && videoState[post.id]
+								? <Ratio aspectRatio="16x9" onClick={videoClickHandle}>
+									<>
+										{post.cover &&
+										<Image
+											loader={remoteLoader}
+											src={absoluteUrl(post.cover)}
+											alt={post.title}
+											layout="intrinsic"
+											objectFit="cover"
+											objectPosition="left"
+											width={320}
+											height={180}
+											quality={80}
+										/>
+										}
+
+										{videoState && videoState[post.id] && (
+											<VideoPlayer
+												id={post.id}
+												playerState={videoState}
+												setPlayerState={setVideoState}
+											/>
+										)}
+									</>
+								</Ratio>
+								: null
+							}
 
 							<p className="mt-4 mb-4">
 								{post.link && (!post.url || post.url && getYouTubeID(post.url))
@@ -87,11 +128,11 @@ const SearchList = () => {
 											{
 												post.post_type === "post" || post.post_type === "category"
 													? `Перейти`
-													: (post.post_type === "event" ? `Перейти к мероприятию` : `Перейти к проекту`)
+													: (post.post_type === "post" ? `Перейти к мероприятию` : `Перейти к проекту`)
 											}
 										</NavLink></Link>
 									)
-									: post.url && <Link href={post.url}><a>Перейти</a></Link>
+									: post.url && <Link href={post.url}><a>Перейти на сайт</a></Link>
 								}
 							</p>
 						</Item>
@@ -102,7 +143,7 @@ const SearchList = () => {
 			</Container>
 			<NavLink className="nav-link" onClick={() => router.back()}>
 				<Icon name="arrow_left" className="nav-arrow left"/>
-				<span>Назад</span>
+				<span>Вернуться назад</span>
 			</NavLink>
 		</Section>
 	)
@@ -116,17 +157,10 @@ const Container = styled.ul`
 	padding: 0;
 `
 const Item = styled.li`
-	padding: 1.5em 0em;
+	padding: 1.5rem 0;
 	border-top: 1px solid rgba(0, 0, 0, .2);
 
 `
 const Title = styled.h3``
 const Description = styled(HtmlContent)``
 const NavLink = styled.a``
-const Cover = styled.div`
-	position: relative;
-	width: max-content;
-	line-height: 0;
-`
-const YouTube = styled(LiteYouTubeEmbed)``
-

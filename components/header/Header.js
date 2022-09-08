@@ -1,6 +1,3 @@
-import React from "react"
-import styled from "styled-components/macro"
-
 import ExtraPosts from "../header/ExtraPosts"
 import {Slider} from "~/components/UI"
 
@@ -17,10 +14,10 @@ const Header = ({posts, sliders}) => {
 	}
 
 	return (
-		<HeaderSection className={`header-section ${style.section}`}>
-			<Posts className={`extra-posts ${style.post}`}>
+		<section className={`header-section ${style.section}`}>
+			<div className={`extra-posts ${style.post}`}>
 				<ExtraPosts posts={posts}/>
-			</Posts>
+			</div>
 			{/*
 			<Title className={(posts.length > 1 ? `${style.titleBottom}` : '')+` ${style.title}`}>
 				<div>{header.title}</div>
@@ -28,14 +25,11 @@ const Header = ({posts, sliders}) => {
 			</Title>
 			*/}
 			<Slider sliders={sliders} className={style.slider} groupKey={"activities"} {...sliderProps} />
-		</HeaderSection>
+		</section>
 	)
 }
 
 export default Header
-
-const HeaderSection = styled.section``
-const Posts = styled.div``
 
 
 

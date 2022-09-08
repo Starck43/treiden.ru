@@ -83,7 +83,7 @@ export const scrollToRef = (ref, offset=0) => window.scrollTo(offset, ref.curren
 
 export const createThumbUrl = (src, width) => {
 	let path = src?.split('.')
-	if (path.length > 1) {
+	if (path && path.length > 1) {
 		let ext = path.pop()
 		let thumbName = '_' + width + 'w'
 		return path.join('.') + thumbName + '.' + ext
@@ -91,9 +91,22 @@ export const createThumbUrl = (src, width) => {
 	return src
 }
 
+/*
+
+export const createSrcSet = (srcset) => (
+	srcset.reduce((acc, value, index) => {
+		let arr = value.match(/(?!_)\d+w/g)
+		if (!arr) return acc
+		return acc + value + ' ' + arr.pop() + (index < srcset.length - 1 ? ", " : "")
+	}, "")
+)
+*/
+
+
 export const remoteLoader = ({src, width}) => {
 	return createThumbUrl(src, width)
 }
+
 
 export const cleanDoubleSlashes = (str) => str.replace(/([^:]\/)\/+/g, "$1")
 
@@ -102,9 +115,12 @@ export const absoluteUrl = (url) => {
 	return url
 }
 
-export const truncateHTML = (value, n=200) => {
+export const truncateHTML = (value=null, n=200) => {
+	if (!value) return ""
+
 	let t=value.substring(0, n) // first cut
 	let tr=t.replace(/<(.*?[^\/])>.*?<\/\1>|<.*?\/>/,"") // remove opened+closed tags
+	tr=tr.replace(/\s+/g, ' ').trim() // remove opened+closed tags
 	// capture open tags
 	let ar=tr.match(/<((?!li|hr|img|br|area|base|col|command|embed|input|keygen|link|meta|head|param|source|track|wbr).*?)>/g)
 

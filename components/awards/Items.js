@@ -1,7 +1,6 @@
 import React, {Fragment, useState} from "react"
 import Image from "next/image"
-import styled from "styled-components/macro"
-import {Modal} from "react-bootstrap"
+import LightBox from "../UI/LightBox"
 
 import {createThumbUrl} from "~/core/helpers/utils"
 
@@ -18,27 +17,27 @@ const remoteLoader = ({src, width}) => {
 
 const Items = ({awards}) => {
 
-	const [imageIndex, setImageIndex] = useState(0)
-	const [show, setShow] = useState(false)
+	const [awardIndex, setAwardIndex] = useState(0)
+	const [showModal, setShowModal] = useState(false)
 
-	const handleClose = () => setShow(false)
 
 	const handleClick = (e) => {
 		let el = e.currentTarget
 		let index = [...el.parentElement.children].indexOf(el)
-		setImageIndex(index)
-		setShow(true)
+		setAwardIndex(index)
+		setShowModal(true)
 	}
 
 	return (
 		<Fragment>
 			{awards.map(award => (
-				<Award
+				<figure
 					id={award.id}
 					key={award.year}
 					className={`col-6 col-sm-4 col-md-3 ${style.figure}`}
 					onClick={handleClick}
 				>
+					{award.file &&
 					<Image className={style.cover}
 					       loader={remoteLoader}
 					       src={award.file}
@@ -48,50 +47,23 @@ const Items = ({awards}) => {
 					       height={450}
 					       quality={80}
 					/>
-					{/* <Title className={style.title}>{award.title}</Title>*/}
-				</Award>
+					}
+				</figure>
 			))}
-			<LightBox show={show} onHide={handleClose} item={awards[imageIndex]}/>
+			{showModal &&
+			<LightBox
+				slides={awards}
+				show={showModal}
+				currentSlide={awardIndex}
+				handleClose={() => setShowModal(!showModal)}
+			/>
+			}
+			
 		</Fragment>
-	)
-}
-
-const LightBox = (props) => {
-	return (
-		<Modal
-			className="lightbox-container"
-			show={props.show}
-			onHide={props.onHide}
-			animation={false}
-			fullscreen={true}
-			scrollable={false}
-		>
-			<CloseBtn type="button" className="btn-close btn-lg btn-close-white" aria-label="Закрыть"
-			          onClick={props.onHide}/>
-			<Modal.Header className={style.header}>
-				<Modal.Title>{props.item.title}</Modal.Title>
-				<Description>{props.item.description}</Description>
-			</Modal.Header>
-			<Modal.Body>
-				<Image className={style.cover}
-				       loader={remoteLoader}
-				       src={props.item.file}
-				       alt={props.item.title}
-				       layout="responsive"
-				       width={320}
-				       height={450}
-				       objectFit="contain"
-				       quality={80}
-				/>
-			</Modal.Body>
-		</Modal>
 	)
 }
 
 export default Items
 
-const Award = styled.figure``
-const Title = styled.h3``
-const Description = styled.div``
-const CloseBtn = styled.div``
+
 

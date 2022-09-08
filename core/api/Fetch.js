@@ -1,7 +1,7 @@
 import useSWR from "swr"
 import {cleanDoubleSlashes} from "../helpers/utils"
 
-const fetcher = url => fetch(url).then(res => res.json())
+const fetcher = (url) => fetch(url).then(res => res.json())
 
 const Fetch = (server, endpoint, params = {}) => {
 	let url = cleanDoubleSlashes(server + endpoint)

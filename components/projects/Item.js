@@ -1,14 +1,13 @@
-import React, {useEffect, useState} from "react"
-import styled from "styled-components/macro"
+import React, {Fragment, useEffect, useState} from "react"
 import Image from "next/image"
 
 import {Icon} from "~/components/UI"
 import {createThumbUrl} from "~/core/helpers/utils"
 
 import {Card} from "react-bootstrap"
-import LightBox from "fslightbox-react"
 
 import style from "~/styles/portfolio.module.sass"
+import LightBox from "../UI/LightBox"
 
 
 const remoteLoader = ({src, width}) => {
@@ -19,115 +18,55 @@ const remoteLoader = ({src, width}) => {
 }
 
 
-const Item = (props) => {
-	const [viewerIsOpen, setViewerIsOpen] = useState(false)
-	const [currentImage, setCurrentImage] = useState(0)
-	const [images, setImages] = useState((props.url) ? [props.url] : [])
-	const [types, setTypes] = useState((props.url) ? ["youtube"] : [])
+const Item = ({project}) => {
+	const [showModal, setShowModal] = useState(false)
+	const [slides, setSlides] = useState([])
 
-	useEffect(()=>{
-		setImages(images.concat(props.portfolio.length ? props.portfolio.map(obj => (obj.file)) : [props.cover]))
-		setTypes(types.concat(props.portfolio.length ? props.portfolio.map(_ => ("image")) : ["image"]))
-	},[])
+	useEffect(() => {
+		let arr = []
+		if (project.portfolio.length === 0) {
+			arr.push({...project, file: project.cover})
+		} else {
+			arr = project.url ? [{...project, id: 0}].concat(project.portfolio) : [...project.portfolio]
+		}
+		setSlides(arr)
+	}, [project])
 
-
-	const openLightbox = (event) => {
-		let el = event.target.parentElement.parentElement
-		let index = [...el.parentElement.children].indexOf(el)
-		setCurrentImage(index)
-		setViewerIsOpen(!viewerIsOpen)
-	}
 
 	return (
-		<Portfolio>
-			<Card id={`project-${props.id}`} className={style.card} onClick={openLightbox}>
+		<Fragment>
+			<Card id={`project-${project.id}`} className={`${style.card} ratio ratio-1x1`}
+			      onClick={() => setShowModal(true)}>
+				{project.cover &&
 				<Image
 					loader={remoteLoader}
-					src={props.cover}
-					alt={props.title}
-					layout="responsive"
+					src={project.cover}
+					alt={project.title}
+					layout="fill"
+					objectFit="cover"
 					width={320}
 					height={320}
 					quality={80}
 				/>
+				}
 				<Card.ImgOverlay className={style.overlay}>
-					<header className={style.title}><h4>{props.title}</h4></header>
-					<p>{props.excerpt}</p>
+					<header className={style.title}><h4>{project.title}</h4></header>
+					<p>{project.excerpt}</p>
+					{project.url && <Icon name="play" className={`${style.play} centered`}/>}
 				</Card.ImgOverlay>
-				{props.url && <Icon name="play" className={`${style.play} centered`}/>}
 			</Card>
 
+			{showModal &&
 			<LightBox
-				sources={images}
-				types={types}
-				sourceIndex={currentImage}
-				toggler={viewerIsOpen}
+				slides={slides}
+				title={project.title}
+				excerpt={project.description || project.excerpt}
+				show={showModal}
+				handleClose={() => setShowModal(!showModal)}
 			/>
-		</Portfolio>
+			}
+		</Fragment>
 	)
 }
 
 export default Item
-
-
-const Portfolio = styled.div`
-	.fslightbox-container {
-		.fslightbox-toolbar {
-			background: transparent;
-		}
-
-		.fslightbox-nav {
-			height: 4em;
-		}
-
-		.fslightbox-toolbar-button, .fslightbox-slide-btn {
-			padding: 0;
-			font-size: unset;
-			width: 4em;
-			height: 4em;
-			border-radius: 5px;
-		}
-
-		.fslightbox-slide-btn-container .fslightbox-slide-btn {
-			svg {
-				display: none;
-			}
-
-			&::after {
-				font-family: 'ip';
-				color: white;
-				font-size: 2rem;
-				transition: all 200ms ease;
-				opacity: 0.5;
-			}
-
-			&:hover:after {
-				opacity: 1;
-			}
-		}
-
-		.fslightbox-slide-btn-previous-container .fslightbox-slide-btn {
-			&::after {
-				content: '\\e810';
-			}
-		}
-
-		.fslightbox-slide-btn-next-container .fslightbox-slide-btn {
-			&::after {
-				content: '\\e811';
-			}
-		}
-
-		svg {
-			min-width: 1.5em;
-			min-height: 1.5em;
-			pointer-events: none;
-		}
-
-		.fslightbox-toolbar-button:first-child {
-			display: none;
-		}
-
-	}
-`
-

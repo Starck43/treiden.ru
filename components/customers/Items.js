@@ -1,12 +1,11 @@
 import React, {Fragment, useState} from "react"
 import Image from "next/image"
 import styled from "styled-components/macro"
-import {remoteLoader} from "../../core/helpers/utils"
 
 import {Review} from "~/components/customers"
+import {remoteLoader} from "../../core/helpers/utils"
 
 import style from "~/styles/customer.module.sass"
-
 
 
 const Items = ({customers}) => {
@@ -20,18 +19,20 @@ const Items = ({customers}) => {
 		setShowModal(!showModal)
 	}
 
-	const toggleShow = (e) => {
+	const toggleShow = () => {
 		setShowModal(!showModal)
 	}
 
 	return (
 		<Fragment>
-			{customers.map(customer => (
-				<Customer
+			{customers.map(customer =>
+				<figure
 					className={`card col-12 col-sm-6 col-md-4 col-lg-3 ${style.article}`}
 					onClick={handleClick}
 					key={`customer-${customer.id}`}>
-					<Avatar className={style.avatar}>
+
+					{customer.avatar &&
+					<div className={style.avatar}>
 						<Image
 							loader={remoteLoader}
 							src={customer.avatar}
@@ -41,15 +42,16 @@ const Items = ({customers}) => {
 							height={450}
 							quality={80}
 						/>
-					</Avatar>
-					<Header className={`post-title card-title ${style.title}`}>
+					</div>
+					}
+					<h3 className={`post-title card-title ${style.title}`}>
 						{customer.title}
-					</Header>
-					<Button className={style.button}>
+					</h3>
+					<button className={style.button}>
 						Посмотреть отзыв
-					</Button>
-				</Customer>
-			))}
+					</button>
+				</figure>
+			)}
 
 			<Review show={showModal} handleClose={toggleShow} customer={customers[imageIndex]}/>
 
@@ -59,11 +61,5 @@ const Items = ({customers}) => {
 
 
 export default Items
-
-
-const Customer = styled.figure``
-const Avatar = styled.div``
-const Header = styled.h3``
-const Button = styled.button``
 
 

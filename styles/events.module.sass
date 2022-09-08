@@ -13,6 +13,16 @@
 	border: none
 	border-radius: 0
 
+.cover
+	max-width: 450px
+
+.mainTitle
+	font-weight: bold
+
+.secondTitle
+	+media-breakpoint-up(lg)
+		font-size: calc(1rem + 0.6vw)
+
 .date
 	font-weight: bold
 
@@ -21,6 +31,6 @@
 	padding: 1rem 0
 
 .button
-	+media-breakpoint-down(lg)
+	align-self: baseline
+	+media-breakpoint-down(sm)
 		align-self: center
-		margin-right: auto

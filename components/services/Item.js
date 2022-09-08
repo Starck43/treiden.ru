@@ -1,12 +1,11 @@
-import { useState } from 'react'
-import Link from 'next/link'
-import { Col } from 'react-bootstrap'
-import styled from 'styled-components/macro'
+import Link from "next/link"
+import {Col} from "react-bootstrap"
+import styled from "styled-components/macro"
 
 import style from "~/styles/activity.module.sass"
 
 
-const Item = ({ activity }) => {
+const Item = ({activity}) => {
 	return (
 		<Col xs={12} md={6}>
 			<Article className={style.activity}>
@@ -16,7 +15,7 @@ const Item = ({ activity }) => {
 					</h2>
 				</Title>
 
-				<Paragraph  className={style.description}>
+				<Paragraph className={style.description}>
 					{activity.excerpt}
 				</Paragraph>
 
@@ -27,7 +26,8 @@ const Item = ({ activity }) => {
 				</Footer>
 			</Article>
 		</Col>
-	)}
+	)
+}
 
 
 export default Item

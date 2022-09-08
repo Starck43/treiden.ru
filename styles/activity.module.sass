@@ -9,8 +9,10 @@
 	flex-wrap: wrap
 	max-width: 1400px
 	margin: auto
-
+	+media-breakpoint-down(lg)
+		padding: $container-gutter / 2
 	+media-breakpoint-down(md)
+		padding: 4vw
 
 .activity
 	display: flex
@@ -36,9 +38,11 @@
 	font-weight: bold
 	+media-breakpoint-down(sm)
 		font-size: 1.25rem
+		margin-bottom: 0
 
 .description
 	flex: 1
+	font-size: 1rem
 	line-height: 1.25
 	margin-bottom: auto
 	+media-breakpoint-down(md)

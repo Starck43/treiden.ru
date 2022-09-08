@@ -1,8 +1,7 @@
-import React from "react"
 import {Container} from "react-bootstrap"
 
-const Section = ({id, className, children}) => (
-	<section id={id} className={className}>
+const Section = ({id, className="", children}) => (
+	<section id={id} className={`py-4 ${className}`}>
 		<Container>
 			{children}
 		</Container>

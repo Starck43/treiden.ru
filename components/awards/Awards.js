@@ -21,10 +21,10 @@ const Awards = ({awards}) => {
 
 
 	useEffect(() => {
-		let groupCount = (media === "xs") ? 1 : (media === "sm") ? 2 : (media === "md") ? 3 : 4
+		let groupCount = (media === "xs") ? 2 : (media === "sm") ? 3 : (media === "md") ? 4 : 4
 		let groupedArray = convert2DimensionalArray(awards, groupCount)
 		awards && setGroupedAwards(groupedArray)
-	}, [media])
+	}, [awards, media])
 
 	return (
 		groupedAwards.length > 0 &&
