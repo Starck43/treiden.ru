@@ -3,7 +3,7 @@ import {useRouter} from "next/router"
 import styled from "styled-components/macro"
 import {Icon} from "~/components/UI"
 
-import {Navbar, Nav} from "react-bootstrap"
+import {Navbar, Nav, Offcanvas} from "react-bootstrap"
 import {NavLogo, NavItem, Search} from "~/components/navbar"
 import Anchor from "~/components/UI/Anchor"
 
@@ -34,7 +34,7 @@ const NavBar = (props) => {
 	return (
 		<Fragment>
 			<Anchor id="home" ref={props.navRef}/>
-			<Navbar sticky="top" expand="lg" variant="light" collapseOnSelect>
+			<Navbar expand="lg" variant="light">
 				<NavLogo href="/" logo={data.logo} pathname={router.pathname}/>
 				<ContactBlock className="contacts centered">
 					{
@@ -58,14 +58,9 @@ const NavBar = (props) => {
 					aria-controls="responsive-navbar-nav"
 					onClick={clickBurger}
 				/>
-				<Navbar.Collapse id="responsive-navbar-nav" onClick={toggleShow}>
+				<Navbar.Offcanvas placement="end" id="responsive-navbar-nav" onClick={toggleShow}>
 					<Nav className="mr-auto">
-						<button
-							type="button"
-							className="btn-close btn-lg"
-							aria-label="Закрыть"
-							onClick={handleClose}
-						/>
+						<Offcanvas.Header closeButton/>
 						{props.navitems && props.navitems.map((item, index) =>
 							<NavItem key={index} item={item} pathname={router.pathname} close={handleClose}/>
 						)}
@@ -80,7 +75,7 @@ const NavBar = (props) => {
 							}
 						</Socials>
 					</Nav>
-				</Navbar.Collapse>
+				</Navbar.Offcanvas>
 			</Navbar>
 		</Fragment>
 	)
