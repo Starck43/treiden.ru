@@ -37,6 +37,7 @@ const Customers = ({customers}) => {
 				itemLabel={SECTION_TITLE}
 				showControls={width >= 576}
 				showDots={groupedCustomers.length > 1}
+				transitionTime={width*0.8}
 			>
 				{groupedCustomers.map((row, i) =>
 					<div key={`row-${i}`} className="row">
