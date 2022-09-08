@@ -164,7 +164,7 @@ class EventDetailSerializer(serializers.ModelSerializer):
 
 	def get_cover(self, obj):
 		request =  self.context['request']
-		imageUrl = obj.cover.url
+		imageUrl = obj.cover.url if obj.cover else None
 		return request.build_absolute_uri(imageUrl)
 
 

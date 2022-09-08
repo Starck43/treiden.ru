@@ -125,20 +125,19 @@ class MetaSeoView(generics.ListAPIView):
 		return queryset
 
 
+
 @api_view(('GET',))
 @permission_classes((permissions.AllowAny,))
 def SearchListView(request):
 	search_result = []
 	query = request.GET.get('q', None)
-
 	if query:
 		query = parse.unquote(query) #decoding query string
-
 		post_queryset = Post.objects.search(query, ['title' , 'excerpt', 'description'], is_active=True)
 		post_search_result = PostSerializer(post_queryset, many=True).data
 
 		category_queryset = Category.objects.search(query, ['name' , 'excerpt', 'description'])
 		category_search_result = CategorySerializer(category_queryset, many=True).data
-
+		print(query, post_search_result)
 		return Response(post_search_result+category_search_result)
-
+	return Response([])
