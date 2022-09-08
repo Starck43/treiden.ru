@@ -1,0 +1,25 @@
+@use "sass:math"
+
+@import vars
+@import mixins
+
+
+.player
+	+push--absolute(0,0,0,0)
+	.progress
+		position: absolute
+		display: flex
+		width: 100%
+		height: $progressbar-h
+		left: 0
+		top: 0
+		padding: 0 1px
+		background-color: $progressbar-bg
+		z-index: 1
+		.loaded-bar, .played-bar
+			height: 100%
+			transition: width 1s linear
+		.loaded-bar
+			background-color: $progressbar-loaded-bg
+		.played-bar
+			background-color: $progressbar-played-bg
