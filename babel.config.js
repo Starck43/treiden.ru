@@ -2,10 +2,6 @@ module.exports = {
   "presets": [
     [
       "next/babel",
-      {
-        "preset-react": { "throwIfNamespace": false },
-        "preset-env": {},
-      }
     ]
   ],
   "plugins": [
@@ -15,7 +11,7 @@ module.exports = {
     [
       "styled-components",
       {
-        "ssr": true
+        "ssr": false
       }
     ],
     [
