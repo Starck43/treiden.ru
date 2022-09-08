@@ -1,41 +1,62 @@
 //import App from 'next/app'
-import React from 'react'
+import React, {useEffect, useState} from "react"
+import {useRouter} from "next/router"
 
-import { ThemeContainer, ErrorBoundary } from '~/core'
-import NextNprogress from 'nextjs-progressbar'
-import theme from '~/core/themes/mainTheme'
+import NextNprogress from "nextjs-progressbar"
+import Loading from "../components/Loading"
+import {ThemeContainer, ErrorBoundary} from "~/core"
+import theme from "~/core/themes/mainTheme"
+import * as gtag from "../libs/gtag"
 
-import 'bootstrap/dist/css/bootstrap.css'
-import '~/styles/main.sass'
+import "~/styles/vendors/bootstrap.scss"
+import "~/styles/main.sass"
 
 
-function MyApp({ Component, pageProps }) {
+export default function MyApp({Component, pageProps}) {
+	const router = useRouter()
+	const [isLoaded, setLoaded] = useState(false)
+
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "production" && process.env.GA_ANALYTICS_MEASUREMENT_ID) {
+			const handleRouteChange = url => {
+				/* invoke analytics function only for production */
+				gtag.pageview(url)
+			}
+			router.events.on("routeChangeComplete", handleRouteChange)
+			return () => {
+				router.events.off("routeChangeComplete", handleRouteChange)
+			}
+		}
+	}, [router.events])
+
+	useEffect(() => {
+		setLoaded(true)
+	}, [])
+
+
+	if (!isLoaded) return <Loading/>
+	if (typeof window === "undefined") return <></>
 	return (
-	<ThemeContainer>
-		<ErrorBoundary>
-			<ProgressBar/>
-			<Component {...pageProps} />
-		</ErrorBoundary>
-	</ThemeContainer>
+		<ThemeContainer>
+			<ErrorBoundary>
+				<ProgressBar/>
+				<Component {...pageProps} />
+			</ErrorBoundary>
+		</ThemeContainer>
 	)
 }
 
-/*MyApp.getInitialProps = async (appContext) => {
-    let pageProps = {};
-    if (appContext.Component.getInitialProps) {
-        pageProps = await appContext.Component.getInitialProps(appContext.ctx);
-    }
-    return { ...pageProps };
-};*/
-
-export default MyApp
 
 const ProgressBar = () => (
-  <NextNprogress
-    color={theme.colors.brandColor}
-    startPosition={0.3}
-    stopDelayMs={300}
-    height={3}
-  />
+	<NextNprogress
+		color={theme.colors.brandColor}
+		startPosition={0.3}
+		stopDelayMs={300}
+		height={3}
+		showOnShallow={true}
+		options={{easing: "ease", speed: 500}}
+		nonce="my-nonce"
+	/>
 )
 
