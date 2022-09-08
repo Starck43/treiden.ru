@@ -8,7 +8,7 @@ const ExtraPosts = ({posts}) => (
 		(post.url && (post.extra_display_section === "H" || post.extra_display_section === "HF"))
 			? <a
 				id={post.slug}
-				className="post-link white"
+				className="post-link white centered"
 				key={post.slug}
 				href={post.url}
 				target="_blank"
