@@ -1,11 +1,14 @@
-//import dynamic from 'next/dynamic'
-
+import {useEffect} from "react"
+import {useRouter} from "next/router"
 import Layout from '~/components/Layout'
 import Header from "../components/header/Header"
 import {About, Activities} from "../components/services"
 import Events from "../components/events/Events"
 import Customers from "../components/customers/Customers"
 import Awards from "../components/awards/Awards"
+
+import {smoothScroll} from "../core/helpers/utils"
+//import dynamic from 'next/dynamic'
 
 /*
 
@@ -19,6 +22,22 @@ const AsyncAwards = dynamic(() => import('~/components/awards/Awards'))
 
 
 const HomePage = ({...props}) => {
+	const router = useRouter()
+	const hash = router.asPath.replace("/", "")
+
+	useEffect(() => {
+
+		router.replace(router.pathname)
+
+		setTimeout(() => {
+			let el = hash && typeof window !== "undefined" ? document.querySelector(hash) : null
+			el && smoothScroll(el, 0)
+		}, 100)
+
+		return () => clearTimeout()
+
+	}, [])
+
 	return(
 	<Layout navitems={props.navitems} contacts={props.contacts} posts={props.posts} meta={props.meta[0]} >
 		<Header sliders={props.header} posts={props.posts}/>
