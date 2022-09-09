@@ -8,17 +8,21 @@ import {getLinkType, createThumbUrl} from "~/core/helpers/utils"
 
 import style from "~/styles/slider.module.sass"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
+import {createSrcSet} from "../../core/helpers/utils"
 
 
+/*
 const remoteLoader = ({src, width}) => {
 	let breakpoints = [320, 450, 640, 768, 1080, 1200]
 	if (breakpoints.indexOf(width) !== -1)
 		return createThumbUrl(src, width)
 	return src
 }
+*/
 
 
 const Slider = ({sliders, className, priority = false, groupKey = "", ...sliderProps}) => {
+
 	const onClick = (e) => {
 		// Остановим все click события вверх по дереву
 		e.stopPropagation()
@@ -64,15 +68,18 @@ const Slider = ({sliders, className, priority = false, groupKey = "", ...sliderP
 					{(obj.cover || obj.file) &&
 					<Image
 						className={style.image}
-						loader={remoteLoader}
-						src={obj.cover || obj.file}
+						//loader={remoteLoader}
+						src={createThumbUrl(obj.cover || obj.file, 320)}
+						srcset={createSrcSet(obj.cover || obj.file, [320, 450, 640, 768, 1080, 1200])}
 						alt={obj.title}
 						layout="responsive"
 						objectFit="cover"
 						width={320}
 						height={180}
 						quality={80}
-						priority={priority}
+						placeholder="blur"
+						blurDataURL={createThumbUrl(obj.cover || obj.file, 320)}
+						unoptimized
 					/>
 					}
 					{sliderProps.showTitle && <p className="legend">{obj.title}</p>}

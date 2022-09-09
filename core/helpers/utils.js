@@ -2,7 +2,7 @@
 export const convert2DimensionalArray = (arr, len) => {
 	const res = []
 	for (let i = 0; i < Math.ceil(arr.length / len); i++) {
-		res.push(arr.slice(i*len, (i+1)*len))
+		res.push(arr.slice(i * len, (i + 1) * len))
 	}
 	return res
 }
@@ -45,11 +45,11 @@ export const getYear = () => {
 }
 
 export const getHostname = (url) => {
-	let name = ''
+	let name = ""
 	if (url) {
-		let hostname = new URL(url.toLowerCase()).hostname.split('.')
+		let hostname = new URL(url.toLowerCase()).hostname.split(".")
 		name = hostname[0]
-		if (hostname.length > 1 && name === 'www') name = hostname[1]
+		if (hostname.length > 1 && name === "www") name = hostname[1]
 	}
 	return name
 }
@@ -66,42 +66,45 @@ export const getLinkType = (url) => {
 	if (!url) return {type: null, id: null}
 
 	const link = {
-		type: 'youtube',
+		type: "youtube",
 		id: getYouTubeID(url)
 	}
 
 	if (!link.id) {
-		let ext = url.split('.').pop()
-		link.type = (ext.toLowerCase() === 'jpg' || ext.toLowerCase() === 'png') ? 'image' : 'link'
+		let ext = url.split(".").pop()
+		link.type = (ext.toLowerCase() === "jpg" || ext.toLowerCase() === "png") ? "image" : "link"
 	}
 	return link
 }
 
 
-export const scrollToRef = (ref, offset=0) => window.scrollTo(offset, ref.current.offsetTop)
+export const smoothScroll = (target, offset) => {
+	let topPosition = target.getBoundingClientRect().top
 
+	typeof window !== "undefined" && window.scrollTo({
+		top: topPosition + window.pageYOffset + offset,
+		behavior: "smooth"
+	})
+}
 
 export const createThumbUrl = (src, width) => {
-	let path = src?.split('.')
+	let path = src?.split(".")
 	if (path && path.length > 1) {
 		let ext = path.pop()
-		let thumbName = '_' + width + 'w'
-		return path.join('.') + thumbName + '.' + ext
+		let thumbName = "_" + width + "w"
+		return path.join(".") + thumbName + "." + ext
 	}
 	return src
 }
 
-/*
 
-export const createSrcSet = (srcset) => (
-	srcset.reduce((acc, value, index) => {
-		let arr = value.match(/(?!_)\d+w/g)
-		if (!arr) return acc
-		return acc + value + ' ' + arr.pop() + (index < srcset.length - 1 ? ", " : "")
+export const createSrcSet = (src = null, arr = []) => {
+	if (!src) return null
+	let srcset = arr.reduce((acc, next) => {
+		return acc + createThumbUrl(src, next) + ` ${next}w,`
 	}, "")
-)
-*/
-
+	return srcset.slice(0, -1)
+}
 
 export const remoteLoader = ({src, width}) => {
 	return createThumbUrl(src, width)
@@ -111,19 +114,19 @@ export const remoteLoader = ({src, width}) => {
 export const cleanDoubleSlashes = (str) => str.replace(/([^:]\/)\/+/g, "$1")
 
 export const absoluteUrl = (url) => {
-	if (url && url.indexOf('http',0) === -1) return process.env.SERVER + url
+	if (url && url.indexOf("http", 0) === -1) return process.env.SERVER + url
 	return url
 }
 
-export const truncateHTML = (value=null, n=200) => {
+export const truncateHTML = (value = null, n = 200) => {
 	if (!value) return ""
 
-	let t=value.substring(0, n) // first cut
-	let tr=t.replace(/<(.*?[^\/])>.*?<\/\1>|<.*?\/>/,"") // remove opened+closed tags
-	tr=tr.replace(/\s+/g, ' ').trim() // remove opened+closed tags
+	let t = value.substring(0, n) // first cut
+	let tr = t.replace(/<(.*?[^\/])>.*?<\/\1>|<.*?\/>/, "") // remove opened+closed tags
+	tr = tr.replace(/\s+/g, " ").trim() // remove opened+closed tags
 	// capture open tags
-	let ar=tr.match(/<((?!li|hr|img|br|area|base|col|command|embed|input|keygen|link|meta|head|param|source|track|wbr).*?)>/g)
+	let ar = tr.match(/<((?!li|hr|img|br|area|base|col|command|embed|input|keygen|link|meta|head|param|source|track|wbr).*?)>/g)
 
-	if (ar) return t+"&hellip;"+ar.reverse().join("").replace(/</g,"<\/") // close tags
+	if (ar) return t + "&hellip;" + ar.reverse().join("").replace(/</g, "<\/") // close tags
 	return value
 }

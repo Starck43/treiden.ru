@@ -64,6 +64,11 @@
 				&.swiper-pagination-bullet-active
 					opacity: 1
 
+	.swiper-slide img
+		opacity: 0
+		transition: opacity 300ms ease-out
+		&.loaded
+			opacity: 1
 	.swiper-fade .swiper-slide:not(.swiper-slide-active)
 		opacity: 0 !important
 

@@ -4,7 +4,7 @@ import VideoPlayer from "./VideoPlayer"
 import {HtmlContent} from "./HtmlContent"
 
 import {useWindowDimensions} from "../../core/helpers/hooks"
-import {createThumbUrl, truncateHTML} from "../../core/helpers/utils"
+import {createSrcSet, createThumbUrl, truncateHTML} from "../../core/helpers/utils"
 
 import {Swiper, SwiperSlide} from "swiper/react"
 import {EffectFade, Pagination, Keyboard, Zoom} from "swiper"
@@ -15,6 +15,7 @@ import "swiper/css/keyboard"
 import "swiper/css/pagination"
 import "swiper/css/effect-fade"
 
+/*
 
 const remoteLoader = ({src, width}) => {
 	let breakpoints = [320, 450, 640, 768, 1080, 1200]
@@ -22,6 +23,7 @@ const remoteLoader = ({src, width}) => {
 		return createThumbUrl(src, width)
 	return src
 }
+*/
 
 const PhotoGallery = ({
 	                      title,
@@ -66,6 +68,12 @@ const PhotoGallery = ({
 		}, {})
 	)
 
+	const [isLoaded, setLoaded] = useState(false)
+
+
+	const loadComplete = function () {
+		setLoaded(true)
+	}
 
 	const handlePrev = () => carouselRef.current?.swiper.slidePrev()
 
@@ -170,21 +178,28 @@ const PhotoGallery = ({
 						{children
 							? children
 							: slides.map((obj, i) => (
-								<SwiperSlide key={i} style={label ==="slider" ? {backgroundImage: `url(${createThumbUrl(obj.file, 320)})`}: null}>
+								<SwiperSlide
+									key={i}
+									style={label ==="slider" ? {backgroundImage: `url(${createThumbUrl(obj.file, 320)})`}: null}
+
+								>
 									{obj?.file &&
 									<span className={`swiper-${zoom ? "zoom-" : ""}container`}>
 										<Image
-											loader={remoteLoader}
-											src={obj.file}
+											//loader={remoteLoader}
+											src={createThumbUrl(obj.file, 320)}
+											srcset={createSrcSet(obj.file, [320, 450, 640, 768, 1080, 1200])}
 											alt={obj?.alt}
 											layout={layout}
 											width={320}
 											height={215}
 											objectFit={objectFit}
 											quality={80}
-											placeholder="blur"
-											blurDataURL={createThumbUrl(obj.file, 320)}
-											//unoptimized
+											//placeholder="blur"
+											//blurDataURL={createThumbUrl(obj.file, 320)}
+											onLoadingComplete={loadComplete}
+											unoptimized
+											className={isLoaded ? "loaded": ""}
 										/>
 
 											<figcaption>
