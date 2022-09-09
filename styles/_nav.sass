@@ -20,11 +20,20 @@ nav.navbar
 			align-self: center
 
 	.nav-link
-		+media-breakpoint-down(lg)
-			color: $brand-color !important
-			text-transform: uppercase
+		position: relative
+		margin: 0.5rem
+		text-decoration: none
+		transition: 200ms all ease
 		&:hover
-			text-decoration: underline
+			&::after
+				content: ""
+				position: absolute
+				display: block
+				left: var(--bs-navbar-nav-link-padding-x)
+				right: var(--bs-navbar-nav-link-padding-x)
+				bottom: 0
+				height: 1px
+				background-color: $brand-color
 		svg
 			margin-right: 7px
 
@@ -127,20 +136,23 @@ nav.navbar
 		align-items: center
 		justify-content: center
 		height: 100%
-		right: 0
-		top: 0
-		padding-top: 12vh
+
 		text-align: center
-		border-left: solid 1px $brand-color
 		text-shadow: 1px 1px 2px $menu-bg
 		transition: 200ms all ease-out
-		.nav-link
-			padding: .3rem 1rem
-			margin: 0 0 3vh
-			font-size: calc(1rem + 0.5vh)
-			border: 1px solid transparent
-			&:hover
-				border-color: transparentize($brand-color,0.5)
+		.offcanvas-header
+			padding-top: 12vh
+
+		.offcanvas-body
+			+media-breakpoint-down(lg)
+				.nav-link
+					justify-content: center
+					padding: .3rem 1rem
+					margin: 0 0 3vh
+					font-size: calc(1rem + 0.5vh)
+					border: 1px solid transparent
+					&:hover
+						border-color: transparentize($brand-color,0.5)
 
 		.socials
 			margin-top: auto
