@@ -16,7 +16,7 @@ const Activities = ({activities}) => (
 			src={publicRuntimeConfig.bgImage}
 			alt="Виды деятельности"
 			layout="fill"
-			placeholder="blur"
+			priority
 		/>
 		<div className={style.activities}>
 			{activities.map(activity =>

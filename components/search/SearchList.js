@@ -5,10 +5,12 @@ import styled from "styled-components/macro"
 import {Ratio} from "react-bootstrap"
 
 import Loading from "~/components/Loading"
-import {Cover, VideoPlayer, HtmlContent, Section, Icon} from "~/components/UI"
-
-import {FetchError} from "~/core/api"
 import {getYouTubeID, absoluteUrl, truncateHTML} from "~/core/helpers/utils"
+import {FetchError} from "~/core/api"
+
+import {Cover, VideoPlayer, HtmlContent, Section} from "~/components/UI"
+import {SvgIcon} from "../UI/Icon"
+
 
 
 const SearchList = () => {
@@ -68,9 +70,15 @@ const SearchList = () => {
 	if (isLoading) return <Loading/>
 
 	return (
-		<Section>
-			<header className="mt-5 mb-3"><h1>Вы искали: {decodeURI(router.query["q"])}</h1></header>
-			{searchResult && <p>Найдено записей: {String(searchResult?.length)}</p>}
+		<Section className="search-result-section">
+			<header className="mt-5 mb-3">
+				<h1>Вы искали: {decodeURI(router.query["q"])}</h1>
+			</header>
+
+			{searchResult &&
+			<p>Найдено записей: {String(searchResult?.length)}</p>
+			}
+
 			<Container>
 				{searchResult
 					? searchResult.map(post =>
@@ -129,10 +137,10 @@ const SearchList = () => {
 					)
 					: <p>К сожалению, по Вашему запросу ничего не найдено.</p>
 				}
-
 			</Container>
+
 			<a className="nav-link" onClick={() => router.back()}>
-				<Icon name="arrow_left" className="nav-arrow left"/>
+				<SvgIcon id="#check-mark-icon" className={`check-mark arrow arrow-left`}/>
 				<span>Вернуться назад</span>
 			</a>
 		</Section>

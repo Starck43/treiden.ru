@@ -2,9 +2,9 @@ import {useEffect, useState} from "react"
 import Link from "next/link"
 
 import {List} from "~/components/projects"
-import {Cover, VideoPlayer, HtmlContent, Section, Header, Icon} from "../UI"
-
 import {getLinkType} from "~/core/helpers/utils"
+import {Cover, VideoPlayer, HtmlContent, Section, Header} from "../UI"
+import {SvgIcon} from "../UI/Icon"
 
 import style from "~/styles/portfolio.module.sass"
 
@@ -75,7 +75,8 @@ const PortfolioDetail = ({category, projects}) => {
 			}
 
 			<Link href="/#activities">
-				<a className="nav-link"><Icon name="arrow_left" className="nav-arrow left"/>
+				<a className="nav-link">
+					<SvgIcon id="#check-mark-icon" className={`check-mark arrow arrow-left`}/>
 					На главную
 				</a>
 			</Link>

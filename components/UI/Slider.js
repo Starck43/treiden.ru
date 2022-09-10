@@ -6,6 +6,7 @@ import {EffectFade, Pagination, Keyboard, Autoplay, FreeMode, Zoom} from "swiper
 import VideoPlayer from "./VideoPlayer"
 import Cover from "./Cover"
 import HtmlContent from "./HtmlContent"
+import {SvgIcon} from "./Icon"
 
 import {useWindowDimensions} from "../../core/helpers/hooks"
 import {createThumbUrl, getLinkType, truncateHTML} from "../../core/helpers/utils"
@@ -15,7 +16,6 @@ import "swiper/css/zoom"
 import "swiper/css/keyboard"
 import "swiper/css/pagination"
 import "swiper/css/effect-fade"
-import {SvgIcon} from "./Icon"
 
 
 const Slider = ({

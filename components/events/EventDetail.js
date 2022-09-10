@@ -2,9 +2,9 @@ import {Fragment, useEffect, useState} from "react"
 import Link from "next/link"
 
 import {Cover, Slider, VideoPlayer, HtmlContent, Section, Header, Icon} from "../UI"
+import {SvgIcon} from "../UI/Icon"
 
 import style from "~/styles/event.module.sass"
-import {SvgIcon} from "../UI/Icon"
 
 
 const EventDetail = ({event, slug}) => {
