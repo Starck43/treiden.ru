@@ -274,7 +274,15 @@ class Portfolio(Post):
 class Media(models.Model):
 	post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True, blank=True, related_name='media', verbose_name = 'Запись', help_text='Укажите запись, к которой принадлежит медиафайл')
 	title = models.CharField('Заголовок', max_length=100, help_text='')
-	file = models.ImageField('Медиафайл', upload_to='gallery/', storage=MediaFileStorage(), help_text='Выберите фото для отображения в галерее портфолио или ивента')
+	file = ProcessedImageField(
+		upload_to='gallery/',
+		processors=[ResizeToFit(1200, 900, upscale=False)],
+		format='JPEG',
+		options={'quality': 80},
+		storage=MediaFileStorage(),
+		verbose_name='Медиафайл',
+		help_text='Выберите фото для отображения в галерее портфолио или ивента'
+		)
 	alt = models.CharField('Описание', max_length=250, blank=True, help_text='Краткое описание медиафайла для поисковых систем')
 
 	class Meta:
