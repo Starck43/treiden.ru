@@ -1,9 +1,8 @@
-import React, {useState, useEffect, useRef} from "react"
-
-import {Form, FormControl, Button} from "react-bootstrap"
-import Icon from "~/components/UI/Icon"
-
+import {useState, useEffect, useRef} from "react"
 import {useRouter} from "next/router"
+import {Form, FormControl, Button} from "react-bootstrap"
+
+import {Icon} from "~/components/UI"
 
 
 const Search = () => {
@@ -59,7 +58,7 @@ const Search = () => {
 
 	return (
 		<div className="nav-search-block ms-2">
-			<Form className="search-form" onSubmit={handleSubmit} ref={searchRef}>
+			<Form ref={searchRef} className="search-form" onSubmit={handleSubmit}>
 				<FormControl
 					type="text"
 					placeholder="поиск по сайту..."

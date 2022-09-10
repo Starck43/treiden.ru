@@ -1,27 +1,16 @@
-import React, {useEffect, useState} from "react"
+import {useEffect, useState} from "react"
 import Link from "next/link"
-import Image from "next/image"
 
-import {Section, Header, Icon} from "~/components/UI"
 import {List} from "~/components/projects"
-import VideoPlayer from "../UI/VideoPlayer"
-import {HtmlContent} from "../UI/HtmlContent"
+import {Cover, VideoPlayer, HtmlContent, Section, Header, Icon} from "../UI"
 
-import {getLinkType, createThumbUrl} from "~/core/helpers/utils"
+import {getLinkType} from "~/core/helpers/utils"
 
 import style from "~/styles/portfolio.module.sass"
 
 
-const remoteLoader = ({src, width}) => {
-	let breakpoints = [320, 450]
-	if (breakpoints.indexOf(width) !== -1)
-		return createThumbUrl(src, width)
-	return src
-}
-
-
 const PortfolioDetail = ({category, projects}) => {
-	const link = getLinkType(category.url)
+	const link = getLinkType(category?.url)
 	const [videoState, setVideoState] = useState(null)
 
 	useEffect(() => {
@@ -43,14 +32,13 @@ const PortfolioDetail = ({category, projects}) => {
 			<Header>{category.name}</Header>
 			<div className={style.content}>
 				{category.file &&
-				<Image className={style.flexImage}
-				       loader={remoteLoader}
+				<Cover className={style.flexImage}
 				       src={category.file}
-				       alt={category.name}
+				       alt={category?.name}
+				       sizes={[320, 450]}
 				       layout="intrinsic"
 				       width={450}
 				       height={300}
-				       quality={80}
 				/>
 				}
 
@@ -61,16 +49,14 @@ const PortfolioDetail = ({category, projects}) => {
 				{link.type === "youtube" && (
 					<div className={style.media}>
 						{category.cover &&
-						<Image
+						<Cover
 							className={style.image}
-							loader={remoteLoader}
 							src={category.cover}
-							alt={category.name}
+							alt={category?.name}
+							sizes={[320, 450]}
 							layout="intrinsic"
-							objectFit="cover"
 							width={450}
 							height={300}
-							quality={80}
 						/>
 						}
 						{videoState && (
@@ -88,8 +74,11 @@ const PortfolioDetail = ({category, projects}) => {
 			<List projects={projects} title="Проекты"/>
 			}
 
-			<Link href="/#activities"><a className="nav-link"><Icon name="arrow_left" className="nav-arrow left"/>На
-				главную</a></Link>
+			<Link href="/#activities">
+				<a className="nav-link"><Icon name="arrow_left" className="nav-arrow left"/>
+					На главную
+				</a>
+			</Link>
 		</Section>
 	)
 }

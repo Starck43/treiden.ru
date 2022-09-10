@@ -1,5 +1,11 @@
-import React from "react"
 import styled from "styled-components/macro"
+
+
+export const SvgIcon = ({id, className=""}) => (
+	<svg viewBox="0 0 46 20" className={`svg-icon ${className}`}>
+		<use xlinkHref={id}/>
+	</svg>
+)
 
 
 const Icon = ({name, className, children}) => (
@@ -9,6 +15,7 @@ const Icon = ({name, className, children}) => (
 )
 
 export default Icon
+
 
 const Symbol = styled.span`
 	display: inline-flex;

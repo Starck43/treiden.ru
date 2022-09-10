@@ -1,4 +1,3 @@
-import React from "react"
 import {Icon} from "~/components/UI"
 
 import {getHostname} from "../../core/helpers/utils"
@@ -15,7 +14,7 @@ const ExtraPosts = ({posts}) => (
 				target="_blank"
 				rel="noreferrer"
 			>
-				<Icon name={getHostname(post.url)} className="social-icon"/>{post.title}
+				<Icon name={getHostname(post.url)} className="social-icon"/>{post?.title}
 			</a>
 			: null
 	)

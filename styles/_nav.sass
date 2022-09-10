@@ -24,7 +24,10 @@ nav.navbar
 		margin: 0.5rem
 		text-decoration: none
 		transition: 200ms all ease
+		color: $brand-color
+		opacity: 1
 		&:hover
+			opacity: 0.7
 			&::after
 				content: ""
 				position: absolute
@@ -129,50 +132,70 @@ nav.navbar
 			margin-left: auto
 
 .offcanvas
-	+blur-background(15px, $menu-bg, 0.05, 0.2)
+	&.show
+		+blur-background(15px, $menu-bg, 0.05, 0.2)
 	transition: 300ms all ease-out
 	.navbar-nav
 		display: flex
 		align-items: center
 		justify-content: center
 		height: 100%
-
 		text-align: center
 		text-shadow: 1px 1px 2px $menu-bg
 		transition: 200ms all ease-out
+		background-color: transparent
 		.offcanvas-header
-			padding-top: 12vh
+			width: 100%
+			.btn-close
+				margin-left: auto
+
+				&::after, &::before
+					background-color: $brand-color
+				&:hover
+					opacity: 1
+					background-color: transparent
 
 		.offcanvas-body
+			.nav-link .svg-icon
+				display: none
 			+media-breakpoint-down(lg)
+				--bs-offcanvas-padding-x : 3rem
+				display: flex
+				flex-direction: column
+				justify-content: space-evenly
+				max-height: 500px
+				margin: auto
 				.nav-link
+					position: relative
 					justify-content: center
-					padding: .3rem 1rem
-					margin: 0 0 3vh
+					width: fit-content
+					//padding: .3rem 1rem
+					//margin: 1.5vh auto
+					color: $brand-color
 					font-size: calc(1rem + 0.5vh)
-					border: 1px solid transparent
+					text-transform: uppercase
+					border-bottom: 2px solid transparent
+					opacity: 1
+					.svg-icon
+						position: absolute
+						display: block
+						height: 0.5rem
+						left: -2rem
+						opacity: 0
 					&:hover
-						border-color: transparentize($brand-color,0.5)
+						opacity: 0.7
+						.svg-icon
+							opacity: 1
 
 		.socials
 			margin-top: auto
 			margin-bottom: 1.5em
+
 		.social-icon
-			margin: 0 0.25rem
 			width: 30px
 			height: 30px
+			margin: 0 0.25rem
 			padding: 5px
 			border: 2px $brand-color solid
 			border-radius: 50%
-		@media (max-width: 375px)
-			width: 100%
-			border-left: none
 
-	.btn-close
-		display: block
-		position: absolute
-		top: 1.5rem
-		right: 1.5rem
-		&:hover
-			opacity: 1
-			background-color: transparent

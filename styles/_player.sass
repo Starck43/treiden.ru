@@ -6,13 +6,17 @@
 
 .player
 	+push--absolute(0,0,0,0)
+	transition: 300ms all ease
+	opacity: 0
+	&.ready
+		opacity: 1
 	.progress
 		position: absolute
 		display: flex
 		width: 100%
 		height: $progressbar-h
 		left: 0
-		top: 0
+		bottom: 0
 		padding: 0 1px
 		background-color: $progressbar-bg
 		z-index: 1

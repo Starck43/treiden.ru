@@ -31,5 +31,6 @@ export const getStaticProps = async () => {
 			contacts: await contacts.json(),
 			posts: await extraPosts.json(),
 		},
+		revalidate: 60 * 60 * 24,
 	}
 }

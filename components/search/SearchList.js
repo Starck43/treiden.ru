@@ -1,25 +1,15 @@
-import React, {useEffect, useState} from "react"
+import {useEffect, useState} from "react"
 import {useRouter} from "next/router"
 import Link from "next/link"
-import Image from "next/image"
 import styled from "styled-components/macro"
-
-import VideoPlayer from "../UI/VideoPlayer"
-import {HtmlContent} from "../UI/HtmlContent"
-import {Section, Icon} from "~/components/UI"
-import Loading from "~/components/Loading"
-import {FetchError} from "~/core/api"
-
-import {getYouTubeID, createThumbUrl, absoluteUrl, truncateHTML} from "~/core/helpers/utils"
 import {Ratio} from "react-bootstrap"
 
+import Loading from "~/components/Loading"
+import {Cover, VideoPlayer, HtmlContent, Section, Icon} from "~/components/UI"
 
-const remoteLoader = ({src, width}) => {
-	let breakpoints = [320]
-	if (breakpoints.indexOf(width) !== -1)
-		return createThumbUrl(src, width)
-	return src
-}
+import {FetchError} from "~/core/api"
+import {getYouTubeID, absoluteUrl, truncateHTML} from "~/core/helpers/utils"
+
 
 const SearchList = () => {
 	const router = useRouter()
@@ -85,37 +75,35 @@ const SearchList = () => {
 				{searchResult
 					? searchResult.map(post =>
 						<Item key={post.slug}>
-							<Title className="mb-3">
+							<h3 className="mb-3">
 								{post.url && <Link href={post.url}><a>{post.title}</a></Link>}
-							</Title>
-							<Description>
+							</h3>
+							<HtmlContent>
 								{post.excerpt || post.description && truncateHTML(post.description, 300)}
-							</Description>
+							</HtmlContent>
 
 							{post.cover || videoState && videoState[post.id]
 								? <Ratio aspectRatio="16x9" onClick={videoClickHandle}>
 									<>
 										{post.cover &&
-										<Image
-											loader={remoteLoader}
+										<Cover
 											src={absoluteUrl(post.cover)}
-											alt={post.title}
+											alt={post?.title}
+											sizes={[320, 450]}
 											layout="intrinsic"
-											objectFit="cover"
-											objectPosition="left"
 											width={320}
 											height={180}
-											quality={80}
+											objectPosition="left"
 										/>
 										}
 
-										{videoState && videoState[post.id] && (
-											<VideoPlayer
-												id={post.id}
-												playerState={videoState}
-												setPlayerState={setVideoState}
-											/>
-										)}
+										{videoState && videoState[post.id] &&
+										<VideoPlayer
+											id={post.id}
+											playerState={videoState}
+											setPlayerState={setVideoState}
+										/>
+										}
 									</>
 								</Ratio>
 								: null
@@ -124,15 +112,17 @@ const SearchList = () => {
 							<p className="mt-4 mb-4">
 								{post.link && (!post.url || post.url && getYouTubeID(post.url))
 									? (
-										<Link href={post.link}><NavLink className="">
-											{
-												post.post_type === "post" || post.post_type === "category"
-													? `Перейти`
-													: (post.post_type === "post" ? `Перейти к мероприятию` : `Перейти к проекту`)
+										<Link href={post.link} passHref><a>
+											{post.post_type === "post" || post.post_type === "category"
+												? `Перейти`
+												: post.post_type === "post" ? `Перейти к мероприятию` : `Перейти к проекту`
 											}
-										</NavLink></Link>
+										</a></Link>
 									)
-									: post.url && <Link href={post.url}><a>Перейти на сайт</a></Link>
+									: (
+										post.url &&
+										<Link href={post.url} passHref><a>Перейти на сайт</a></Link>
+									)
 								}
 							</p>
 						</Item>
@@ -141,10 +131,10 @@ const SearchList = () => {
 				}
 
 			</Container>
-			<NavLink className="nav-link" onClick={() => router.back()}>
+			<a className="nav-link" onClick={() => router.back()}>
 				<Icon name="arrow_left" className="nav-arrow left"/>
 				<span>Вернуться назад</span>
-			</NavLink>
+			</a>
 		</Section>
 	)
 }
@@ -161,6 +151,3 @@ const Item = styled.li`
 	border-top: 1px solid rgba(0, 0, 0, .2);
 
 `
-const Title = styled.h3``
-const Description = styled(HtmlContent)``
-const NavLink = styled.a``

@@ -1,6 +1,6 @@
 import React from "react"
 import Layout from "~/components/Layout"
-import {EventDetail} from "~/components/events"
+import EventDetail from "~/components/events/EventDetail"
 
 
 const EventPage = ({navitems, event, posts, contacts}) => {
@@ -18,7 +18,7 @@ export const getStaticPaths = async () => {
 	const data = await fetch(process.env.API_SERVER + "events")
 	const events = await data.json()
 
-	const paths = events.map((item) => ({
+	const paths = events.map(item => ({
 		params: {id: item.id.toString()},
 	}))
 

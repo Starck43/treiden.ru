@@ -1,6 +1,9 @@
 @import vars
 @import mixins
 
+.section
+	flex: 1
+
 .container
 	display: flex
 	flex-direction: column
@@ -30,14 +33,13 @@
 	&:hover span~span
 		text-decoration: underline
 
-
 .navigation
 	display: flex
 	justify-content: space-between
 	align-items: center
 	width: 100%
-	margin-top: 6vh
-
+	padding: 0 2vw
+	margin: 6vh 0
 
 .prev
 	display: flex
@@ -45,3 +47,7 @@
 
 .next
 	margin-left: auto
+
+.svg
+	height: 0.6rem !important
+	color: $brand-color !important

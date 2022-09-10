@@ -79,6 +79,11 @@ export const getLinkType = (url) => {
 
 
 export const smoothScroll = (target, offset) => {
+	if (typeof target === 'string') {
+		target = document.querySelector(target.replace(/^\/|\/$/g, ''))
+	}
+	if (!target) return null
+
 	let topPosition = target.getBoundingClientRect().top
 
 	typeof window !== "undefined" && window.scrollTo({

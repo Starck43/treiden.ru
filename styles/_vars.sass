@@ -30,8 +30,8 @@ $bg-light: lighten($brand-color, 70%)
 $shadow: transparentize(black, 0.8)
 $menu-bg: white
 
-$slider_arrow_size: 20px
-$controls_w: 2rem
+//$slider_arrow_size: 20px
+$controls_w: #{calc(2rem + 1vw)}
 $lightbox-controls-margin: 1rem
 $lightbox-controls-bg-color: black
 $lightbox-controls-color: white
@@ -41,7 +41,7 @@ $overlay-caption-h: 5rem
 $overlay-caption-color: white
 $overlay-caption-bg: transparent
 
-$progressbar-h: 2px
-$progressbar-bg: lighten($brand-color, 50%)
-$progressbar-loaded-bg: lighten($brand-color, 30%)
-$progressbar-played-bg: $brand-color
+$progressbar-h: 0.4vh
+$progressbar-bg: black
+$progressbar-loaded-bg: grey
+$progressbar-played-bg: red

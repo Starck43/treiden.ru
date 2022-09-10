@@ -1,17 +1,14 @@
-import React, {useEffect, useState} from "react"
-import Image from "next/image"
+import {useEffect, useState} from "react"
 import {Modal, Row, Col} from "react-bootstrap"
 
-import VideoPlayer from "../UI/VideoPlayer"
-import {HtmlContent} from "../UI/HtmlContent"
-
-import {remoteLoader} from "../../core/helpers/utils"
+import {Cover, VideoPlayer, HtmlContent} from "../UI"
 
 import style from "~/styles/review.module.sass"
 
 
-const Review = ({show, handleClose, customer}) => {
+const Review = ({customer, show, handleClose}) => {
 	const [videoState, setVideoState] = useState(null)
+	const [isLoaded, setLoaded] = useState(false)
 
 /*	const videoClickHandle = (e) => {
 		let currentState = videoState[customer.id]
@@ -56,18 +53,17 @@ const Review = ({show, handleClose, customer}) => {
 					<Col sm={12} md={12} lg={5}>
 						<div className={style.avatar}>
 							{customer.avatar &&
-							<Image
-								loader={remoteLoader}
+							<Cover
 								src={customer.avatar}
-								alt={customer.title}
+								alt={customer?.title}
+								sizes={[320, 450]}
 								layout="intrinsic"
-								objectFit="cover"
 								width={450}
 								height={450}
-								quality={80}
+								imageLoading={setLoaded}
 							/>
 							}
-							{videoState && customer.url && (
+							{isLoaded && videoState && customer.url && (
 								<VideoPlayer
 									id={customer.id}
 									playerState={videoState}
@@ -88,5 +84,4 @@ const Review = ({show, handleClose, customer}) => {
 }
 
 export default Review
-
 

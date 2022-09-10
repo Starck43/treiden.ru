@@ -1,51 +1,70 @@
-import React, {useState, useEffect} from "react"
+import {Fragment, useState} from "react"
+import {SwiperSlide} from "swiper/react"
 
-import {Items} from "~/components/awards"
-import {Section, Header} from "~/components/UI"
-import Anchor from "~/components/UI/Anchor"
-import {GridSlider} from "../UI/Slider"
-
-import {useWindowDimensions} from "../../core/helpers/hooks"
-import {convert2DimensionalArray} from "../../core/helpers/utils"
+import Item from "../customers/Item"
+import {LightBox, Slider, Anchor, Section, Header} from "~/components/UI"
 
 import style from "~/styles/awards.module.sass"
-
 
 const SECTION = "awards"
 const SECTION_TITLE = "Наши награды"
 
 
 const Awards = ({awards}) => {
-	const [groupedAwards, setGroupedAwards] = useState([])
-	const {media, width} = useWindowDimensions()
+	const [currentIndex, setCurrentIndex] = useState(0)
+	const [showModal, setShowModal] = useState(false)
 
-
-	useEffect(() => {
-		let groupCount = (media === "xs") ? 2 : (media === "sm") ? 3 : (media === "md") ? 4 : 4
-		let groupedArray = convert2DimensionalArray(awards, groupCount)
-		awards && setGroupedAwards(groupedArray)
-	}, [awards, media])
+	const openLightbox = (e) => {
+		let el = e.currentTarget
+		let index = [...el.parentElement.children].indexOf(el)
+		setCurrentIndex(index)
+		setShowModal(true)
+	}
 
 	return (
-		groupedAwards.length > 0 &&
-		<Section className={style.section}>
-			<Anchor id={SECTION}/>
-			<Header>
-				{SECTION_TITLE}
-			</Header>
-			<GridSlider
-				groupKey={SECTION}
-				itemLabel={SECTION_TITLE}
-				showControls={width >= 576}
-				showDots={groupedAwards.length > 1}
-			>
-				{groupedAwards.map((row, i) =>
-					<div key={`row-${i}`} className="row">
-						<Items awards={row}/>
-					</div>
-				)}
-			</GridSlider>
-		</Section>
+		<Fragment>
+			{awards.length > 0 &&
+			<Section className={style.section}>
+				<Anchor id={SECTION}/>
+				<Header>
+					{SECTION_TITLE}
+				</Header>
+
+				<Slider
+					slides={awards}
+					freeScroll
+					slidesPerView={2}
+					responsive={{
+						576: {
+							slidesPerView: 3,
+						},
+						992: {
+							slidesPerView: 4,
+						},
+						1200: {
+							slidesPerView: 5,
+						}
+					}}
+					className="awards-slider with-outside-controls"
+				>
+					{awards.map(award =>
+						<SwiperSlide className={`${style.article}`} key={`award-${award.id}`} onClick={openLightbox}>
+							<Item award={award}/>
+						</SwiperSlide>
+					)}
+				</Slider>
+			</Section>
+			}
+
+			{showModal &&
+			<LightBox
+				slides={awards}
+				show={showModal}
+				currentSlide={currentIndex}
+				handleClose={() => setShowModal(!showModal)}
+			/>
+			}
+		</Fragment>
 	)
 }
 

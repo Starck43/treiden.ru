@@ -31,7 +31,7 @@ const HomePage = ({...props}) => {
 
 		setTimeout(() => {
 			let el = hash && typeof window !== "undefined" ? document.querySelector(hash) : null
-			el && smoothScroll(el, 0)
+			el && smoothScroll(el, 40)
 		}, 100)
 
 		return () => clearTimeout()
@@ -40,7 +40,7 @@ const HomePage = ({...props}) => {
 
 	return(
 	<Layout navitems={props.navitems} contacts={props.contacts} posts={props.posts} meta={props.meta[0]} >
-		<Header sliders={props.header} posts={props.posts}/>
+		<Header posts={props.posts} slides={props.header}/>
 		<About data={props.about}/>
 		<Activities activities={props.activities}/>
 		<Events data={props.events}/>
@@ -77,5 +77,6 @@ export const getStaticProps = async () => {
 			contacts : await contacts.json(),
 			posts : await extraPosts.json(),
 		},
+		revalidate: 60 * 60 * 24,
 	}
 }

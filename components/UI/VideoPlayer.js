@@ -1,10 +1,13 @@
 import ReactPlayer from "react-player/lazy"
 import ProgressBar from "react-bootstrap/ProgressBar"
+import {useState} from "react"
 
 
 const VideoPlayer = ({id, sliderRef=null, playerState, setPlayerState=null}) => {
+	const [isReady, setReady] = useState(false)
 
 	const handleOnReady = () => {
+		setReady(true)
 /*		let iframes = document.querySelectorAll('iframe')
 		iframes.forEach(el=>{
 			let iframeDoc = el.contentWindow.document
@@ -66,7 +69,7 @@ const VideoPlayer = ({id, sliderRef=null, playerState, setPlayerState=null}) => 
 
 	return (
 		playerState && ReactPlayer.canPlay(playerState[id]?.url) &&
-		<div className="player" data-player-id={id}>
+		<div className={`player ${isReady ? "ready" : ""}`} data-player-id={id}>
 			<ProgressBar>
 				<ProgressBar now={playerState[id].played * 100} bsPrefix="played"/>
 				<ProgressBar

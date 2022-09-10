@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from "react"
+import {useState, useEffect} from "react"
 
-import {scrollToRef} from "~/core/helpers/utils"
 import {Icon} from "~/components/UI"
+import {smoothScroll} from "../../core/helpers/utils"
 
 //import theme from '~/core/themes/mainTheme'
 
@@ -9,17 +9,17 @@ import {Icon} from "~/components/UI"
 const ScrollToTop = ({homeRef}) => {
 	const [showScroll, setShowScroll] = useState(false)
 
-	const smoothScroll = () => scrollToRef(homeRef)
+	const handleScrollUp = () => smoothScroll(homeRef?.current,0)
 
 	useEffect(() => {
-		const handleScroll = () => setShowScroll(window.scrollY > window.innerHeight)
+		const handleScroll = () => setShowScroll(window.scrollY > window.innerHeight * 1.5)
 
 		window.addEventListener("scroll", handleScroll)
 		return () => window.removeEventListener("scroll", handleScroll)
 	}, [])
 
 	return (
-		<button className={`scroll-to-top ${showScroll ? "show" : ""}`} onClick={smoothScroll}>
+		<button className={`scroll-to-top ${showScroll ? "show" : ""}`} onClick={handleScrollUp}>
 			<Icon name="arrow_top" className="nav-arrow"/>
 		</button>
 	)

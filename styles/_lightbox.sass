@@ -10,6 +10,7 @@
 	height: 100vh
 	margin: 0
 	background-color: $overlay-bg
+	transition: all 100ms ease-in-out !important
 	overflow: hidden
 	.carousel-content
 		position: relative
@@ -22,7 +23,7 @@
 
 	.btn-close
 		position: fixed
-		max-width: $controls_w
+		max-width: calc(1.2em + 1vw)
 		top: $lightbox-controls-margin
 		right: $lightbox-controls-margin
 		padding: 0.5rem
@@ -64,11 +65,6 @@
 				&.swiper-pagination-bullet-active
 					opacity: 1
 
-	.swiper-slide img
-		opacity: 0
-		transition: opacity 300ms ease-out
-		&.loaded
-			opacity: 1
 	.swiper-fade .swiper-slide:not(.swiper-slide-active)
 		opacity: 0 !important
 
@@ -78,6 +74,10 @@
 			span
 				margin: $overlay-caption-h $overlay-caption-h !important
 
+	.swiper-control
+		&:hover
+			background-color: black
+
 	.swiper-fraction
 		position: fixed
 		left: $lightbox-controls-margin
@@ -85,7 +85,7 @@
 		padding: 0.5rem
 		color: $lightbox-controls-color
 		background-color: transparent
-		font-size: 0.8rem
+		//font-size: 0.8rem
 		z-index: 1
 
 	.player
@@ -109,7 +109,7 @@
 		border: none
 		color: #fff
 	.modal-header, .modal-footer
-		padding: 1em 0
+		padding: 1rem 0
 		border: none
 		justify-content: space-between
 	.btn-close

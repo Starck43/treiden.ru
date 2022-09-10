@@ -17,6 +17,8 @@
 	color: $selected-text-color
 	background-color: $brand-color
 
+\:root
+	--bs-font-sans-serif: #{$font-family-text, $default-fonts}
 
 html, body
 	height: 100%
@@ -28,21 +30,24 @@ html
 body
 	overflow-x: hidden
 	scroll-behavior: smooth
-	--bs-font-sans-serif: #{$font-family-text, $default-fonts}
 	+media-breakpoint-up(md)
-		font-size: 1.1rem
+		font-size: 1rem
 	+media-breakpoint-up(lg)
-		font-size: 1.2rem
+		font-size: 1.1rem
+
 a
 	text-decoration: none
 	color: $brand-color
 	transition: all 150ms ease
 	user-select: none
 	cursor: pointer
+
 	&:hover
 		color: transparentize($brand-color, 0.3)
+
 	&.white
 		color: #fff
+
 		&:hover
 			color: #fff
 
@@ -52,12 +57,12 @@ h1, h2, h3, a, header, button
 
 h1
 	color: $brand-color
-	font-size: calc(1.5rem + 2vw)
+	font-size: calc(1.4rem + 2vw)
 
 header
 	position: relative
 	display: flex
-	align-items: center
+	align-items: baseline
 	flex: 100%
 	margin-bottom: 1em
 	+media-breakpoint-up(xxl)
@@ -73,6 +78,7 @@ img
 
 p
 	line-height: 1.5
+
 	img
 		max-width: 100%
 		height: auto !important
@@ -81,11 +87,13 @@ ol, ul
 	list-style: none
 
 main
+	display: flex
+	flex-direction: column
 	flex: 1 0 auto
-	overflow: hidden auto
-	min-height: calc(100% - #{$nav-h})
+	overflow: hidden
+	min-height: calc(100vh - #{$nav-h})
 	+media-breakpoint-down(sm)
-		min-height: calc(100% - #{$nav-h-sm})
+		min-height: calc(100vh - #{$nav-h-sm})
 
 #__next
 	display: flex
@@ -94,36 +102,12 @@ main
 
 section
 	position: relative
+
 	.container
 		margin: 4vh auto
 		+media-breakpoint-up(sm)
 			padding: 0
 
-	&.header-section
-		overflow: hidden
-		padding-top: 0
-		.carousel
-			position: inherit
-			.slide
-				background-color: $overlay-bg-color
-			img
-				mix-blend-mode: multiply
-
-		@media (orientation: landscape)
-			.carousel .slide>div
-				height: 100%
-				>div
-					padding-top: 0 !important
-
-		.thumbs-wrapper
-			+media-breakpoint-down(sm)
-				font-size: 0.9rem
-			@media (max-width: 575.98px) and (orientation: portrait)
-				display: none
-
-		@media (max-width: 767.98px) and (orientation: landscape), (max-width: 575.98px) and (orientation: portrait)
-			.arrow
-				display: none
 
 .container
 	--bs-gutter-x: #{$container-gutter / 1.5}
@@ -140,53 +124,13 @@ section
 		max-width: 1200px
 
 
-
-.grouped-slider-container
-	padding: 1rem
-	margin: -1rem
-	.carousel
-		&.carousel-slider
-			padding-bottom: 2rem
-			overflow: unset
-		+media-breakpoint-up(sm)
-			.slider-wrapper
-				width: auto
-				margin: 0 calc(var(--bs-gutter-x) * -2)
-				.slide
-					padding: 0 calc(var(--bs-gutter-x) * 2)
-
-	.control-dots
-		bottom: -1rem
-
-	.arrow
-		color: $brand-color
-	.arrow.left
-		left: unset
-		right: 100%
-		+media-breakpoint-up(lg)
-			right: calc(100% + 1vw)
-
-	.arrow.right
-		right: unset
-		left: 100%
-		+media-breakpoint-up(lg)
-			left: calc( 100% + 1vw)
-
-.customers-slider
-	.arrow:hover
-		filter: invert(100%)
-
-.awards-slider
-	.arrow:hover
-		background-color: transparentize(#fff, 0.3)
-
-	.arrow.left
-		background: linear-gradient(-90deg, rgba(255, 255, 255, 0.1) 0, rgba(255, 255, 255, 0.7) 30%, white 100%)
-	.arrow.right
-		background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0, rgba(255, 255, 255, 0.7) 30%, white 100%)
-
-
 .contacts-container
+	color: #fff
+	>div
+		//color: #fff
+		line-height: 2
+		white-space: nowrap
+
 	.socials
 		margin-top: 1rem
 
@@ -195,6 +139,7 @@ section
 	.post-link
 		+media-breakpoint-down(sm)
 			font-size: 0.9rem
+
 		p
 			margin-bottom: 0
 
@@ -205,7 +150,8 @@ section
 
 
 .social-icon
-	display: inline-flex
+	justify-content: center
+//display: inline-flex
 
 .social-link
 	margin: 0 .25rem

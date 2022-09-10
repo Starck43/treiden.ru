@@ -1,21 +1,9 @@
-import React, {Fragment, useEffect, useState} from "react"
-import Image from "next/image"
-
-import {Icon} from "~/components/UI"
-import {createThumbUrl} from "~/core/helpers/utils"
-
+import {Fragment, useEffect, useState} from "react"
 import {Card} from "react-bootstrap"
 
+import {Cover, LightBox, Icon} from "../UI"
+
 import style from "~/styles/portfolio.module.sass"
-import LightBox from "../UI/LightBox"
-
-
-const remoteLoader = ({src, width}) => {
-	let breakpoints = [320, 450, 640, 768, 1080, 1200]
-	if (breakpoints.indexOf(width) !== -1)
-		return createThumbUrl(src, width)
-	return src
-}
 
 
 const Item = ({project}) => {
@@ -24,10 +12,10 @@ const Item = ({project}) => {
 
 	useEffect(() => {
 		let arr = []
-		if (project.portfolio.length === 0) {
+		if (project.portfolio?.length === 0) {
 			arr.push({...project, file: project.cover})
 		} else {
-			arr = project.url ? [{...project, id: 0}].concat(project.portfolio) : [...project.portfolio]
+			arr = project?.url ? [{...project, id: 0}].concat(project.portfolio) : [...project.portfolio]
 		}
 		setSlides(arr)
 	}, [project])
@@ -38,29 +26,31 @@ const Item = ({project}) => {
 			<Card id={`project-${project.id}`} className={`${style.card} ratio ratio-1x1`}
 			      onClick={() => setShowModal(true)}>
 				{project.cover &&
-				<Image
-					loader={remoteLoader}
+				<Cover
 					src={project.cover}
-					alt={project.title}
+					alt={project?.title}
+					sizes={[320, 450, 640, 768, 1080, 1200]}
 					layout="fill"
-					objectFit="cover"
 					width={320}
 					height={320}
-					quality={80}
 				/>
 				}
 				<Card.ImgOverlay className={style.overlay}>
-					<header className={style.title}><h4>{project.title}</h4></header>
+					<header className={style.title}>
+						<h4>{project.title}</h4>
+					</header>
 					<p>{project.excerpt}</p>
-					{project.url && <Icon name="play" className={`${style.play} centered`}/>}
+					{project.url &&
+					<Icon name="play" className={`${style.play} centered`}/>
+					}
 				</Card.ImgOverlay>
 			</Card>
 
 			{showModal &&
 			<LightBox
 				slides={slides}
-				title={project.title}
-				excerpt={project.description || project.excerpt}
+				title={project?.title}
+				excerpt={project?.description || project?.excerpt}
 				show={showModal}
 				handleClose={() => setShowModal(!showModal)}
 			/>

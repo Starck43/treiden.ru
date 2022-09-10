@@ -1,5 +1,5 @@
 import {Modal, CloseButton} from "react-bootstrap"
-import PhotoGallery from "./PhotoGallery"
+import Slider from "./Slider"
 
 
 const LightBox = ({slides, currentSlide, title, excerpt, show, handleClose, className}) => {
@@ -14,7 +14,7 @@ const LightBox = ({slides, currentSlide, title, excerpt, show, handleClose, clas
             show={show}
             onHide={handleClose}
         >
-            <PhotoGallery
+            <Slider
                 label="lightbox"
                 className={className}
                 current={currentSlide}
