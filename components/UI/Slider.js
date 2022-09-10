@@ -1,193 +1,259 @@
-import React, {Fragment} from "react"
-import styled from "styled-components/macro"
+import {createRef, useRef, useState} from "react"
 import Link from "next/link"
-import Image from "next/image"
-import {Carousel} from "react-responsive-carousel"
+import {Swiper, SwiperSlide} from "swiper/react"
+import {EffectFade, Pagination, Keyboard, Autoplay, FreeMode, Zoom} from "swiper"
 
-import {getLinkType, createThumbUrl} from "~/core/helpers/utils"
+import VideoPlayer from "./VideoPlayer"
+import Cover from "./Cover"
+import HtmlContent from "./HtmlContent"
 
-import style from "~/styles/slider.module.sass"
-import "react-responsive-carousel/lib/styles/carousel.min.css"
-import {createSrcSet} from "../../core/helpers/utils"
+import {useWindowDimensions} from "../../core/helpers/hooks"
+import {createThumbUrl, getLinkType, truncateHTML} from "../../core/helpers/utils"
 
-
-/*
-const remoteLoader = ({src, width}) => {
-	let breakpoints = [320, 450, 640, 768, 1080, 1200]
-	if (breakpoints.indexOf(width) !== -1)
-		return createThumbUrl(src, width)
-	return src
-}
-*/
+import "swiper/css"
+import "swiper/css/zoom"
+import "swiper/css/keyboard"
+import "swiper/css/pagination"
+import "swiper/css/effect-fade"
+import {SvgIcon} from "./Icon"
 
 
-const Slider = ({sliders, className, priority = false, groupKey = "", ...sliderProps}) => {
+const Slider = ({
+	                title,
+	                excerpt,
+	                slides = [],
+	                current = 0,
+	                interval = 0,
+	                duration = 700,
+	                infinite = false,
+	                layout = "fill",
+	                paginationType = "bullets",
+	                zoom = false,
+	                freeScroll = false,
+	                objectFit = "contain",
+	                responsive = null,
+	                navigationController = false,
+	                label = "slider",
+	                className = "",
+	                style = {},
+	                children = null,
+	                ...props
+                }) => {
 
-	const onClick = (e) => {
-		// Остановим все click события вверх по дереву
-		e.stopPropagation()
+	const carouselRef = useRef(null)
+	const {width} = useWindowDimensions()
+	const [currentIndex, setCurrentIndex] = useState(current)
+	const [slideInterval, setSlideInterval] = useState(interval)
+	const [sliderState, setSliderState] = useState(
+		slides?.reduce((acc, value) => {
+			acc[value.id] = {
+				ref: createRef(),
+				id: value.id,
+				url: value?.url || null,
+				loaded: 0,
+				played: 0,
+				playing: false,
+				ended: false,
+			}
+			return acc
+		}, {})
+	)
+
+
+	const handlePrev = () => carouselRef.current?.swiper.slidePrev()
+
+	const handleNext = () => carouselRef.current?.swiper.slideNext()
+
+
+	const handleSlideInitialized = ({slides, activeIndex, autoplay}) => {
+		// adding Zoom class to images' containers
+		label === "lightbox" && slides.forEach(obj => {
+			let img = obj.querySelector("img")
+			img && img.parentElement.classList.add("swiper-zoom-target")
+		})
+		let currentSlider = sliderState[slides[activeIndex]?.id]
+		if (currentSlider?.url) {
+			autoplay?.stop()
+			setSlideInterval(900)
+
+			currentSlider.playing = true
+
+			// save player's state
+			setSliderState({
+				...sliderState,
+				[slides[activeIndex].id]: currentSlider,
+			})
+		}
 	}
 
+
+	const handleSlideChange = ({previousIndex, realIndex, autoplay}) => {
+		setCurrentIndex(realIndex)
+
+		let prev = infinite && previousIndex > 0 ? previousIndex - 1 : previousIndex
+		let previousSlider = sliderState[slides[prev]?.id]
+		// if prev slide is video
+		if (previousSlider?.url) {
+			previousSlider.playing = false
+			previousSlider.ended && previousSlider.ref.current?.seekTo(0, "fraction")
+			previousSlider.ended = false
+			// save player's state : previous
+			setSliderState({
+				...sliderState,
+				[slides[prev].id]: previousSlider,
+			})
+		}
+
+		let nextSlider = sliderState[slides[realIndex]?.id]
+		if (nextSlider?.url) {
+			autoplay?.stop()
+			setSlideInterval(900)
+			nextSlider.playing = true
+
+			// save player's state : next
+			setSliderState({
+				...sliderState,
+				[slides[realIndex].id]: nextSlider,
+			})
+		} else {
+			// drop slideshow interval to default for an image slide
+			interval > 0 && setSlideInterval(interval)
+		}
+	}
+
+
 	return (
-		<Container {...sliderProps} className={className}
-		           autoFocus={false}
-		           showStatus={false}
-		           emulateTouch={true}
-		           useKeyboardArrows
-		           animationHandler="fade"
-		           preventMovementUntilSwipeScrollTolerance={true}
-		           transitionTime={900}
-		           labels={{leftArrow: "Назад", rightArrow: "Вперед", item: "Слайд"}}
-		           renderArrowPrev={(onClickHandler, hasPrev, label) =>
-			           hasPrev && <div className={`arrow left`} onClick={onClickHandler} title={label}/>
-		           }
-		           renderArrowNext={(onClickHandler, hasNext, label) =>
-			           hasNext && <div className={`arrow right`} onClick={onClickHandler} title={label}/>
-		           }
-		           renderThumbs={(children) => children.map((item, index) => {
-			           let obj = sliders[index]
-			           let link = getLinkType(obj.url) //external or internal link
-			           let url = link.type === "link" ? obj.url : `/projects/${obj.slug}`
-			           return (
-				           <Fragment key={index}>
-					           <svg viewBox="0 0 46 20" className={`${style.icon} check-mark svg-icon white mx-2`}>
-						           <use xlinkHref="#check-mark-icon"/>
-					           </svg>
-					           <Link key={obj.slug} shallow={true} href={url}><a onClick={onClick}>{obj.name}</a></Link>
-				           </Fragment>
-			           )
-		           })}
-		           renderIndicator={(onClickHandler, isSelected, index, label) =>
-			           sliders.length > 1 &&
-			           <li className={`dot ${isSelected ? "selected" : ""}`} onClick={onClickHandler} role="button"
-			               tabIndex="0" aria-label={label} value={index}/>
-		           }
-		>
-			{sliders.map((obj) => (
-				<Fragment key={`${groupKey}-${obj.id}`}>
-					{(obj.cover || obj.file) &&
-					<Image
-						className={style.image}
-						//loader={remoteLoader}
-						src={createThumbUrl(obj.cover || obj.file, 320)}
-						srcset={createSrcSet(obj.cover || obj.file, [320, 450, 640, 768, 1080, 1200])}
-						alt={obj.title}
-						layout="responsive"
-						objectFit="cover"
-						width={320}
-						height={180}
-						quality={80}
-						placeholder="blur"
-						blurDataURL={createThumbUrl(obj.cover || obj.file, 320)}
-						unoptimized
-					/>
+		slides?.length > 0 || children
+			? (<div className={`${label} ${className}`}>
+					<Swiper
+						ref={carouselRef}
+						style={style}
+						modules={[EffectFade, Pagination, Keyboard, Autoplay, FreeMode, Zoom]}
+						initialSlide={current}
+						keyboard
+						pagination={{
+							enabled: paginationType && slides.length > 1,
+							clickable: true,
+							dynamicBullets: false,
+							hideOnClick: false,
+							type: paginationType
+						}}
+						zoom={{
+							enabled: zoom,
+							maxRatio: 2.5
+						}}
+						speed={width >= 992 ? duration : duration * width / 1000}
+						autoplay={{
+							enabled: Boolean(interval) && slides.length > 1,
+							delay: slideInterval
+						}}
+						freeMode={{
+							enabled: freeScroll,
+							sticky: true,
+						}}
+						loop={infinite && slides.length > 1}
+						breakpoints={responsive}
+						longSwipes={false}
+						spaceBetween={responsive ? width * 0.02 : 0}
+						grabCursor={slides.length > 1}
+						watchOverflow
+						onInit={handleSlideInitialized}
+						onSlideChangeTransitionStart={handleSlideChange}
+						{...props}
+					>
+						{children
+							? children
+							: slides.map(obj =>
+								<SwiperSlide
+									key={`slide-${obj.id}`}
+									style={label === "slider" ? {backgroundImage: `url(${createThumbUrl(obj.file, 320)})`} : null}
+								>
+									{obj?.file &&
+									<span className={`swiper-${zoom ? "zoom-" : ""}container`}>
+										<Cover
+											src={obj.file}
+											sizes={[320, 450, 640, 768, 1080, 1200]}
+											alt={obj?.alt}
+											layout={layout}
+											width={320}
+											height={215}
+											objectFit={objectFit}
+										/>
+											<figcaption>
+												<h3 className="title">{obj.title || title}</h3>
+												{width > 576 &&
+												<HtmlContent
+													className="excerpt">{truncateHTML(obj.alt || excerpt, 500)}
+												</HtmlContent>
+												}
+											</figcaption>
+									</span>
+									}
+
+									{obj?.url
+										? <VideoPlayer
+											sliderRef={carouselRef.current?.swiper}
+											id={obj.id}
+											playerState={sliderState}
+											setPlayerState={setSliderState}
+										/>
+										: null
+									}
+								</SwiperSlide>
+							)}
+					</Swiper>
+
+					{navigationController &&
+					<ul className="external-navigation">
+						{slides.map((obj, index) => {
+							return (
+								<li
+									key={`navlink-${obj.id}`}
+									style={{transitionDuration: duration + "ms"}}
+									className={`nav-link ${currentIndex === index ? "active" : ""}`}
+								>
+									<SvgIcon id="#check-mark-icon" className={`arrow arrow-left`}/>
+
+									<Link
+										key={obj.slug}
+										href={getLinkType(obj.url).type === "link" ? obj.url : `/projects/${obj.slug}`}
+										passHref
+									>
+										<a>{obj.name}</a>
+									</Link>
+								</li>
+							)
+						})}
+					</ul>
 					}
-					{sliderProps.showTitle && <p className="legend">{obj.title}</p>}
-				</Fragment>
-			))}
-		</Container>
+
+					{label === "lightbox" &&
+					<div className="swiper-fraction">
+						<span>{currentIndex + 1}</span> / <span>{slides.length}</span>
+					</div>
+					}
+
+					{width > 576 && slides.length > 1
+						? (<>
+								<div
+									className={`swiper-control swiper-control-next ${!infinite && carouselRef.current?.swiper.isEnd || carouselRef.current?.swiper.zoom?.scale > 1 ? "disabled" : ""}`}
+									onClick={handleNext}>
+									<SvgIcon id="#check-mark-icon" className={`arrow arrow-right`}/>
+								</div>
+								<div
+									className={`swiper-control swiper-control-prev ${!infinite && carouselRef.current?.swiper.isBeginning || carouselRef.current?.swiper.zoom?.scale > 1 ? "disabled" : ""}`}
+									onClick={handlePrev}>
+									<SvgIcon id="#check-mark-icon" className={`arrow arrow-left`}/>
+								</div>
+							</>
+						) : null
+					}
+				</div>
+			) : null
 	)
 }
 
 
 export default Slider
-
-
-export const GridSlider = ({
-	                           children,
-	                           groupKey = "slider",
-	                           itemLabel = "",
-	                           showControls = true,
-	                           showDots = true,
-	                           transitionTime = 700
-                           }) => {
-	return (
-		<Carousel
-			className={`grouped-slider-container`} groupKey={groupKey}
-			infiniteLoop={false}
-			transitionTime={transitionTime}
-			showThumbs={false}
-			showIndicators={showDots}
-			showStatus={false}
-			preventMovementUntilSwipeScrollTolerance
-			labels={{leftArrow: "Назад", rightArrow: "Вперед", item: {itemLabel}}}
-			renderArrowPrev={(onClickHandler, hasPrev, label) => showControls && hasPrev &&
-				<div className="arrow left invert" onClick={onClickHandler} title={label}/>
-			}
-			renderArrowNext={(onClickHandler, hasNext, label) => showControls && hasNext &&
-				<div className="arrow right invert" onClick={onClickHandler} title={label}/>
-			}
-			renderIndicator={(onClickHandler, isSelected, index, label) => showDots &&
-				<li className={`dot ${isSelected ? "selected" : ""}`} onClick={onClickHandler} role="button"
-				    tabIndex="0" aria-label={label} value={index}/>
-			}
-		>
-			{children}
-		</Carousel>
-
-	)
-}
-
-
-const Container = styled(Carousel)`
-
-	.carousel-slider {
-		height: 100%;
-	}
-
-	.carousel {
-		.slider-wrapper, ul.slider {
-			height: 100%;
-		}
-
-		.control-arrow {
-			display: none;
-		}
-
-		.thumbs-wrapper {
-			position: absolute;
-			bottom: 0;
-			margin: 2vw calc(1rem + 2vh);
-			z-index: 1;
-
-			ul {
-				display: flex;
-				flex-direction: column;
-				margin-bottom: 0;
-				padding: 0;
-				transform: none !important;
-
-				li {
-					width: auto !important;
-					padding: 0;
-					border: none;
-					font-weight: bold;
-					text-transform: uppercase;
-					text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.8);
-
-					.check-mark {
-						visibility: hidden;
-					}
-
-					a {
-						color: white;
-						opacity: 0.7;
-					}
-
-					&.selected {
-						.check-mark {
-							visibility: visible;
-						}
-
-						a {
-							opacity: 1;
-						}
-					}
-				}
-			}
-		}
-	}
-`
-
 
 
