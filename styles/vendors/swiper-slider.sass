@@ -18,8 +18,10 @@
 		box-shadow: 0 0 0 1px $brand-color
 		transition: 200ms all ease
 		opacity: 1
+
 		&-active
 			background-color: $brand-color !important
+
 		+media-breakpoint-down(sm)
 			max-width: 0.3rem
 			max-height: 0.3rem
@@ -32,12 +34,16 @@
 	transition: 200ms all ease
 	cursor: pointer
 	z-index: 1000
+
 	&-next
 		right: 0
+
 	&-prev
 		left: 0
+
 	&.disabled
 		visibility: hidden
+
 	&:hover
 		.arrow
 			opacity: 1
@@ -46,9 +52,11 @@
 .slider
 	+make-container
 	width: 100%
+
 	.swiper
 		width: 100%
 		height: 100%
+
 	.swiper-slide
 		height: auto
 		background-repeat: no-repeat
@@ -61,16 +69,20 @@
 
 	&.with-outside-controls
 		.swiper
-			position: initial // to downshift the pagination
+			position: initial
+			// to downshift the pagination
 			margin-bottom: 3rem
 
 		.swiper-control
 			padding: 0
+
 			.arrow
 				color: $brand-color
+
 			&-next
 				right: unset
 				left: calc(100% + 1vw)
+
 			&-prev
 				left: unset
 				right: calc(100% + 1vw)
@@ -87,8 +99,10 @@
 		text-align: center
 		font-size: 0.8rem
 		background-color: transparentize(white, 0.7)
+
 		.title
 			font-size: 1.2rem
+
 		+media-breakpoint-down(sm)
 			.excerpt
 				display: none
@@ -105,7 +119,8 @@
 
 		.nav-link
 			width: auto
-			padding: 0.25rem
+			padding: 0.15rem 0
+			margin: 0
 			border: none
 			//border-radius: 50rem
 			//background-color: transparentize(white, 0.7)
@@ -113,18 +128,22 @@
 			text-transform: uppercase
 			transition: opacity 300ms linear
 			opacity: 0.7
+
 			a
 				color: white
-			&:hover
-				opacity: 1
+
+			.arrow
+				opacity: 0
+				color: white
+				&.arrow-left
+					transform: rotate(-90deg)
+
 			&.active
 				text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.8)
 				opacity: 1
+
 				.arrow
 					opacity: 1
 
-			.arrow
-				height: 0.6rem
-				opacity: 0
-				&.arrow-left
-					transform: rotate(-90deg)
+			&:hover
+				opacity: 1

@@ -139,7 +139,7 @@ const SearchList = () => {
 				}
 			</Container>
 
-			<a className="nav-link" onClick={() => router.back()}>
+			<a className="nav-link back" onClick={() => router.back()}>
 				<SvgIcon id="#check-mark-icon" className={`check-mark arrow arrow-left`}/>
 				<span>Вернуться назад</span>
 			</a>

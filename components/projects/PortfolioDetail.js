@@ -75,7 +75,7 @@ const PortfolioDetail = ({category, projects}) => {
 			}
 
 			<Link href="/#activities">
-				<a className="nav-link">
+				<a className="nav-link back">
 					<SvgIcon id="#check-mark-icon" className={`check-mark arrow arrow-left`}/>
 					На главную
 				</a>
