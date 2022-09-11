@@ -5,6 +5,8 @@ from django.core.cache import cache
 from django.core.cache.utils import make_template_fragment_key
 from django.utils.html import format_html
 from django.core.files.storage import FileSystemStorage
+
+from uuslug import slugify, uuslug
 from os import path, remove, rename
 from glob import glob
 from shutil import rmtree
@@ -15,7 +17,7 @@ from imagekit.cachefiles import ImageCacheFile
 
 
 # delete main image and its thumbs
-def remove_images(obj):
+def remove_images(obj, delete_original=True):
 	if obj and obj.path:
 		filename, ext = path.splitext(obj.path)
 		cache_folder = filename.replace('/media/', '/media/CACHE/images/')
@@ -23,7 +25,7 @@ def remove_images(obj):
 		# select all thumbs for original file
 		files = glob(filename+'_[0-9][0-9][0-9]*w'+ext)
 		# add to files array if original file exists on disk
-		if path.isfile(obj.path) or path.islink(obj.path):
+		if delete_original and (path.isfile(obj.path) or path.islink(obj.path)):
 			files.append(obj.path)
 		for f in files:
 			remove(f)
@@ -41,18 +43,22 @@ def is_image_file(obj):
 
 class MediaFileStorage(FileSystemStorage):
 
-	def save(self, name, content, max_length=None):
-		filename, ext = path.splitext(name)
-		index = 1
+	def get_available_name(self, name, max_length=None):
+		upload_folder, filename = path.split(name.lower())
+		filename, ext = path.splitext(filename)
+		filename = slugify(filename)
+		name = path.join(upload_folder, filename+ext)
+
+		# add index to file name if it exists
+		index=1
 		while self.exists(name):
+			name = path.join(upload_folder, f'{filename}-{index:02}'+ext)
 			index += 1
-			name = '{}-{}{}'.format(filename, index, ext)
 			if index == 20:
 				break
-		return super().save(name, content, max_length)
-		# prevent saving file on disk
-		# if self.exists(name):
-		# 	return name
+
+		return name
+
 
 
 class AdminThumbnail(ImageSpec):
@@ -121,6 +127,7 @@ def generate_images(obj, thumbnail='thumbnail', *sizes):
 
 			result = image_generator.generate()
 			rename(file, old_file)
+
 			dest = open(file, 'wb')
 			dest.write(result.read())
 			dest.close()

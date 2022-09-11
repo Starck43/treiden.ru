@@ -94,7 +94,7 @@ class Category(models.Model):
 		verbose_name='Фото',
 		help_text='Фото для вывода в секции описания с размером 450х300')
 	seo_title = models.CharField('Заголовок страницы', max_length=100, blank=True)
-	seo_description = models.CharField('Мета описание', max_length=150, blank=True, help_text='Описание записи в поисковой выдаче. Рекомендуется 70-80 символов')
+	seo_description = models.TextField('Мета описание', max_length=150, blank=True, help_text='Описание записи в поисковой выдаче. Рекомендуется 70-80 символов')
 	seo_keywords = models.CharField('Ключевые слова', max_length=255, blank=True, help_text='Укажите через запятую поисковые словосочетания, которые присутствуют в заголовке или описании самой записи. Рекомендуется до 20 слов и не более 3-х повторов')
 
 	objects = SearchManager()
@@ -273,7 +273,7 @@ class Portfolio(Post):
 
 class Media(models.Model):
 	post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True, blank=True, related_name='media', verbose_name = 'Запись', help_text='Укажите запись, к которой принадлежит медиафайл')
-	title = models.CharField('Заголовок', max_length=100, help_text='')
+	title = models.CharField('Заголовок', max_length=100, blank=True, help_text='')
 	file = ProcessedImageField(
 		upload_to='gallery/',
 		processors=[ResizeToFit(1200, 900, upscale=False)],
@@ -283,7 +283,7 @@ class Media(models.Model):
 		verbose_name='Медиафайл',
 		help_text='Выберите фото для отображения в галерее портфолио или ивента'
 		)
-	alt = models.CharField('Описание', max_length=250, blank=True, help_text='Краткое описание медиафайла для поисковых систем')
+	alt = models.TextField('Описание', max_length=250, blank=True, help_text='Краткое описание медиафайла для поисковых систем')
 
 	class Meta:
 		db_table = "media"
@@ -371,7 +371,7 @@ class Customer(models.Model):
 		super().save(*args, **kwargs)
 
 		if self.avatar != self.original_avatar:
-			generate_thumbs(self.avatar, [320, 450, 640, 900])
+			generate_thumbs(self.avatar, [160, 320, 450, 640, 900])
 
 		self.original_avatar = self.avatar
 
@@ -427,7 +427,7 @@ class Award(models.Model):
 		super().save(*args, **kwargs)
 
 		if self.file != self.original_file:
-			generate_thumbs(self.file, [320, 450, 640])
+			generate_thumbs(self.file, [160, 320, 450, 640])
 
 		self.original_file = self.file
 
@@ -443,7 +443,7 @@ class Award(models.Model):
 class Seo(models.Model):
 	post = models.OneToOneField(Post, on_delete=models.CASCADE, null=True, blank=True, related_name='meta', verbose_name = 'Запись', help_text='Запись, к которой принадлежит СЕО описание')
 	title = models.CharField('Заголовок страницы', max_length=100, blank=True)
-	description = models.CharField('Мета описание', max_length=150, blank=True, help_text='Описание записи в поисковой выдаче. Рекомендуется 70-80 символов')
+	description = models.TextField('Мета описание', max_length=150, blank=True, help_text='Описание записи в поисковой выдаче. Рекомендуется 70-80 символов')
 	keywords = models.CharField('Ключевые слова', max_length=255, blank=True, help_text='Укажите через запятую поисковые словосочетания, которые присутствуют в заголовке или описании самой записи. Рекомендуется до 20 слов и не более 3-х повторов')
 
 	class Meta:
@@ -499,7 +499,7 @@ class Contacts(models.Model):
 
 		super().save(*args, **kwargs)
 		if self.file:
-			generate_thumbs(self.file, [320, 640])
+			generate_thumbs(self.file, [160, 320, 640])
 		self.original_file = self.file
 
 
