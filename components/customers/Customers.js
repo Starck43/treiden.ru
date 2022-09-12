@@ -20,6 +20,7 @@ const Customers = ({customers}) => {
 
 			<Slider
 				slides={customers}
+				duration={300}
 				freeScroll
 				responsive={{
 					450: {

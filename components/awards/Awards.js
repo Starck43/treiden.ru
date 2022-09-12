@@ -32,8 +32,9 @@ const Awards = ({awards}) => {
 
 				<Slider
 					slides={awards}
-					freeScroll
+					duration={300}
 					slidesPerView={2}
+					freeScroll
 					responsive={{
 						576: {
 							slidesPerView: 3,
