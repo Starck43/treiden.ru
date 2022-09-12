@@ -149,7 +149,7 @@ const Slider = ({
 						}}
 						freeMode={{
 							enabled: freeScroll,
-							sticky: true,
+							//sticky: true,
 						}}
 						loop={infinite && slides.length > 1}
 						breakpoints={responsive}
