@@ -10,15 +10,20 @@
 @import player
 @import vendors/swiper-slider
 
+
+\:root
+	--bs-font-sans-serif: #{$font-family-text, $default-fonts}
+
 *
 	margin: 0
+
+*:focus
+	box-shadow: none !important
+	border-color: $brand-color !important
 
 *::selection
 	color: $selected-text-color
 	background-color: $brand-color
-
-\:root
-	--bs-font-sans-serif: #{$font-family-text, $default-fonts}
 
 html, body
 	height: 100%
@@ -128,7 +133,8 @@ section
 
 .contacts-container
 	color: #fff
-	>div
+
+	> div
 		//color: #fff
 		line-height: 2
 		white-space: nowrap
@@ -163,8 +169,10 @@ section
 	align-items: center
 	padding: 0
 	margin-top: 6vh
+
 	&.back
 		margin-left: -1rem
+
 	.arrow.svg-icon
 		color: $brand-color
 		height: 0.6rem
