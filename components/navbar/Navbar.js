@@ -3,8 +3,8 @@ import {useRouter} from "next/router"
 import styled from "styled-components/macro"
 import {Navbar, Nav, Offcanvas} from "react-bootstrap"
 
-import {Icon, Anchor} from "~/components/UI"
 import {NavLogo, NavItem, Search} from "~/components/navbar"
+import {Icon, Anchor} from "~/components/UI"
 
 import getConfig from "next/config"
 
