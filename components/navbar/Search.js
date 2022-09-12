@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef} from "react"
+import {useState, useRef, useEffect} from "react"
 import {useRouter} from "next/router"
 import {Form, FormControl, Button} from "react-bootstrap"
 
@@ -8,52 +8,47 @@ import {Icon} from "~/components/UI"
 const Search = () => {
 	const searchRef = useRef(null)
 	const router = useRouter()
-	const [isSearchDisabled, setSearchDisabled] = useState(false)
-	const [isScroll, setScroll] = useState(false)
+	const [text, setText] = useState("")
+	const [isHidden, setHidden] = useState(true)
 
-	const inputTextHandler = e => setSearchDisabled(e.target.textLength === 0)
-
+	const inputTextHandler = (e) => {
+		setText(e.target.value)
+	}
 
 	useEffect(() => {
 		const onScroll = () => {
-			searchRef?.current[0].classList.add("hidden")
 			searchRef?.current[0].blur()
-			setScroll(false)
+			setHidden(true)
 		}
 
-		if (isScroll) {
+		if (!isHidden) {
 			window.addEventListener("scroll", onScroll, false)
 			return () => window.removeEventListener("scroll", onScroll, false)
 		}
 
-	}, [isScroll])
+	}, [isHidden])
 
 
 	const handleSubmit = e => {
 		e.preventDefault()
-		e.stopPropagation()
-		let text = searchRef.current[0]
-		if (text.classList.contains("hidden")) {
-			text.classList.remove("hidden")
-			text.focus()
-			setScroll(true)
+		// input is hidden
+		if (isHidden) {
+			searchRef.current[0].focus()
 		} else {
-			if (!text.value) {
-				text.classList.add("hidden")
-				text.blur()
-				setScroll(false)
-				setSearchDisabled(!isSearchDisabled)
-			} else {
-				const searchQuery = searchRef.current[0].value
-				setSearchDisabled(false)
+			searchRef.current[0].blur()
+			if (text) {
 				router.replace({
 					pathname: "/search",
 					query: {
-						q: encodeURI(searchQuery)
+						q: encodeURI(text)
 					},
 				}, undefined, {shallow: false, replace: false})
+
+				setText("")
 			}
 		}
+
+		setHidden(!isHidden)
 	}
 
 	return (
@@ -62,10 +57,10 @@ const Search = () => {
 				<FormControl
 					type="text"
 					placeholder="поиск по сайту..."
-					className="hidden ml-2"
+					className={`ml-2 ${isHidden ? "hidden" : ""}`}
 					onChange={inputTextHandler}
 				/>
-				<Button type="submit" variant="light" disabled={isSearchDisabled}>
+				<Button type="submit" variant="light">
 					<Icon name="search"/>
 				</Button>
 			</Form>
@@ -75,5 +70,3 @@ const Search = () => {
 }
 
 export default Search
-
-

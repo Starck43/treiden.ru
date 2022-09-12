@@ -91,16 +91,16 @@ const SearchList = () => {
 							</HtmlContent>
 
 							{post.cover || videoState && videoState[post.id]
-								? <Ratio aspectRatio="16x9" onClick={videoClickHandle}>
+								? <Ratio className="cover mt-3" aspectRatio="16x9" onClick={videoClickHandle}>
 									<>
 										{post.cover &&
 										<Cover
 											src={absoluteUrl(post.cover)}
 											alt={post?.title}
 											sizes={[320, 450]}
-											layout="intrinsic"
-											width={320}
-											height={180}
+											layout="fill"
+											width={450}
+											height={360}
 											objectPosition="left"
 										/>
 										}
