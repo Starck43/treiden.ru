@@ -13,7 +13,7 @@ from .models import *
 class FixAbsolutePathSerializer(serializers.Field):
 	def to_representation(self, value):
 		request = self.context.get('request')
-		pattern = 'src=\"<URL>/media/'
+		pattern = '\"<URL>/media/'
 		url = addDomainToUrl(request, value, pattern)
 		return url
 
