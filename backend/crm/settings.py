@@ -185,6 +185,8 @@ CKEDITOR_CONFIGS = {
     },
 }
 
+SOCIALS = ["vk", "instagram"]
+
 EVENTS_PER_PAGE = 2
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

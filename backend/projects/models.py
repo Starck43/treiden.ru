@@ -168,11 +168,11 @@ class Post(models.Model):
 	cover = ProcessedImageField(
 		upload_to='cover/',
 		processors=[ResizeToFit(1200, 900, upscale=False)],
-		format='JPEG',
+		# format='JPEG',
 		options={'quality': 80},
 		storage=MediaFileStorage(),
 		verbose_name='Обложка',
-		null=True, help_text='Обложка для фотогалереи проектов и ивентов')
+		null=True, blank=True, help_text='Обложка для фотогалереи проектов и ивентов')
 
 	# display_section и extra_display_section для наследующих моделей (Portfolio, Event) скрывать!!!
 	display_section = models.ForeignKey(Navbar, on_delete=models.SET_NULL, null=True, blank=True, related_name='posts', verbose_name = 'Раздел', help_text='Выберите раздел для отображения контента')
@@ -247,6 +247,8 @@ class Event(Post):
 
 		# set type 'event' for building link in search result
 		self.post_type = self._meta.model_name
+		self.extra_display_section = None
+
 		super().save(*args, **kwargs)
 
 
@@ -267,6 +269,8 @@ class Portfolio(Post):
 
 		# set type category's slug for building link in search result
 		self.post_type = self.category.slug
+		self.extra_display_section = None
+
 		super().save(*args, **kwargs)
 
 

@@ -162,3 +162,8 @@ def addDomainToUrl(request, value, pattern, start=False):
 		return url
 	return value
 
+def get_site_domain(url):
+	if not url:
+		return ""
+	name = re.sub(r'^https?:\/\/|\/(www\.)?$', '', url, flags=re.MULTILINE)
+	return name.strip().strip('/').split('.', 1)[0]

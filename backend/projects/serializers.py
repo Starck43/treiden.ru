@@ -6,7 +6,7 @@ from rest_framework.pagination import PageNumberPagination
 # from django.contrib.auth.models import User
 from django.http import HttpRequest
 
-from .logic import addDomainToUrl
+from .logic import addDomainToUrl, get_site_domain
 from .models import *
 
 
@@ -123,6 +123,14 @@ class PostSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Post
 		fields = ('id', 'slug', 'url', 'cover', 'title', 'excerpt', 'description', 'link', 'post_type', 'extra_display_section')
+
+	def to_representation(self, instance):
+		data = super().to_representation(instance)
+		data["social_name"] = get_site_domain(data["url"])
+		if not data["social_name"] in settings.SOCIALS:
+			data["social_name"] = ""
+		return data
+
 
 	def get_link(self, obj):
 		#post, event, portfolio

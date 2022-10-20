@@ -51,7 +51,7 @@ class PostInlineAdmin(admin.StackedInline):
 	verbose_name_plural = ""
 
 
-class MediaInlineAdmin(admin.TabularInline):
+class MediaInlineAdmin(admin.StackedInline):
 	model = Media
 	extra = 1 #new blank record count
 	show_change_link = True
@@ -87,14 +87,14 @@ class NavbarAdmin(admin.ModelAdmin):
 class PostAdmin(admin.ModelAdmin):
 	model = Post
 
-	exclude = ('cover', 'editor',)
+	exclude = ('editor',)
 	list_display = ('title', 'display_section', 'extra_display_section', 'editor_name', 'modified_date', 'is_active',)
 	search_fields = ('title',)
 	list_filter = ('display_section', 'extra_display_section',)
 
 
 	prepopulated_fields = {"slug": ('title',)} # adding name to slug field
-	inlines = [MediaInlineAdmin]
+	# inlines = [MediaInlineAdmin]
 
 	def editor_name(self, obj):
 		if not obj.editor:
