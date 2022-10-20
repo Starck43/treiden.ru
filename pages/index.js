@@ -39,8 +39,8 @@ const HomePage = ({...props}) => {
 	}, [])
 
 	return(
-	<Layout navitems={props.navitems} contacts={props.contacts} posts={props.posts} meta={props.meta[0]} >
-		<Header posts={props.posts} slides={props.header}/>
+	<Layout navitems={props.navitems} contacts={props.contacts} extra={props.extra} meta={props.meta[0]} >
+		<Header extra={props.extra} slides={props.header}/>
 		<About data={props.about}/>
 		<Activities activities={props.activities}/>
 		<Events data={props.events}/>
@@ -75,7 +75,7 @@ export const getStaticProps = async () => {
 			customers : await customers.json(),
 			awards : await awards.json(),
 			contacts : await contacts.json(),
-			posts : await extraPosts.json(),
+			extra : await extraPosts.json(),
 		},
 		revalidate: 60 * 60 * 24,
 	}

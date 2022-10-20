@@ -3,9 +3,9 @@ import Layout from "~/components/Layout"
 import EventDetail from "~/components/events/EventDetail"
 
 
-const EventPage = ({navitems, event, posts, contacts}) => {
+const EventPage = ({navitems, event, extra, contacts}) => {
 	return (
-		<Layout navitems={navitems} contacts={contacts} posts={posts} meta={event.seo}>
+		<Layout navitems={navitems} contacts={contacts} extra={extra} meta={event.seo}>
 			<EventDetail event={event} slug="/event/"/>
 		</Layout>
 	)
@@ -36,7 +36,7 @@ export const getStaticProps = async ({params}) => {
 		props: {
 			navitems: await navitems.json(),
 			event: await event.json(),
-			posts: await extraPosts.json(),
+			extra: await extraPosts.json(),
 			contacts: await contacts.json(),
 		},
 		revalidate: 60 * 60 * 24,

@@ -5,11 +5,11 @@ import ExtraPosts from "../extra-posts/ExtraPosts"
 import style from "~/styles/contacts.module.sass"
 
 
-const Contacts = ({contacts, posts}) => {
+const Contacts = ({contacts, extra}) => {
 	return (
 		<footer id="contacts" className={style.section}>
 			<div className={`extra-posts ${style.leftBlock}`}>
-				<ExtraPosts posts={posts} section="F"/>
+				<ExtraPosts posts={extra} sections={["F", "HF"]} />
 			</div>
 			{contacts.length &&
 			<>

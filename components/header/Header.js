@@ -7,12 +7,12 @@ import style from "~/styles/header.module.sass"
 import {memo} from "react"
 
 
-const Header = ({posts, slides}) => {
+const Header = ({slides, extra}) => {
 
 	return (
 		<section className={`header-section ${style.section}`}>
 			<div className={`extra-posts ${style.post}`}>
-				<ExtraPosts posts={posts} section="H"/>
+				<ExtraPosts posts={extra} sections={["H", "HF"]} />
 			</div>
 
 			<Slider

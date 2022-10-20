@@ -7,6 +7,7 @@ import {NavLogo, NavItem, Search} from "~/components/navbar"
 import {Icon, Anchor} from "~/components/UI"
 
 import getConfig from "next/config"
+import ExtraPosts from "../extra-posts/ExtraPosts"
 
 const data = getConfig().publicRuntimeConfig //next.config.js
 
@@ -39,6 +40,13 @@ const NavBar = (props) => {
 			<Anchor id="home" ref={props.navRef}/>
 			<Navbar expanded={visible} className="sticky-top" expand="lg" variant="light">
 				<NavLogo href="/" logo={data.logo} pathname={router.pathname}/>
+
+				{props.extra &&
+				<div className={`extra-posts section-navbar`}>
+					<ExtraPosts posts={props.extra} sections={["NB", "HF"]}/>
+				</div>
+				}
+
 				<ContactBlock className="contacts centered">
 					{props.contact?.socials
 						? props.contact.socials.map(item =>

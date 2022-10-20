@@ -4,9 +4,9 @@ import Layout from '~/components/Layout'
 import SearchList from '~/components/search/SearchList'
 
 
-const SearchPage = ({navitems, contacts, posts}) => {
+const SearchPage = ({navitems, contacts, extra}) => {
 	return (
-		<Layout navitems={navitems} contacts={contacts} posts={posts}>
+		<Layout navitems={navitems} contacts={contacts} extra={extra}>
 			<SearchList/>
 		</Layout>
 )}
@@ -23,7 +23,7 @@ export const getStaticProps = async () => {
 		props: {
 			navitems : await navitems.json(),
 			contacts : await contacts.json(),
-			posts : await extraPosts.json(),
+			extra : await extraPosts.json(),
 		},
 	}
 }

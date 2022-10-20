@@ -1,13 +1,16 @@
 import Post from "./Post"
 
 
-const ExtraPosts = ({posts, section}) => {
+const ExtraPosts = ({posts, sections}) => {
+	console.log(posts)
 	return (
-		posts.filter(post=>[section, "HF"].includes(post.extra_display_section)).map((post) => (
+		posts && posts
+		.filter(post=>sections.includes(post.extra_display_section))
+		.map(post => (
 			post.url
 				? <a
 					id={post.slug}
-					className={`extra-post section-${section} post-link white centered`}
+					className={`extra-post section-${sections[0]?.toLowerCase()} post-link white centered`}
 					key={post.slug}
 					href={post.url}
 					target="_blank"
@@ -15,7 +18,7 @@ const ExtraPosts = ({posts, section}) => {
 				>
 					<Post item={post}/>
 				</a>
-				: <div id={post.slug} className={`extra-post section-${section} white centered`}>
+				: <div id={post.slug} className={`extra-post section-${sections[0]?.toLowerCase()} white centered`}>
 					<Post item={post}/>
 				</div>
 		))
