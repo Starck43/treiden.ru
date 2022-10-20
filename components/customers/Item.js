@@ -15,7 +15,7 @@ const Item = ({customer}) => {
 
 	return (
 		<Fragment>
-			{customer.avatar &&
+			{customer?.avatar &&
 			<figure className={style.avatar} onClick={toggleShow}>
 				<Cover
 					src={customer.avatar}
@@ -41,5 +41,3 @@ const Item = ({customer}) => {
 }
 
 export default Item
-
-

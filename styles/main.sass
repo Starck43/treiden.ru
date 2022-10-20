@@ -144,12 +144,24 @@ section
 
 
 .extra-posts
-	.post-link
+	.extra-post
+		width: 100%
 		+media-breakpoint-down(sm)
 			font-size: 0.9rem
+		.post-image
+			max-width: 7rem
+			&~div
+				margin-left: 0.75rem
 
 		p
 			margin-bottom: 0
+
+		&.section-F
+			flex-direction: column
+			align-items: flex-start
+			.post-image~div
+				margin-left: 0
+				margin-top: 0.75rem
 
 	.social-icon
 		margin-right: 0.5rem

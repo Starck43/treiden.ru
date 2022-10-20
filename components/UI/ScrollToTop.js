@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react"
+import {useState, useEffect, memo} from "react"
 
 import {Icon} from "~/components/UI"
 import {smoothScroll} from "../../core/helpers/utils"
@@ -25,4 +25,4 @@ const ScrollToTop = ({homeRef}) => {
 	)
 }
 
-export default ScrollToTop
+export default memo(ScrollToTop)

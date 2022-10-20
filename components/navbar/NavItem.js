@@ -1,3 +1,4 @@
+import {memo} from "react"
 import Link from "next/link"
 import {Nav} from "react-bootstrap"
 
@@ -35,4 +36,4 @@ const NavItem = ({item, pathname, setVisible}) => {
 	)
 }
 
-export default NavItem
+export default memo(NavItem)

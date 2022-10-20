@@ -1,3 +1,4 @@
+import {memo} from "react"
 import {Item} from "~/components/services"
 import {Cover, Anchor} from "../UI"
 
@@ -26,5 +27,4 @@ const Activities = ({activities}) => (
 	</section>
 )
 
-export default Activities
-
+export default memo(Activities)

@@ -1,9 +1,10 @@
 import {SwiperSlide} from "swiper/react"
 
-import ExtraPosts from "../header/ExtraPosts"
+import ExtraPosts from "../extra-posts/ExtraPosts"
 import {Slider, Cover} from "../UI"
 
 import style from "~/styles/header.module.sass"
+import {memo} from "react"
 
 
 const Header = ({posts, slides}) => {
@@ -11,7 +12,7 @@ const Header = ({posts, slides}) => {
 	return (
 		<section className={`header-section ${style.section}`}>
 			<div className={`extra-posts ${style.post}`}>
-				<ExtraPosts posts={posts}/>
+				<ExtraPosts posts={posts} section="H"/>
 			</div>
 
 			<Slider
@@ -48,7 +49,4 @@ const Header = ({posts, slides}) => {
 	)
 }
 
-export default Header
-
-
-
+export default memo(Header)

@@ -1,4 +1,4 @@
-import {createRef, useRef, useState} from "react"
+import {createRef, memo, useRef, useState} from "react"
 import Link from "next/link"
 import {Swiper, SwiperSlide} from "swiper/react"
 import {EffectFade, Pagination, Keyboard, Autoplay, FreeMode, Zoom} from "swiper"
@@ -254,6 +254,4 @@ const Slider = ({
 }
 
 
-export default Slider
-
-
+export default memo(Slider)

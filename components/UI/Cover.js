@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react"
+import {memo, useEffect, useState} from "react"
 import Image from "next/image"
 
 import {createSrcSet, createThumbUrl} from "../../core/helpers/utils"
@@ -57,4 +57,4 @@ const Cover = ({
 
 }
 
-export default Cover
+export default memo(Cover)

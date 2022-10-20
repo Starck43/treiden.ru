@@ -1,3 +1,4 @@
+import {memo} from "react"
 import {List, Filter} from "~/components/projects"
 import {Section, Header} from "~/components/UI"
 
@@ -11,4 +12,4 @@ const Portfolio = ({categories, projects}) => (
 )
 
 
-export default Portfolio
+export default memo(Portfolio)

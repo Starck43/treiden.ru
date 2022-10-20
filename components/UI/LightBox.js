@@ -1,5 +1,6 @@
 import {Modal, CloseButton} from "react-bootstrap"
 import Slider from "./Slider"
+import {memo} from "react"
 
 
 const LightBox = ({slides, currentSlide, title, excerpt, show, handleClose, className}) => {
@@ -29,4 +30,4 @@ const LightBox = ({slides, currentSlide, title, excerpt, show, handleClose, clas
     )
 }
 
-export default LightBox
+export default memo(LightBox)

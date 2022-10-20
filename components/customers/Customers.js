@@ -1,3 +1,4 @@
+import {memo} from "react"
 import {SwiperSlide} from "swiper/react"
 
 import Item from "./Item"
@@ -49,4 +50,4 @@ const Customers = ({customers}) => {
 	)
 }
 
-export default Customers
+export default memo(Customers)

@@ -1,4 +1,4 @@
-import {Fragment, useState} from "react"
+import {Fragment, memo, useState} from "react"
 import {SwiperSlide} from "swiper/react"
 
 import Item from "../customers/Item"
@@ -69,4 +69,4 @@ const Awards = ({awards}) => {
 	)
 }
 
-export default Awards
+export default memo(Awards)

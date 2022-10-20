@@ -12,7 +12,7 @@ const Item = ({item, mainColumn = false}) => {
 		<article id={`${SLUG}-${item.id}`} className={`card ${style.article}`}>
 			<Link href={`/${SLUG}/${item.id}`} passHref>
 				<a className={style.cover}>
-					{item.cover &&
+					{item?.cover &&
 					<Cover
 						src={item.cover}
 						alt={item?.title}
@@ -38,5 +38,3 @@ const Item = ({item, mainColumn = false}) => {
 }
 
 export default Item
-
-

@@ -1,4 +1,4 @@
-import {Fragment} from "react"
+import {Fragment, memo} from "react"
 
 import {Anchor, HtmlContent, Section, Header} from "../UI"
 
@@ -22,5 +22,4 @@ const About = ({data}) => (
 	</Section>
 )
 
-export default About
-
+export default memo(About)

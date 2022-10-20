@@ -1,6 +1,6 @@
 import ReactPlayer from "react-player/lazy"
 import ProgressBar from "react-bootstrap/ProgressBar"
-import {useState} from "react"
+import {memo, useState} from "react"
 
 
 const VideoPlayer = ({id, sliderRef=null, playerState, setPlayerState=null}) => {
@@ -52,7 +52,7 @@ const VideoPlayer = ({id, sliderRef=null, playerState, setPlayerState=null}) => 
 		let elapsed = newState.ref?.current.getDuration() - newState.ref?.current.getCurrentTime()
 		if (!newState.ended && elapsed <= 1) {
 			newState.ended = true
-			// go to the next slide 
+			// go to the next slide
 			sliderRef && sliderRef.autoplay?.start()
 		}
 
@@ -120,4 +120,4 @@ const VideoPlayer = ({id, sliderRef=null, playerState, setPlayerState=null}) => 
 	)
 }
 
-export default VideoPlayer
+export default memo(VideoPlayer)

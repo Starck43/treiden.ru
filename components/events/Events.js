@@ -1,4 +1,4 @@
-import {useState} from "react"
+import {memo, useState} from "react"
 import {Row, Col} from "react-bootstrap"
 
 import {Item} from "~/components/events"
@@ -48,5 +48,4 @@ const Events = ({data}) => {
 	)
 }
 
-export default Events
-
+export default memo(Events)
