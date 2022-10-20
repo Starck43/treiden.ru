@@ -159,6 +159,7 @@ class Post(models.Model):
 		('H', 'в шапке'),
 		('F', 'в подвале'),
 		('HF', 'в шапке и подвале'),
+		('NB', 'в верхнем меню'),
 	)
 
 	title = models.CharField('Заголовок', max_length=100, help_text='')
