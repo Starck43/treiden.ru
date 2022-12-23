@@ -1,10 +1,10 @@
+import {memo} from "react"
 import {SwiperSlide} from "swiper/react"
 
 import ExtraPosts from "../extra-posts/ExtraPosts"
 import {Slider, Cover} from "../UI"
 
 import style from "~/styles/header.module.sass"
-import {memo} from "react"
 
 
 const Header = ({slides, extra}) => {
@@ -26,13 +26,14 @@ const Header = ({slides, extra}) => {
 			>
 				{slides.map((obj, i) => (
 					<SwiperSlide key={i} className={style.slide}>
-						{(obj.cover || obj?.file) &&
+						{(obj?.cover || obj?.file) &&
 						<Cover
 							src={obj.cover || obj.file}
 							alt={obj?.title}
 							sizes={[320, 450, 640, 768, 1080, 1200]}
 							width={320}
 							height={180}
+							priority
 						/>
 						}
 

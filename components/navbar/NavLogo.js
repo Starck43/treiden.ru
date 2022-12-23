@@ -1,8 +1,9 @@
 import Link from "next/link"
 import {Navbar} from "react-bootstrap"
+import {memo} from "react"
 
 
-const NavLogo = ({href, logo, pathname}) => {
+export const NavLogo = memo(({href, logo, pathname}) => {
 	let url = pathname === "/" ? "#" : href
 	let navBrand =
 		<Navbar.Brand href={url}>
@@ -14,7 +15,6 @@ const NavLogo = ({href, logo, pathname}) => {
 			? <Link href={url}>{navBrand}</Link>
 			: <>{navBrand}</>
 	)
-}
+})
 
-export default NavLogo
-
+NavLogo.displayName = "NavLogo"

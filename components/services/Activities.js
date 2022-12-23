@@ -1,13 +1,13 @@
 import {memo} from "react"
 import {Item} from "~/components/services"
-import {Cover, Anchor} from "../UI"
-
 import getConfig from "next/config"
 
-const {publicRuntimeConfig} = getConfig() //next.config.js
+import {Cover, Anchor} from "../UI"
 
 import style from "~/styles/activity.module.sass"
 
+
+const {publicRuntimeConfig} = getConfig() //next.config.js
 
 const Activities = ({activities}) => (
 	<section className={style.section}>

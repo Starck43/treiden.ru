@@ -1,4 +1,4 @@
-import {memo, useEffect, useState} from "react"
+import {memo, useCallback, useEffect, useState} from "react"
 import Image from "next/image"
 
 import {createSrcSet, createThumbUrl} from "../../core/helpers/utils"
@@ -29,10 +29,10 @@ const Cover = ({
 		setThumb(sizes.length > 0 ? createThumbUrl(src, sizes[0]) : src)
 	}, [src, sizes])
 
-	const loadComplete = function () {
+	const loadComplete = useCallback(() => {
 		setLoaded(true)
-		imageLoading && imageLoading(true)
-	}
+		imageLoading?.(true)
+	},[imageLoading])
 
 	return (
 		thumb &&
@@ -43,8 +43,8 @@ const Cover = ({
 			srcset={srcset}
 			alt={alt || ""}
 			layout={layout}
-			width={width}
-			height={height}
+			width={layout === "fill" ? undefined : width}
+			height={layout === "fill" ? undefined : height}
 			quality={80}
 			objectFit={objectFit}
 			onLoadingComplete={loadComplete}

@@ -1,11 +1,11 @@
-import {useState, useRef, useEffect} from "react"
+import {useState, useRef, useEffect, useCallback, memo} from "react"
 import {useRouter} from "next/router"
 import {Form, FormControl, Button} from "react-bootstrap"
 
 import {Icon} from "~/components/UI"
 
 
-const Search = () => {
+export const Search = memo(() => {
 	const searchRef = useRef(null)
 	const router = useRouter()
 	const [text, setText] = useState("")
@@ -15,23 +15,24 @@ const Search = () => {
 		setText(e.target.value)
 	}
 
+	const onScroll = useCallback(() => {
+		searchRef?.current[0].blur()
+		setHidden(true)
+	},[searchRef]
+)
+
 	useEffect(() => {
-		const onScroll = () => {
-			searchRef?.current[0].blur()
-			setHidden(true)
-		}
 
 		if (!isHidden) {
 			window.addEventListener("scroll", onScroll, false)
 			return () => window.removeEventListener("scroll", onScroll, false)
 		}
 
-	}, [isHidden])
+	}, [isHidden, onScroll])
 
 
-	const handleSubmit = e => {
+	const handleSubmit = useCallback((e) => {
 		e.preventDefault()
-		// input is hidden
 		if (isHidden) {
 			searchRef.current[0].focus()
 		} else {
@@ -49,7 +50,7 @@ const Search = () => {
 		}
 
 		setHidden(!isHidden)
-	}
+	},[searchRef, text, isHidden, router])
 
 	return (
 		<div className="nav-search-block ms-2">
@@ -66,7 +67,6 @@ const Search = () => {
 			</Form>
 		</div>
 	)
+})
 
-}
-
-export default Search
+Search.displayName = "Search"

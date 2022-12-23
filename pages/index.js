@@ -23,10 +23,10 @@ const AsyncAwards = dynamic(() => import('~/components/awards/Awards'))
 
 const HomePage = ({...props}) => {
 	const router = useRouter()
-	const hash = router.asPath.replace("/", "")
 
 	useEffect(() => {
-
+		const hash = router.asPath.replace("/", "")
+		console.log(router.asPath)
 		router.replace(router.pathname)
 
 		setTimeout(() => {
@@ -36,7 +36,7 @@ const HomePage = ({...props}) => {
 
 		return () => clearTimeout()
 
-	}, [])
+	}, [router.asPath])
 
 	return(
 	<Layout navitems={props.navitems} contacts={props.contacts} extra={props.extra} meta={props.meta[0]} >

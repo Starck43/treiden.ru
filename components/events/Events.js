@@ -1,4 +1,4 @@
-import {memo, useState} from "react"
+import {memo, useCallback, useState} from "react"
 import {Row, Col} from "react-bootstrap"
 
 import {Item} from "~/components/events"
@@ -12,11 +12,11 @@ const Events = ({data}) => {
 	const [nextPage, setNextPage] = useState(data.next ? 2 : 0)
 	const [events, addEvents] = useState(data.results || [])
 
-	const loadMoreEvents = async () => {
+	const loadMoreEvents = useCallback(async () => {
 		const post = await fetchEvents(nextPage)
 		setNextPage(post.next ? nextPage + 1 : 0)
 		addEvents([...events, ...post.results])
-	}
+	},[nextPage, events])
 
 	return (
 		data.results?.length > 0 &&

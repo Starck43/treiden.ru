@@ -1,18 +1,20 @@
-import {Fragment, useState} from "react"
-import {useRouter} from "next/router"
+import {Fragment, memo, useState} from "react"
 import styled from "styled-components/macro"
 import {Navbar, Nav, Offcanvas} from "react-bootstrap"
+import {useRouter} from "next/router"
+import getConfig from "next/config"
 
-import {NavLogo, NavItem, Search} from "~/components/navbar"
 import {Icon, Anchor} from "~/components/UI"
 
-import getConfig from "next/config"
+import {NavLogo} from "./NavLogo"
+import {Search} from "./Search"
+import NavItem from "./NavItem"
 import ExtraPosts from "../extra-posts/ExtraPosts"
 
 const data = getConfig().publicRuntimeConfig //next.config.js
 
 
-const NavBar = (props) => {
+export const NavBar = memo((props) => {
 	const router = useRouter()
 	const [visible, setVisible] = useState(false)
 	/*
@@ -63,6 +65,7 @@ const NavBar = (props) => {
 				</ContactBlock>
 
 				<Search/>
+
 				<Navbar.Toggle className="centered btn-light" aria-controls="responsive-navbar-nav"
 				               onClick={() => setVisible(true)}/>
 
@@ -91,10 +94,9 @@ const NavBar = (props) => {
 			</Navbar>
 		</Fragment>
 	)
-}
+})
 
-
-export default NavBar
+NavBar.displayName = "NavBar"
 
 const Socials = styled.div``
 const ContactBlock = styled.div`

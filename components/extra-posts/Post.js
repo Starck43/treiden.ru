@@ -1,11 +1,14 @@
 import React, {memo} from "react"
+import Image from "next/image"
+
 import {Icon} from "../UI"
+
 
 const Post = ({item}) => {
 	return (
 		<>
 			{item?.cover
-				? <img
+				? <Image
 					src={item.cover}
 					alt={item?.title}
 					className="post-image"
