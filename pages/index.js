@@ -26,7 +26,7 @@ const HomePage = ({...props}) => {
 
 	useEffect(() => {
 		const hash = router.asPath.replace("/", "")
-		console.log(router.asPath)
+
 		router.replace(router.pathname)
 
 		setTimeout(() => {
