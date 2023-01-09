@@ -92,20 +92,22 @@ const EventDetail = ({event, slug}) => {
 
 			<div className={style.navigation}>
 				{event.prev?.id &&
-				<Link href={slug + event.prev.id}>
-					<a className={`${style.prev} nav-link`} title={event.prev.title}>
-						<SvgIcon id="#check-mark-icon" className={`check-mark arrow arrow-left ${style.svg}`}/>
-						<span>{event.prev.title}</span>
-					</a>
+				<Link href={slug + event.prev.id} className={`${style.prev} nav-link`} title={event.prev.title}>
+					<SvgIcon id="#check-mark-icon" className={`check-mark arrow arrow-left ${style.svg}`}/>
+					<span>{event.prev.title}</span>
 				</Link>
 				}
 
 				{event.next?.id &&
-				<Link href={slug + event.next.id} replace scroll={false}>
-					<a className={`${style.next} nav-link`} title={event.next.title}>
-						<span>{event.next.title}</span>
-						<SvgIcon id="#check-mark-icon" className={`check-mark arrow arrow-right ${style.svg}`}/>
-					</a>
+				<Link
+					href={slug + event.next.id}
+					replace
+					scroll={false}
+					className={`${style.next} nav-link`}
+					title={event.next.title}
+				>
+					<span>{event.next.title}</span>
+					<SvgIcon id="#check-mark-icon" className={`check-mark arrow arrow-right ${style.svg}`}/>
 				</Link>
 				}
 			</div>

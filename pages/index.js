@@ -27,7 +27,7 @@ const HomePage = ({...props}) => {
 
 		return () => clearTimeout()
 
-	}, [router])
+	}, [router.pathname])
 
 	return(
 	<Layout navitems={props.navitems} contacts={props.contacts} extra={props.extra} meta={props.meta[0]} >

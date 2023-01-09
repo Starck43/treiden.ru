@@ -84,7 +84,7 @@ const SearchList = () => {
 					? searchResult.map(post =>
 						<li key={post.slug} className={style.li}>
 							<h3 className="mb-3">
-								{post.url && <Link href={post.url}><a>{post.title}</a></Link>}
+								{post.url && <Link href={post.url}>{post.title}</Link>}
 							</h3>
 							<HtmlContent>
 								{post.excerpt || post.description && truncateHTML(post.description, 300)}
@@ -120,16 +120,15 @@ const SearchList = () => {
 							<p className="mt-4 mb-4">
 								{post.link && (!post.url || post.url && getYouTubeID(post.url))
 									? (
-										<Link href={post.link} passHref><a>
+										<Link href={post.link}>
 											{post.post_type === "post" || post.post_type === "category"
 												? `Перейти`
 												: post.post_type === "post" ? `Перейти к мероприятию` : `Перейти к проекту`
 											}
-										</a></Link>
+										</Link>
 									)
 									: (
-										post.url &&
-										<Link href={post.url} passHref><a>Перейти на сайт</a></Link>
+										post.url && <Link href={post.url}>Перейти на сайт</Link>
 									)
 								}
 							</p>

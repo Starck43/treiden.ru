@@ -219,7 +219,7 @@ const Slider = ({
 										href={getLinkType(obj.url).type === "link" ? obj.url : `/projects/${obj.slug}`}
 										passHref
 									>
-										<a>{obj.name}</a>
+										{obj.name}
 									</Link>
 								</li>
 							)

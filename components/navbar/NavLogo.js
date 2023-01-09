@@ -12,7 +12,7 @@ export const NavLogo = memo(({href, logo, pathname}) => {
 
 	return (
 		pathname !== "/"
-			? <Link href={url}>{navBrand}</Link>
+			? <Link href={url} legacyBehavior>{navBrand}</Link>
 			: <>{navBrand}</>
 	)
 })

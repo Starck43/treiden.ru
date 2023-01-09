@@ -21,7 +21,7 @@ export const Item = memo(({activity}) => (
 
 			<div className={style.footer}>
 				<button>
-					<Link href={`/projects/${activity.slug}`}><a>Перейти в раздел</a></Link>
+					<Link href={`/projects/${activity.slug}`}>Перейти в раздел</Link>
 				</button>
 			</div>
 		</article>

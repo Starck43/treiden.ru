@@ -12,7 +12,7 @@ const Layout = ({ title, description }) => (
 		<Title>{title}</Title>
 		<Description>{description}</Description>
 		<Link href="/">
-			<a><Button variant="warning">На главную</Button></a>
+			<Button variant="warning">На главную</Button>
 		</Link>
 	</Fragment>
 )

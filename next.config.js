@@ -19,18 +19,12 @@ module.exports = {
 	},
 	serverRuntimeConfig: {},
 	images: {
-		domains: ['localhost', process.env.SERVER_HOST],
+		domains: [process.env.SERVER_HOST || 'localhost'],
 		deviceSizes: [320, 450, 640, 768, 1080, 1200, 1920], // breakpoints
 		imageSizes: [320, 450, 640, 900], // breakpoints
 	},
 	compiler: {
-		styledComponents: true,
-		relay: {
-			// This should match relay.config.js
-			src: './',
-			artifactDirectory: './__generated__',
-			language: 'typescript',
-		},
+		styledComponents: false,
 	},
 	webpack: (config, { isServer }) => {
 		if (!isServer) {
