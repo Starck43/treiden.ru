@@ -1,10 +1,10 @@
 import {memo} from "react"
-import {Item} from "~/components/services"
 import getConfig from "next/config"
 
-import {Cover, Anchor} from "../UI"
+import {Cover, Anchor} from "/components/UI"
+import {Item} from "./Item"
 
-import style from "~/styles/activity.module.sass"
+import style from "./Activity.module.sass"
 
 
 const {publicRuntimeConfig} = getConfig() //next.config.js

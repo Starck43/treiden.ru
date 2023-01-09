@@ -17,19 +17,13 @@ module.exports = {
 			keywords: "реклама, медиа, брендинг, видеопродакшн, ивенты, AR, дополненная реальность, маркетинговые услуги, продвижение бренда",
 		},
 	},
-	serverRuntimeConfig: {
-	// Will only be available on the server side
-	//mySecret: 'secret',
-	//secondSecret: process.env.SECOND_SECRET, // Pass through env variables
-	},
-	// settings for next/images
+	serverRuntimeConfig: {},
 	images: {
 		domains: ['localhost', process.env.SERVER_HOST],
 		deviceSizes: [320, 450, 640, 768, 1080, 1200, 1920], // breakpoints
 		imageSizes: [320, 450, 640, 900], // breakpoints
 	},
 	compiler: {
-		// ssr and displayName are configured by default
 		styledComponents: true,
 		relay: {
 			// This should match relay.config.js
@@ -38,7 +32,18 @@ module.exports = {
 			language: 'typescript',
 		},
 	},
+	webpack: (config, { isServer }) => {
+		if (!isServer) {
+			config.resolve.fallback.fs = false;
+			config.resolve.fallback.path = false;
+			config.resolve.fallback.module = false;
+		}
+		return config;
+	},
 	sassOptions: {
 		includePaths: [path.join(__dirname, 'styles')],
+	},
+	experimental: {
+		// forceSwcTransforms: true,
 	},
 }

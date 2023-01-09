@@ -1,8 +1,8 @@
 import {Fragment, memo} from "react"
 
-import {Anchor, HtmlContent, Section, Header} from "../UI"
+import {Anchor, HtmlContent, Section, Header} from "/components/UI"
 
-import style from "~/styles/about.module.sass"
+import style from "./About.module.sass"
 
 
 const About = ({data}) => (

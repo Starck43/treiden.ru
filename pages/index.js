@@ -1,24 +1,15 @@
 import {useEffect} from "react"
 import {useRouter} from "next/router"
-import Layout from '~/components/Layout'
-import Header from "../components/header/Header"
-import {About, Activities} from "../components/services"
-import Events from "../components/events/Events"
-import Customers from "../components/customers/Customers"
-import Awards from "../components/awards/Awards"
 
-import {smoothScroll} from "../core/helpers/utils"
-//import dynamic from 'next/dynamic'
+import Layout from '/components/Layout'
+import Header from "/components/header/Header"
+import {About} from "/components/about"
+import {Activities} from "/components/activities"
+import Events from "/components/events/Events"
+import Customers from "/components/customers/Customers"
+import Awards from "/components/awards/Awards"
 
-/*
-
-const AsyncHeader = dynamic(() => import('~/components/header/Header'))
-const AsyncAbout = dynamic(() => import('~/components/services').then((mod) => mod.About))
-const AsyncActivities = dynamic(() => import('~/components/services').then((mod) => mod.Activities))
-const AsyncEvents = dynamic(() => import('~/components/events/Events'))
-const AsyncCustomers = dynamic(() => import('~/components/customers/Customers'))
-const AsyncAwards = dynamic(() => import('~/components/awards/Awards'))
-*/
+import {smoothScroll} from "/core/helpers/utils"
 
 
 const HomePage = ({...props}) => {
@@ -36,7 +27,7 @@ const HomePage = ({...props}) => {
 
 		return () => clearTimeout()
 
-	}, [router.asPath])
+	}, [router])
 
 	return(
 	<Layout navitems={props.navitems} contacts={props.contacts} extra={props.extra} meta={props.meta[0]} >

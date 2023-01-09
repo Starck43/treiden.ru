@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react"
 import {Modal, Row, Col} from "react-bootstrap"
 
-import {Cover, VideoPlayer, HtmlContent} from "../UI"
+import {Cover, VideoPlayer, HtmlContent} from "/components/UI"
 
-import style from "~/styles/review.module.sass"
+import style from "./Review.module.sass"
 
 
 const Review = ({customer, show, handleClose}) => {
@@ -84,4 +84,3 @@ const Review = ({customer, show, handleClose}) => {
 }
 
 export default Review
-

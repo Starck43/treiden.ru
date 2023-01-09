@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from '~/core/error/Layout'
+import Layout from '/core/error/Layout'
 
 const NotFound = () => (
 	<Layout

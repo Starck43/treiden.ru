@@ -2,7 +2,7 @@ import React from 'react'
 import { ThemeProvider } from 'styled-components/macro'
 //import { useRouter } from 'next/router'
 
-import theme from '~/core/themes/mainTheme'
+import theme from '/core/themes/mainTheme'
 
 
 const ThemeContainer = ({ children }) => {

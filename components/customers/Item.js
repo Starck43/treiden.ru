@@ -1,9 +1,9 @@
 import {Fragment, useState} from "react"
 
 import Review from "./Review"
-import {Cover} from "../UI"
+import {Cover} from "/components/UI"
 
-import style from "~/styles/customer.module.sass"
+import style from "./Customer.module.sass"
 
 
 const Item = ({customer}) => {

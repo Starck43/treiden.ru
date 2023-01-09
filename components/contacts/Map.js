@@ -1,9 +1,10 @@
-import {Cover} from "../UI"
+import {memo} from "react"
+import {Cover} from "/components/UI"
 
-import style from "~/styles/contacts.module.sass"
+import style from "./Contacts.module.sass"
 
 
-const Map = ({image}) => (
+export const Map = memo(({image}) => (
 	<div className={`map ${style.rightBlock} centered`} id="map">
 		<Cover
 			src={image}
@@ -14,6 +15,6 @@ const Map = ({image}) => (
 			height={180}
 		/>
 	</div>
-)
+))
 
-export default Map
+Map.displayName = "Map"

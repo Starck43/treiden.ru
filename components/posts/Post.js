@@ -1,7 +1,7 @@
 import React, {memo} from "react"
 import Image from "next/image"
 
-import {Icon} from "../UI"
+import {Icon} from "/components/UI"
 
 
 const Post = ({item}) => {

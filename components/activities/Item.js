@@ -1,10 +1,11 @@
+import {memo} from "react"
 import Link from "next/link"
 import {Col} from "react-bootstrap"
 
-import style from "~/styles/activity.module.sass"
+import style from "./Activity.module.sass"
 
 
-const Item = ({activity}) => (
+export const Item = memo(({activity}) => (
 	<Col xs={12} md={6}>
 
 		<article className={style.activity}>
@@ -26,8 +27,6 @@ const Item = ({activity}) => (
 		</article>
 
 	</Col>
-)
+))
 
-
-export default Item
-
+Item.displayName = "Item"

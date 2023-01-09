@@ -4,12 +4,12 @@ import {Navbar, Nav, Offcanvas} from "react-bootstrap"
 import {useRouter} from "next/router"
 import getConfig from "next/config"
 
-import {Icon, Anchor} from "~/components/UI"
+import {Icon, Anchor} from "/components/UI"
 
 import {NavLogo} from "./NavLogo"
 import {Search} from "./Search"
 import NavItem from "./NavItem"
-import ExtraPosts from "../extra-posts/ExtraPosts"
+import ExtraPosts from "../posts/ExtraPosts"
 
 const data = getConfig().publicRuntimeConfig //next.config.js
 

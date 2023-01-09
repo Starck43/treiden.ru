@@ -1,9 +1,10 @@
+import {memo} from "react"
 import Link from "next/link"
 
-import style from "~/styles/portfolio.module.sass"
+import style from "./Projects.module.sass"
 
 
-const Filter = ({categories}) => (
+export const Filter = memo(({categories}) => (
 	<div className={style.filter}>
 		{categories.map(item =>
 			<div className={style.filterItem} key={item.slug}>
@@ -11,8 +12,6 @@ const Filter = ({categories}) => (
 			</div>
 		)}
 	</div>
-)
+))
 
-
-export default Filter
-
+Filter.displayName = "Filter"

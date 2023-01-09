@@ -1,9 +1,11 @@
-import Cover from "../UI/Cover"
+import {memo} from "react"
 
-import style from "~/styles/awards.module.sass"
+import Cover from "/components/UI/cover/Cover"
+
+import style from "./Awards.module.sass"
 
 
-const Item = ({award}) => {
+export const Item = memo(({award}) => {
 	return (
 		award.file &&
 		<figure id={award.id} className={style.cover}>
@@ -17,6 +19,6 @@ const Item = ({award}) => {
 			/>
 		</figure>
 	)
-}
+})
 
-export default Item
+Item.displayName = "Item"

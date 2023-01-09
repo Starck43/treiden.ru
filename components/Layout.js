@@ -1,8 +1,8 @@
 import React, {Fragment, useRef} from "react"
 import {NavBar} from "./navbar"
 import Meta from "./Meta"
-import {ScrollToTop} from "~/components/UI"
-import Contacts from "~/components/contacts/Contacts"
+import {ScrollToTop} from "/components/UI"
+import Contacts from "/components/contacts/Contacts"
 
 
 const Layout = ({children, navitems, contacts, extra, meta}) => {

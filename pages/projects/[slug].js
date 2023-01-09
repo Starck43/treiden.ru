@@ -1,7 +1,7 @@
 import React from "react"
 
-import Layout from "~/components/Layout"
-import {PortfolioDetail} from "~/components/projects"
+import Layout from "/components/Layout"
+import {PortfolioDetail} from "/components/projects"
 
 
 const ProjectPage = ({navitems, category, projects, contacts, extra}) => {

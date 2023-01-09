@@ -1,12 +1,12 @@
-import {useEffect, useState} from "react"
+import {memo, useEffect, useState} from "react"
 import Link from "next/link"
 
-import {List} from "~/components/projects"
-import {getLinkType} from "~/core/helpers/utils"
-import {Cover, VideoPlayer, HtmlContent, Section, Header} from "../UI"
-import {SvgIcon} from "../UI/Icon"
+import {List} from "./List"
+import {Cover, VideoPlayer, HtmlContent, Section, Header} from "/components/UI"
+import {SvgIcon} from "/components/UI/Icon"
+import {getLinkType} from "/core/helpers/utils"
 
-import style from "~/styles/portfolio.module.sass"
+import style from "./Projects.module.sass"
 
 
 const PortfolioDetail = ({category, projects}) => {
@@ -84,4 +84,4 @@ const PortfolioDetail = ({category, projects}) => {
 	)
 }
 
-export default PortfolioDetail
+export default memo(PortfolioDetail)

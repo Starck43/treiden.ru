@@ -1,10 +1,10 @@
 import {memo} from "react"
 import {SwiperSlide} from "swiper/react"
 
-import ExtraPosts from "../extra-posts/ExtraPosts"
-import {Slider, Cover} from "../UI"
+import ExtraPosts from "/components/posts/ExtraPosts"
+import {Slider, Cover} from "/components/UI"
 
-import style from "~/styles/header.module.sass"
+import style from "./Header.module.sass"
 
 
 const Header = ({slides, extra}) => {

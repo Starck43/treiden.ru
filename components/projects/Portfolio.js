@@ -1,6 +1,9 @@
 import {memo} from "react"
-import {List, Filter} from "~/components/projects"
-import {Section, Header} from "~/components/UI"
+
+import {Filter} from "./Filter"
+import {List} from "./List"
+
+import {Section, Header} from "/components/UI"
 
 
 const Portfolio = ({categories, projects}) => (

@@ -1,12 +1,12 @@
-import React from "react"
+import React, {memo} from "react"
 import {Row, Col} from "react-bootstrap"
 
-import {Item} from "~/components/projects"
+import {Item} from "./Item"
 
-import style from "~/styles/portfolio.module.sass"
+import style from "./Projects.module.sass"
 
 
-const List = ({projects, title}) => (
+export const List = memo(({projects, title}) => (
 	<Row className={style.row}>
 		{title && <h2 className={style.h2}>{title}</h2>}
 		{projects.map(project => (
@@ -15,9 +15,6 @@ const List = ({projects, title}) => (
 			</Col>
 		))}
 	</Row>
-)
+))
 
-
-export default List
-
-
+List.displayName = "List"

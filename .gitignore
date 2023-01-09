@@ -32,8 +32,6 @@ public/sitemap*.xml
 # misc
 .DS_Store
 *.pem
-package-lock.json
-yarn.lock
 *.bak
 
 # debug

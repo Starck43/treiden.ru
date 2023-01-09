@@ -1,6 +1,6 @@
 import React from "react"
-import Layout from "~/components/Layout"
-import EventDetail from "~/components/events/EventDetail"
+import Layout from "/components/Layout"
+import EventDetail from "/components/events/EventDetail"
 
 
 const EventPage = ({navitems, event, extra, contacts}) => {

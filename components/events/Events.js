@@ -1,11 +1,11 @@
 import {memo, useCallback, useState} from "react"
 import {Row, Col} from "react-bootstrap"
 
-import {Item} from "~/components/events"
-import {Anchor, Section, Header} from "~/components/UI"
-import {fetchEvents} from "../../core/api/api"
+import {Anchor, Section, Header} from "/components/UI"
+import {fetchEvents} from "/core/api/api"
+import {Item} from "./Item"
 
-import style from "~/styles/events.module.sass"
+import style from "./Events.module.sass"
 
 
 const Events = ({data}) => {

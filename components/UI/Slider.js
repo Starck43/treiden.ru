@@ -4,12 +4,12 @@ import {Swiper, SwiperSlide} from "swiper/react"
 import {EffectFade, Pagination, Keyboard, Autoplay, FreeMode, Zoom} from "swiper"
 
 import VideoPlayer from "./VideoPlayer"
-import Cover from "./Cover"
+import Cover from "./cover/Cover"
 import HtmlContent from "./HtmlContent"
 import {SvgIcon} from "./Icon"
 
-import {useWindowDimensions} from "../../core/helpers/hooks"
-import {createThumbUrl, getLinkType, truncateHTML} from "../../core/helpers/utils"
+import {useWindowDimensions} from "/core/helpers/hooks"
+import {createThumbUrl, getLinkType, truncateHTML} from "/core/helpers/utils"
 
 import "swiper/css"
 import "swiper/css/zoom"

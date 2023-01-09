@@ -1,9 +1,10 @@
-import {Icon} from "~/components/UI"
+import {memo} from "react"
+import {Icon} from "/components/UI"
 
-import style from "~/styles/contacts.module.sass"
+import style from "./Contacts.module.sass"
 
 
-const Info = ({contact}) => {
+export const Info = memo(({contact}) => {
 	return (
 		<div className={`contacts-container ${style.centerBlock}`}>
 			<div className="contact-block">
@@ -38,8 +39,6 @@ const Info = ({contact}) => {
 			</div>
 		</div>
 	)
-}
+})
 
-export default Info
-
-
+Info.displayName = "Info"

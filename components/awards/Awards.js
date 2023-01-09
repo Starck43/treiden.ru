@@ -1,10 +1,10 @@
 import {Fragment, memo, useState} from "react"
 import {SwiperSlide} from "swiper/react"
 
-import Item from "../customers/Item"
-import {LightBox, Slider, Anchor, Section, Header} from "~/components/UI"
+import {Item} from "./Item"
+import {LightBox, Slider, Anchor, Section, Header} from "/components/UI"
 
-import style from "~/styles/awards.module.sass"
+import style from "./Awards.module.sass"
 
 const SECTION = "awards"
 const SECTION_TITLE = "Наши награды"

@@ -2,9 +2,9 @@ import {memo} from "react"
 import {SwiperSlide} from "swiper/react"
 
 import Item from "./Item"
-import {Slider, Anchor, Section, Header} from "../UI"
+import {Slider, Anchor, Section, Header} from "/components/UI"
 
-import style from "~/styles/customer.module.sass"
+import style from "./Customer.module.sass"
 
 const SECTION = "customers"
 const SECTION_TITLE = "Наши клиенты"

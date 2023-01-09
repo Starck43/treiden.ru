@@ -1,9 +1,9 @@
 import {useState, useEffect, memo} from "react"
 
-import {Icon} from "~/components/UI"
-import {smoothScroll} from "../../core/helpers/utils"
+import {Icon} from "/components/UI"
+import {smoothScroll} from "/core/helpers/utils"
 
-//import theme from '~/core/themes/mainTheme'
+//import theme from '/core/themes/mainTheme'
 
 
 const ScrollToTop = ({homeRef}) => {

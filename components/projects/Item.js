@@ -1,12 +1,12 @@
-import {Fragment, useEffect, useState} from "react"
+import {Fragment, memo, useEffect, useState} from "react"
 import {Card} from "react-bootstrap"
 
-import {Cover, LightBox, Icon} from "../UI"
+import {Cover, LightBox, Icon} from "/components/UI"
 
-import style from "~/styles/portfolio.module.sass"
+import style from "./Projects.module.sass"
 
 
-const Item = ({project}) => {
+export const Item = memo(({project}) => {
 	const [showModal, setShowModal] = useState(false)
 	const [slides, setSlides] = useState([])
 
@@ -57,6 +57,6 @@ const Item = ({project}) => {
 			}
 		</Fragment>
 	)
-}
+})
 
-export default Item
+Item.displayName = "Item"

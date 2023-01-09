@@ -1,9 +1,9 @@
 import {memo, useCallback, useEffect, useState} from "react"
 import Image from "next/image"
 
-import {createSrcSet, createThumbUrl} from "../../core/helpers/utils"
+import {createSrcSet, createThumbUrl} from "/core/helpers/utils"
 
-import style from "~/styles/cover.module.sass"
+import style from "./Cover.module.sass"
 
 
 const Cover = ({

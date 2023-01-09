@@ -2,7 +2,7 @@ import {useState, useRef, useEffect, useCallback, memo} from "react"
 import {useRouter} from "next/router"
 import {Form, FormControl, Button} from "react-bootstrap"
 
-import {Icon} from "~/components/UI"
+import {Icon} from "/components/UI"
 
 
 export const Search = memo(() => {

@@ -1,13 +1,14 @@
+import {memo} from "react"
 import Link from "next/link"
-import {Cover} from "../UI"
+import {Cover} from "/components/UI"
 
-import style from "~/styles/events.module.sass"
+import style from "./Events.module.sass"
 
 
 const SLUG = "event"
 
 
-const Item = ({item, mainColumn = false}) => {
+export const Item = memo(({item, mainColumn = false}) => {
 	return (
 		<article id={`${SLUG}-${item.id}`} className={`card ${style.article}`}>
 			<Link href={`/${SLUG}/${item.id}`} passHref>
@@ -35,6 +36,6 @@ const Item = ({item, mainColumn = false}) => {
 
 		</article>
 	)
-}
+})
 
-export default Item
+Item.displayName = "Item"

@@ -1,10 +1,10 @@
-import {Fragment, useEffect, useState} from "react"
+import {Fragment, memo, useEffect, useState} from "react"
 import Link from "next/link"
 
-import {Cover, Slider, VideoPlayer, HtmlContent, Section, Header, Icon} from "../UI"
-import {SvgIcon} from "../UI/Icon"
+import {Cover, Slider, VideoPlayer, HtmlContent, Section, Header, Icon} from "/components/UI"
+import {SvgIcon} from "/components/UI/Icon"
 
-import style from "~/styles/event.module.sass"
+import style from "./Event.module.sass"
 
 
 const EventDetail = ({event, slug}) => {
@@ -113,4 +113,4 @@ const EventDetail = ({event, slug}) => {
 	)
 }
 
-export default EventDetail
+export default memo(EventDetail)

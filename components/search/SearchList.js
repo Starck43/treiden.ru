@@ -1,16 +1,16 @@
 import {useEffect, useState} from "react"
 import {useRouter} from "next/router"
 import Link from "next/link"
-import styled from "styled-components/macro"
 import {Ratio} from "react-bootstrap"
 
-import Loading from "~/components/Loading"
-import {getYouTubeID, absoluteUrl, truncateHTML} from "~/core/helpers/utils"
-import {FetchError} from "~/core/api"
+import Loader from "/components/UI/loader/Loader"
+import {getYouTubeID, absoluteUrl, truncateHTML} from "/core/helpers/utils"
+import {FetchError} from "/core/api"
 
-import {Cover, VideoPlayer, HtmlContent, Section} from "~/components/UI"
-import {SvgIcon} from "../UI/Icon"
+import {Cover, VideoPlayer, HtmlContent, Section} from "/components/UI"
+import {SvgIcon} from "/components/UI/Icon"
 
+import style from "./SearchList.module.sass"
 
 
 const SearchList = () => {
@@ -67,7 +67,7 @@ const SearchList = () => {
 	}, [router.query])
 
 	if (error) return <FetchError error={error}/>
-	if (isLoading) return <Loading/>
+	if (isLoading) return <Loader/>
 
 	return (
 		<Section className="search-result-section">
@@ -79,10 +79,10 @@ const SearchList = () => {
 			<p>Найдено записей: {String(searchResult?.length)}</p>
 			}
 
-			<Container>
+			<ul className={style.ul}>
 				{searchResult
 					? searchResult.map(post =>
-						<Item key={post.slug}>
+						<li key={post.slug} className={style.li}>
 							<h3 className="mb-3">
 								{post.url && <Link href={post.url}><a>{post.title}</a></Link>}
 							</h3>
@@ -133,11 +133,11 @@ const SearchList = () => {
 									)
 								}
 							</p>
-						</Item>
+						</li>
 					)
 					: <p>К сожалению, по Вашему запросу ничего не найдено.</p>
 				}
-			</Container>
+			</ul>
 
 			<a className="nav-link back" onClick={() => router.back()}>
 				<SvgIcon id="#check-mark-icon" className={`check-mark arrow arrow-left`}/>
@@ -149,13 +149,3 @@ const SearchList = () => {
 
 
 export default SearchList
-
-
-const Container = styled.ul`
-	padding: 0;
-`
-const Item = styled.li`
-	padding: 1.5rem 0;
-	border-top: 1px solid rgba(0, 0, 0, .2);
-
-`

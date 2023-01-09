@@ -2,8 +2,8 @@ import {memo} from "react"
 import Link from "next/link"
 import {Nav} from "react-bootstrap"
 
-import {SvgIcon} from "../UI/Icon"
-import {smoothScroll} from "../../core/helpers/utils"
+import {SvgIcon} from "/components/UI/Icon"
+import {smoothScroll} from "/core/helpers/utils"
 
 
 const NavItem = ({item, pathname, setVisible}) => {

@@ -1,5 +1,5 @@
 export {default as Anchor} from './Anchor'
-export {default as Cover} from './Cover'
+export {default as Cover} from './cover/Cover'
 export {default as VideoPlayer} from './VideoPlayer'
 export {default as HtmlContent} from './HtmlContent'
 export {default as Slider} from './Slider'

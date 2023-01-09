@@ -1,15 +1,17 @@
 //import App from 'next/app'
 import React, {useEffect, useState} from "react"
 import {useRouter} from "next/router"
-
 import NextNprogress from "nextjs-progressbar"
-import Loading from "../components/Loading"
-import {ThemeContainer, ErrorBoundary} from "~/core"
-import theme from "~/core/themes/mainTheme"
-import * as gtag from "../libs/gtag"
 
-import "~/styles/vendors/bootstrap.scss"
-import "~/styles/main.sass"
+import Loader from "/components/UI/loader/Loader"
+
+import {ThemeContainer, ErrorBoundary} from "/core"
+
+import theme from "/core/themes/mainTheme"
+import * as gtag from "/libs/gtag"
+
+import "/styles/vendors/bootstrap.scss"
+import "/styles/main.sass"
 
 
 export default function MyApp({Component, pageProps}) {
@@ -35,7 +37,7 @@ export default function MyApp({Component, pageProps}) {
 	}, [])
 
 
-	if (!isLoaded) return <Loading/>
+	if (!isLoaded) return <Loader/>
 	if (typeof window === "undefined") return <></>
 	return (
 		<ThemeContainer>
@@ -59,4 +61,3 @@ const ProgressBar = () => (
 		nonce="my-nonce"
 	/>
 )
-
