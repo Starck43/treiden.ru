@@ -28,7 +28,7 @@ const NavItem = ({item, pathname, setVisible}) => {
 			</Nav.Link>
 		) : (
 			<Link href={href} legacyBehavior>
-				<Nav.Link>
+				<Nav.Link href={href}>
 					<NavItem/>
 				</Nav.Link>
 			</Link>

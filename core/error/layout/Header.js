@@ -1,6 +1,5 @@
-import React from 'react'
-import styled from 'styled-components/macro'
-import PropTypes from 'prop-types'
+import styled from 'styled-components'
+
 
 const Header = ({ children }) => {
   return (
@@ -8,10 +7,6 @@ const Header = ({ children }) => {
       <Style>{children}</Style>
     </Container>
   )
-}
-
-Header.propTypes = {
-  children: PropTypes.string
 }
 
 export default Header
@@ -36,10 +31,9 @@ const Style = styled.h1`
   margin: 0;
   font-weight: 900;
   left: 50%;
-  background: url(/images/oops.webp) no-repeat;
+  background: url("/public/images/oops.webp") no-repeat center;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-size: cover;
-  background-position: center;
   transform: translateX(-50%);
 `

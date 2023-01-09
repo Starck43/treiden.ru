@@ -3,12 +3,12 @@ import {useRouter} from "next/router"
 import Link from "next/link"
 import {Ratio} from "react-bootstrap"
 
-import Loader from "/components/UI/loader/Loader"
-import {getYouTubeID, absoluteUrl, truncateHTML} from "/core/helpers/utils"
 import {FetchError} from "/core/api"
+import {getYouTubeID, absoluteUrl, truncateHTML} from "/core/helpers/utils"
 
 import {Cover, VideoPlayer, HtmlContent, Section} from "/components/UI"
 import {SvgIcon} from "/components/UI/Icon"
+import Loader from "/components/UI/loader/Loader"
 
 import style from "./SearchList.module.sass"
 
@@ -95,7 +95,7 @@ const SearchList = () => {
 									<>
 										{post.cover &&
 										<Cover
-											src={absoluteUrl(post.cover)}
+											src={absoluteUrl(process.env.SERVER_URL, post.cover)}
 											alt={post?.title}
 											sizes={[320, 450]}
 											layout="fill"

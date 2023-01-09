@@ -5,9 +5,9 @@ import Layout from '/components/Layout'
 import Header from "/components/header/Header"
 import {About} from "/components/about"
 import {Activities} from "/components/activities"
-import Events from "/components/events/Events"
-import Customers from "/components/customers/Customers"
-import Awards from "/components/awards/Awards"
+import {Events} from "/components/events"
+import {Customers} from "/components/customers"
+import {Awards} from "/components/awards"
 
 import {smoothScroll} from "/core/helpers/utils"
 
@@ -17,20 +17,19 @@ const HomePage = ({...props}) => {
 
 	useEffect(() => {
 		const hash = router.asPath.replace("/", "")
-
 		router.replace(router.pathname)
 
 		setTimeout(() => {
-			let el = hash && typeof window !== "undefined" ? document.querySelector(hash) : null
+			const el = hash && typeof window !== "undefined" && document.querySelector(hash)
 			el && smoothScroll(el, 40)
-		}, 100)
+		}, 200)
 
 		return () => clearTimeout()
-
-	}, [router.pathname])
+		/* react-hooks/exhaustive-deps */
+	}, [])
 
 	return(
-	<Layout navitems={props.navitems} contacts={props.contacts} extra={props.extra} meta={props.meta[0]} >
+	<Layout meta={props.meta[0]} >
 		<Header extra={props.extra} slides={props.header}/>
 		<About data={props.about}/>
 		<Activities activities={props.activities}/>
@@ -45,28 +44,22 @@ export default HomePage
 
 export const getStaticProps = async () => {
 	const header = await fetch(process.env.API_SERVER + 'header')
-	const navitems = await fetch(process.env.API_SERVER + 'navitems')
 	const about = await fetch(process.env.API_SERVER + 'section/services')
 	const activities = await fetch(process.env.API_SERVER + 'activities')
 	const events = await fetch(process.env.API_SERVER + 'events/?page=1')
 	const customers = await fetch(process.env.API_SERVER + 'customers')
 	const awards = await fetch(process.env.API_SERVER + 'awards')
-	const extraPosts = await fetch(process.env.API_SERVER + 'posts/extra')
-	const contacts = await fetch(process.env.API_SERVER + 'contacts')
 	const meta = await fetch(process.env.API_SERVER + 'metaseo/homepage')
 
 	return {
 		props: {
-			header : await header.json(),
-			navitems : await navitems.json(),
 			meta : await meta.json(),
+			header : await header.json(),
 			about : await about.json(),
 			activities : await activities.json(),
 			events : await events.json(),
 			customers : await customers.json(),
 			awards : await awards.json(),
-			contacts : await contacts.json(),
-			extra : await extraPosts.json(),
 		},
 		revalidate: 60 * 60 * 24,
 	}

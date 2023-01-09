@@ -1,5 +1,5 @@
 import React from 'react'
-import { ThemeProvider } from 'styled-components/macro'
+import { ThemeProvider } from 'styled-components'
 //import { useRouter } from 'next/router'
 
 import theme from '/core/themes/mainTheme'

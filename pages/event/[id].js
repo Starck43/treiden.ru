@@ -1,12 +1,17 @@
-import React from "react"
+import dynamic from "next/dynamic"
+
 import Layout from "/components/Layout"
-import EventDetail from "/components/events/EventDetail"
+import Loader from "/components/UI/loader/Loader"
 
+const DynamicEventDetail = dynamic(() => import('/components/events').then((mod) => mod.EventDetail), {
+	loading: () => <Loader />,
+	ssr: false,
+})
 
-const EventPage = ({navitems, event, extra, contacts}) => {
+const EventPage = ({event}) => {
 	return (
-		<Layout navitems={navitems} contacts={contacts} extra={extra} meta={event.seo}>
-			<EventDetail event={event} slug="/event/"/>
+		<Layout meta={event.seo}>
+			<DynamicEventDetail event={event} slug="/event/"/>
 		</Layout>
 	)
 }
@@ -27,17 +32,11 @@ export const getStaticPaths = async () => {
 
 
 export const getStaticProps = async ({params}) => {
-	const navitems = await fetch(process.env.API_SERVER + "navitems")
 	const event = await fetch(process.env.API_SERVER + "event/" + params.id)
-	const contacts = await fetch(process.env.API_SERVER + "contacts")
-	const extraPosts = await fetch(process.env.API_SERVER + "posts/extra")
 
 	return {
 		props: {
-			navitems: await navitems.json(),
 			event: await event.json(),
-			extra: await extraPosts.json(),
-			contacts: await contacts.json(),
 		},
 		revalidate: 60 * 60 * 24,
 	}

@@ -1,5 +1,4 @@
-import React from "react"
-import styled from "styled-components/macro"
+import styled from "styled-components"
 
 const FetchError = ({error}) => {
 	return (
@@ -12,7 +11,7 @@ const FetchError = ({error}) => {
 export default FetchError
 
 const Container = styled.div`
-	position: absolute;
+	position: fixed;
 	width: 100%;
 	height: 100%;
 	top: 50%;

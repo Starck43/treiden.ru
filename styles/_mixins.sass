@@ -90,6 +90,13 @@ $base-font-size: 16px
 		@return calc(100vh - #{$h}px)
 
 
+@mixin transform-pos($x:50%, $y:50%, $zoom:1)
+	position: absolute
+	top: $x
+	left: $y
+	transform: translate(-$x, -$y) scale($zoom)
+
+
 @mixin animation($name, $animation, $fade:no-fade, $x:0, $y:0, $x1:0, $y1:0)
 	animation: animation-#{$name} $animation
 	@content
@@ -146,11 +153,6 @@ $parallax-ios         : true !default
 		@if $parallax-ios == false
 			-webkit-overflow-scrolling: touch
 		// Preserve 3D
-
-
-@mixin parallax($distance: 0, $perspective: $parallax-perspective)
-	transform: translateZ($distance * $perspective * 1px) scale(abs($distance - 1))
-	//z-index: $distance * 1000
 
 
 @function shadows($max: 5, $color: white)
@@ -266,4 +268,3 @@ $parallax-ios         : true !default
 	$b: $b + $units
 
 	@return calc( #{$k} * 100vw + #{$b} )
-

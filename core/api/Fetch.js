@@ -1,9 +1,10 @@
 import useSWR from "swr"
 import {cleanDoubleSlashes} from "../helpers/utils"
+import Loader from "../../components/UI/loader/Loader"
 
 const fetcher = (url) => fetch(url).then(res => res.json())
 
-const Fetch = (server, endpoint, params = {}) => {
+const Fetch = (server, endpoint="", params = {}) => {
 	let url = cleanDoubleSlashes(server + endpoint)
 	if (!url) return {data: null, error: "Пустой запрос к серверу"}
 
@@ -13,6 +14,7 @@ const Fetch = (server, endpoint, params = {}) => {
 	}
 
 	const {data, error} = useSWR(url, fetcher)
+	if (!data && !error) return <Loader />
 	return {data, error}
 }
 

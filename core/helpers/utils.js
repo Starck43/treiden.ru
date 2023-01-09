@@ -111,15 +111,11 @@ export const createSrcSet = (src = null, arr = []) => {
 	return srcset.slice(0, -1)
 }
 
-export const remoteLoader = ({src, width}) => {
-	return createThumbUrl(src, width)
-}
-
 
 export const cleanDoubleSlashes = (str) => str.replace(/([^:]\/)\/+/g, "$1")
 
-export const absoluteUrl = (url) => {
-	if (url && url.indexOf("http", 0) === -1) return process.env.SERVER + url
+export const absoluteUrl = (host, url) => {
+	if (url && url.indexOf("http", 0) === -1) return host + url
 	return url
 }
 

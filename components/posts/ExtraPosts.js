@@ -17,8 +17,11 @@ const ExtraPosts = ({posts, sections}) => {
 				>
 					<Post item={post}/>
 				</a>
-				: <div id={post.slug} key={post.slug}
-				       className={`extra-post section-${sections[0]?.toLowerCase()} white centered`}>
+				: <div
+					id={post.slug}
+					key={post.slug}
+					className={`extra-post section-${sections[0]?.toLowerCase()} white centered`}
+				>
 					<Post item={post}/>
 				</div>
 			)

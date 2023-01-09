@@ -12,7 +12,7 @@ const Contacts = ({contacts, extra}) => (
 		<div className={`extra-posts ${style.leftBlock}`}>
 			<ExtraPosts posts={extra} sections={["F", "HF"]}/>
 		</div>
-		{contacts.length &&
+		{contacts?.length &&
 		<>
 			<Info contact={contacts[0]}/>
 			<Map image={contacts[0]?.file}/>

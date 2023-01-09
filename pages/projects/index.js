@@ -1,14 +1,17 @@
-import React from "react"
+import dynamic from 'next/dynamic'
 
 import Layout from "/components/Layout"
-import {Portfolio} from "/components/projects"
-//import Contacts from "/components/contacts/Contacts"
+import Loader from "../../components/UI/loader/Loader"
 
+const DynamicPortfolio = dynamic(() => import('/components/portfolio').then((mod) => mod.Portfolio), {
+	loading: () => <Loader />,
+	ssr: false,
+})
 
-const ProjectPage = ({navitems, categories, projects, extra, contacts}) => {
+const ProjectPage = ({categories, projects}) => {
 	return (
-		<Layout navitems={navitems} contacts={contacts} extra={extra}>
-			<Portfolio categories={categories} projects={projects}/>
+		<Layout>
+			<DynamicPortfolio categories={categories} projects={projects}/>
 		</Layout>
 	)
 }
@@ -17,19 +20,13 @@ export default ProjectPage
 
 
 export const getStaticProps = async () => {
-	const navitems = await fetch(process.env.API_SERVER + "navitems")
 	const categories = await fetch(process.env.API_SERVER + "activities")
 	const projects = await fetch(process.env.API_SERVER + "projects")
-	const contacts = await fetch(process.env.API_SERVER + "contacts")
-	const extraPosts = await fetch(process.env.API_SERVER + "posts/extra")
 
 	return {
 		props: {
-			navitems: await navitems.json(),
 			categories: await categories.json(),
 			projects: await projects.json(),
-			contacts: await contacts.json(),
-			extra: await extraPosts.json(),
 		},
 		revalidate: 60 * 60 * 24,
 	}

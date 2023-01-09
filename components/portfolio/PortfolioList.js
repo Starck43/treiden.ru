@@ -6,7 +6,7 @@ import {List} from "./List"
 import {Section, Header} from "/components/UI"
 
 
-const Portfolio = ({categories, projects}) => (
+const PortfolioList = ({categories, projects}) => (
 	<Section>
 		<Header>Портфолио</Header>
 		<Filter categories={categories}/>
@@ -14,5 +14,4 @@ const Portfolio = ({categories, projects}) => (
 	</Section>
 )
 
-
-export default memo(Portfolio)
+export default memo(PortfolioList)

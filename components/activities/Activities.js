@@ -1,23 +1,23 @@
 import {memo} from "react"
-import getConfig from "next/config"
 
 import {Cover, Anchor} from "/components/UI"
 import {Item} from "./Item"
 
+import Background from "/public/images/bg-space.jpg"
+
 import style from "./Activity.module.sass"
 
-
-const {publicRuntimeConfig} = getConfig() //next.config.js
 
 const Activities = ({activities}) => (
 	<section className={style.section}>
 		<Anchor id="activities"/>
 
 		<Cover
-			src={publicRuntimeConfig.bgImage}
+			src={Background}
 			alt="Виды деятельности"
 			layout="fill"
-			priority
+			placeholder="blur"
+			//priority
 		/>
 		<div className={style.activities}>
 			{activities.map(activity =>
